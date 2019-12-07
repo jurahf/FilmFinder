@@ -1,0 +1,99 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using FilmsWebApplication.Models;
+
+@{
+    Film film = (Film)ViewData["Film"];
+}
+
+<div class="row">
+    <div class="col col-xs-12">
+        <h1><a href="@film.Link">@(film.Name)</a></h1>
+    </div>
+    <div class="col col-xs-4">
+        <img src="@film.Poster" alt="poster" height="400" />
+    </div>
+    <div class="col col-xs-6">
+        <div class="row">
+            <p><i>@film.Slogan</i></p>
+        </div>
+
+        <div class="row">
+            <p>
+                Производство:
+                @{
+                    foreach (var country in film.Countries)
+                    {
+                        @(country.Name + ";  ")
+                    }
+                }
+            </p>
+        </div>
+
+        <div class="row">
+            <p>Год: @film.Year</p>
+        </div>
+
+        <div class="row">
+            <p>
+                Жанр:
+                @{
+                    foreach (var genre in film.Genres)
+                    {
+                        @(genre.Name + ";  ")
+                    }
+                }
+            </p>
+        </div>
+
+        <div class="row">
+            <p>Режиссер: @film.Producer.Name</p>
+        </div>
+
+        <div class="row">
+            <p>
+                В ролях:
+                @{
+                    foreach (var actor in film.Actors)
+                    {
+                        @(actor.Name + ";  ")
+                    }
+                }
+            </p>
+        </div>
+
+        <div class="row">
+            <p>@film.Description</p>
+        </div>
+
+        <div class="row">
+            <p>Рейтинг: @(film.Rating.ToString("0.000"))</p>
+        </div>
+    </div>
+</div>
+
+
+<div class="row" style="margin-top:20px;">
+    <div class="col col-xs-12">
+        <p><a class="btn btn-primary btn-lg" onclick="ToMain();">На главную</a></p>
+    </div>
+</div>
+
+
+
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+
+        function ToMain() {
+            window.location.href = '/Home/Index';
+        }
+    </script>
+}
+
+

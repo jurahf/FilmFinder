@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col col-xs-12">
+        <h1>К сожалению, мы ничего не нашли</h1>
+    </div>
+    <div class="col col-xs-12">
+        <h1>Ваши вкусы весьма специфичны</h1>
+    </div>
+    <div class="col col-xs-12">
+        <img src="~/Content/Images/noFilm.jpg" alt="poster" width="400" />
+    </div>
+    <div class="col col-xs-12">
+    </div>
+    <div class="col col-xs-12">
+        <p><a class="btn btn-primary btn-lg" onclick="ToMain();">Поискать еще раз</a></p>
+    </div>
+</div>
+
+
+
+
+    @section scripts {
+        <script type="text/javascript">
+            function ToMain() {
+                window.location.href = '/Home/Index';
+            }
+        </script>
+    }
+
+
+

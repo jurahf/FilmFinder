@@ -1,0 +1,1143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ExpertSystemModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="ExpertSystemModelStoreContainer">
+    <EntitySet Name="ExpertSystemSet" EntityType="ExpertSystemModel.Store.ExpertSystemSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DomainSet" EntityType="ExpertSystemModel.Store.DomainSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="DomainValueSet" EntityType="ExpertSystemModel.Store.DomainValueSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="VariableSet" EntityType="ExpertSystemModel.Store.VariableSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FactSet" EntityType="ExpertSystemModel.Store.FactSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RuleSet" EntityType="ExpertSystemModel.Store.RuleSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RuleFactSet" EntityType="ExpertSystemModel.Store.RuleFactSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ConsultationSet" EntityType="ExpertSystemModel.Store.ConsultationSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SessionSet" EntityType="ExpertSystemModel.Store.SessionSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ConsultationFactSet" EntityType="ExpertSystemModel.Store.ConsultationFactSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ConsultationRuleSet" EntityType="ExpertSystemModel.Store.ConsultationRuleSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GoalStackSet" EntityType="ExpertSystemModel.Store.GoalStackSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ReviewSet" EntityType="ExpertSystemModel.Store.ReviewSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="ExpertSystemDomain" Association="ExpertSystemModel.Store.ExpertSystemDomain">
+      <End Role="ExpertSystem" EntitySet="ExpertSystemSet" />
+      <End Role="Domain" EntitySet="DomainSet" />
+    </AssociationSet>
+    <AssociationSet Name="DomainDomainValue" Association="ExpertSystemModel.Store.DomainDomainValue">
+      <End Role="Domain" EntitySet="DomainSet" />
+      <End Role="DomainValue" EntitySet="DomainValueSet" />
+    </AssociationSet>
+    <AssociationSet Name="DomainVariable" Association="ExpertSystemModel.Store.DomainVariable">
+      <End Role="Domain" EntitySet="DomainSet" />
+      <End Role="Variable" EntitySet="VariableSet" />
+    </AssociationSet>
+    <AssociationSet Name="ExpertSystemVariable" Association="ExpertSystemModel.Store.ExpertSystemVariable">
+      <End Role="ExpertSystem" EntitySet="ExpertSystemSet" />
+      <End Role="Variable" EntitySet="VariableSet" />
+    </AssociationSet>
+    <AssociationSet Name="ExpertSystemVariable1" Association="ExpertSystemModel.Store.ExpertSystemVariable1">
+      <End Role="ExpertSystem" EntitySet="ExpertSystemSet" />
+      <End Role="Variable" EntitySet="VariableSet" />
+    </AssociationSet>
+    <AssociationSet Name="DomainValueFact" Association="ExpertSystemModel.Store.DomainValueFact">
+      <End Role="DomainValue" EntitySet="DomainValueSet" />
+      <End Role="Fact" EntitySet="FactSet" />
+    </AssociationSet>
+    <AssociationSet Name="VariableFact" Association="ExpertSystemModel.Store.VariableFact">
+      <End Role="Variable" EntitySet="VariableSet" />
+      <End Role="Fact" EntitySet="FactSet" />
+    </AssociationSet>
+    <AssociationSet Name="FactRule" Association="ExpertSystemModel.Store.FactRule">
+      <End Role="Fact" EntitySet="FactSet" />
+      <End Role="Rule" EntitySet="RuleSet" />
+    </AssociationSet>
+    <AssociationSet Name="RuleRuleFact" Association="ExpertSystemModel.Store.RuleRuleFact">
+      <End Role="Rule" EntitySet="RuleSet" />
+      <End Role="RuleFact" EntitySet="RuleFactSet" />
+    </AssociationSet>
+    <AssociationSet Name="FactRuleFact" Association="ExpertSystemModel.Store.FactRuleFact">
+      <End Role="Fact" EntitySet="FactSet" />
+      <End Role="RuleFact" EntitySet="RuleFactSet" />
+    </AssociationSet>
+    <AssociationSet Name="ExpertSystemRule" Association="ExpertSystemModel.Store.ExpertSystemRule">
+      <End Role="ExpertSystem" EntitySet="ExpertSystemSet" />
+      <End Role="Rule" EntitySet="RuleSet" />
+    </AssociationSet>
+    <AssociationSet Name="SessionConsultation" Association="ExpertSystemModel.Store.SessionConsultation">
+      <End Role="Session" EntitySet="SessionSet" />
+      <End Role="Consultation" EntitySet="ConsultationSet" />
+    </AssociationSet>
+    <AssociationSet Name="ExpertSystemConsultation" Association="ExpertSystemModel.Store.ExpertSystemConsultation">
+      <End Role="ExpertSystem" EntitySet="ExpertSystemSet" />
+      <End Role="Consultation" EntitySet="ConsultationSet" />
+    </AssociationSet>
+    <AssociationSet Name="ConsultationConsultationFact" Association="ExpertSystemModel.Store.ConsultationConsultationFact">
+      <End Role="Consultation" EntitySet="ConsultationSet" />
+      <End Role="ConsultationFact" EntitySet="ConsultationFactSet" />
+    </AssociationSet>
+    <AssociationSet Name="ConsultationConsultationRule" Association="ExpertSystemModel.Store.ConsultationConsultationRule">
+      <End Role="Consultation" EntitySet="ConsultationSet" />
+      <End Role="ConsultationRule" EntitySet="ConsultationRuleSet" />
+    </AssociationSet>
+    <AssociationSet Name="FactConsultationFact" Association="ExpertSystemModel.Store.FactConsultationFact">
+      <End Role="Fact" EntitySet="FactSet" />
+      <End Role="ConsultationFact" EntitySet="ConsultationFactSet" />
+    </AssociationSet>
+    <AssociationSet Name="RuleConsultationRule" Association="ExpertSystemModel.Store.RuleConsultationRule">
+      <End Role="Rule" EntitySet="RuleSet" />
+      <End Role="ConsultationRule" EntitySet="ConsultationRuleSet" />
+    </AssociationSet>
+    <AssociationSet Name="RuleConsultation" Association="ExpertSystemModel.Store.RuleConsultation">
+      <End Role="Rule" EntitySet="RuleSet" />
+      <End Role="Consultation" EntitySet="ConsultationSet" />
+    </AssociationSet>
+    <AssociationSet Name="GoalStackConsultation" Association="ExpertSystemModel.Store.GoalStackConsultation">
+      <End Role="GoalStack" EntitySet="GoalStackSet" />
+      <End Role="Consultation" EntitySet="ConsultationSet" />
+    </AssociationSet>
+    <AssociationSet Name="VariableGoalStack" Association="ExpertSystemModel.Store.VariableGoalStack">
+      <End Role="Variable" EntitySet="VariableSet" />
+      <End Role="GoalStack" EntitySet="GoalStackSet" />
+    </AssociationSet>
+    <AssociationSet Name="GoalStackGoalStack" Association="ExpertSystemModel.Store.GoalStackGoalStack">
+      <End Role="GoalStack" EntitySet="GoalStackSet" />
+      <End Role="GoalStack1" EntitySet="GoalStackSet" />
+    </AssociationSet>
+    <AssociationSet Name="SessionReview" Association="ExpertSystemModel.Store.SessionReview">
+      <End Role="Session" EntitySet="SessionSet" />
+      <End Role="Review" EntitySet="ReviewSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ExpertSystemSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DomainSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ExpertSystemDomain_Domain_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DomainValueSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DomainDomainValue_DomainValue_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="VariableSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Question" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Reasoning" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Type" Type="int" Nullable="false" />
+    <Property Name="Domain_Id" Type="int" Nullable="false" />
+    <Property Name="ExpertSystemVariable_Variable_Id" Type="int" Nullable="false" />
+    <Property Name="ExpertSystemVariable1_Variable_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="FactSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DomainValue_Id" Type="int" Nullable="false" />
+    <Property Name="Variable_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RuleSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Order" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Reasoning" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Result_Id" Type="int" Nullable="false" />
+    <Property Name="ExpertSystemRule_Rule_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="RuleFactSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Rule_Id" Type="int" Nullable="false" />
+    <Property Name="Fact_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ConsultationSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ExpertSystem_Id" Type="int" Nullable="false" />
+    <Property Name="CurrentRule_Id" Type="int" Nullable="true" />
+    <Property Name="GoalStack_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="SessionSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SessionId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CreateDate" Type="datetime" Nullable="false" />
+    <Property Name="LastActivityDate" Type="datetime" Nullable="true" />
+    <Property Name="SessionConsultation_Session_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ConsultationFactSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Truly" Type="int" Nullable="false" />
+    <Property Name="Consultation_Id" Type="int" Nullable="false" />
+    <Property Name="Fact_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ConsultationRuleSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Work" Type="int" Nullable="false" />
+    <Property Name="Consultation_Id" Type="int" Nullable="false" />
+    <Property Name="Rule_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GoalStackSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Variable_Id" Type="int" Nullable="true" />
+    <Property Name="NextGoal_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="ReviewSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Estimate" Type="int" Nullable="false" />
+    <Property Name="Comment" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Session_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="ExpertSystemDomain">
+    <End Role="ExpertSystem" Type="ExpertSystemModel.Store.ExpertSystemSet" Multiplicity="1" />
+    <End Role="Domain" Type="ExpertSystemModel.Store.DomainSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ExpertSystem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Domain">
+        <PropertyRef Name="ExpertSystemDomain_Domain_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DomainDomainValue">
+    <End Role="Domain" Type="ExpertSystemModel.Store.DomainSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="DomainValue" Type="ExpertSystemModel.Store.DomainValueSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Domain">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DomainValue">
+        <PropertyRef Name="DomainDomainValue_DomainValue_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DomainVariable">
+    <End Role="Domain" Type="ExpertSystemModel.Store.DomainSet" Multiplicity="1" />
+    <End Role="Variable" Type="ExpertSystemModel.Store.VariableSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Domain">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Variable">
+        <PropertyRef Name="Domain_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ExpertSystemVariable">
+    <End Role="ExpertSystem" Type="ExpertSystemModel.Store.ExpertSystemSet" Multiplicity="1" />
+    <End Role="Variable" Type="ExpertSystemModel.Store.VariableSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ExpertSystem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Variable">
+        <PropertyRef Name="ExpertSystemVariable_Variable_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ExpertSystemVariable1">
+    <End Role="ExpertSystem" Type="ExpertSystemModel.Store.ExpertSystemSet" Multiplicity="0..1" />
+    <End Role="Variable" Type="ExpertSystemModel.Store.VariableSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ExpertSystem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Variable">
+        <PropertyRef Name="ExpertSystemVariable1_Variable_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DomainValueFact">
+    <End Role="DomainValue" Type="ExpertSystemModel.Store.DomainValueSet" Multiplicity="1" />
+    <End Role="Fact" Type="ExpertSystemModel.Store.FactSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DomainValue">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Fact">
+        <PropertyRef Name="DomainValue_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="VariableFact">
+    <End Role="Variable" Type="ExpertSystemModel.Store.VariableSet" Multiplicity="1" />
+    <End Role="Fact" Type="ExpertSystemModel.Store.FactSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Variable">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Fact">
+        <PropertyRef Name="Variable_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FactRule">
+    <End Role="Fact" Type="ExpertSystemModel.Store.FactSet" Multiplicity="1" />
+    <End Role="Rule" Type="ExpertSystemModel.Store.RuleSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Fact">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rule">
+        <PropertyRef Name="Result_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RuleRuleFact">
+    <End Role="Rule" Type="ExpertSystemModel.Store.RuleSet" Multiplicity="1" />
+    <End Role="RuleFact" Type="ExpertSystemModel.Store.RuleFactSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rule">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RuleFact">
+        <PropertyRef Name="Rule_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FactRuleFact">
+    <End Role="Fact" Type="ExpertSystemModel.Store.FactSet" Multiplicity="1" />
+    <End Role="RuleFact" Type="ExpertSystemModel.Store.RuleFactSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Fact">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RuleFact">
+        <PropertyRef Name="Fact_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ExpertSystemRule">
+    <End Role="ExpertSystem" Type="ExpertSystemModel.Store.ExpertSystemSet" Multiplicity="1" />
+    <End Role="Rule" Type="ExpertSystemModel.Store.RuleSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ExpertSystem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rule">
+        <PropertyRef Name="ExpertSystemRule_Rule_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SessionConsultation">
+    <End Role="Session" Type="ExpertSystemModel.Store.SessionSet" Multiplicity="*" />
+    <End Role="Consultation" Type="ExpertSystemModel.Store.ConsultationSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Consultation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Session">
+        <PropertyRef Name="SessionConsultation_Session_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ExpertSystemConsultation">
+    <End Role="ExpertSystem" Type="ExpertSystemModel.Store.ExpertSystemSet" Multiplicity="1" />
+    <End Role="Consultation" Type="ExpertSystemModel.Store.ConsultationSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ExpertSystem">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Consultation">
+        <PropertyRef Name="ExpertSystem_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ConsultationConsultationFact">
+    <End Role="Consultation" Type="ExpertSystemModel.Store.ConsultationSet" Multiplicity="1" />
+    <End Role="ConsultationFact" Type="ExpertSystemModel.Store.ConsultationFactSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Consultation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ConsultationFact">
+        <PropertyRef Name="Consultation_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ConsultationConsultationRule">
+    <End Role="Consultation" Type="ExpertSystemModel.Store.ConsultationSet" Multiplicity="1" />
+    <End Role="ConsultationRule" Type="ExpertSystemModel.Store.ConsultationRuleSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Consultation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ConsultationRule">
+        <PropertyRef Name="Consultation_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FactConsultationFact">
+    <End Role="Fact" Type="ExpertSystemModel.Store.FactSet" Multiplicity="1" />
+    <End Role="ConsultationFact" Type="ExpertSystemModel.Store.ConsultationFactSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Fact">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ConsultationFact">
+        <PropertyRef Name="Fact_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RuleConsultationRule">
+    <End Role="Rule" Type="ExpertSystemModel.Store.RuleSet" Multiplicity="1" />
+    <End Role="ConsultationRule" Type="ExpertSystemModel.Store.ConsultationRuleSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rule">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ConsultationRule">
+        <PropertyRef Name="Rule_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RuleConsultation">
+    <End Role="Rule" Type="ExpertSystemModel.Store.RuleSet" Multiplicity="0..1" />
+    <End Role="Consultation" Type="ExpertSystemModel.Store.ConsultationSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rule">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Consultation">
+        <PropertyRef Name="CurrentRule_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GoalStackConsultation">
+    <End Role="GoalStack" Type="ExpertSystemModel.Store.GoalStackSet" Multiplicity="0..1" />
+    <End Role="Consultation" Type="ExpertSystemModel.Store.ConsultationSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GoalStack">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Consultation">
+        <PropertyRef Name="GoalStack_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="VariableGoalStack">
+    <End Role="Variable" Type="ExpertSystemModel.Store.VariableSet" Multiplicity="0..1" />
+    <End Role="GoalStack" Type="ExpertSystemModel.Store.GoalStackSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Variable">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GoalStack">
+        <PropertyRef Name="Variable_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GoalStackGoalStack">
+    <End Role="GoalStack" Type="ExpertSystemModel.Store.GoalStackSet" Multiplicity="0..1" />
+    <End Role="GoalStack1" Type="ExpertSystemModel.Store.GoalStackSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="GoalStack">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GoalStack1">
+        <PropertyRef Name="NextGoal_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SessionReview">
+    <End Role="Session" Type="ExpertSystemModel.Store.SessionSet" Multiplicity="1" />
+    <End Role="Review" Type="ExpertSystemModel.Store.ReviewSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Session">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Review">
+        <PropertyRef Name="Session_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="ExpertSystemModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="ExpertSystemModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ExpertSystemSet" EntityType="ExpertSystemModel.ExpertSystem" />
+          <EntitySet Name="DomainSet" EntityType="ExpertSystemModel.Domain" />
+          <AssociationSet Name="ExpertSystemDomain" Association="ExpertSystemModel.ExpertSystemDomain">
+            <End Role="ExpertSystem" EntitySet="ExpertSystemSet" />
+            <End Role="Domain" EntitySet="DomainSet" />
+          </AssociationSet>
+          <EntitySet Name="DomainValueSet" EntityType="ExpertSystemModel.DomainValue" />
+          <AssociationSet Name="DomainDomainValue" Association="ExpertSystemModel.DomainDomainValue">
+            <End Role="Domain" EntitySet="DomainSet" />
+            <End Role="DomainValue" EntitySet="DomainValueSet" />
+          </AssociationSet>
+          <EntitySet Name="VariableSet" EntityType="ExpertSystemModel.Variable" />
+          <AssociationSet Name="DomainVariable" Association="ExpertSystemModel.DomainVariable">
+            <End Role="Domain" EntitySet="DomainSet" />
+            <End Role="Variable" EntitySet="VariableSet" />
+          </AssociationSet>
+          <AssociationSet Name="ExpertSystemVariable" Association="ExpertSystemModel.ExpertSystemVariable">
+            <End Role="ExpertSystem" EntitySet="ExpertSystemSet" />
+            <End Role="Variable" EntitySet="VariableSet" />
+          </AssociationSet>
+          <AssociationSet Name="ExpertSystemVariable1" Association="ExpertSystemModel.ExpertSystemVariable1">
+            <End Role="ExpertSystem" EntitySet="ExpertSystemSet" />
+            <End Role="Variable" EntitySet="VariableSet" />
+          </AssociationSet>
+          <EntitySet Name="FactSet" EntityType="ExpertSystemModel.Fact" />
+          <AssociationSet Name="DomainValueFact" Association="ExpertSystemModel.DomainValueFact">
+            <End Role="DomainValue" EntitySet="DomainValueSet" />
+            <End Role="Fact" EntitySet="FactSet" />
+          </AssociationSet>
+          <AssociationSet Name="VariableFact" Association="ExpertSystemModel.VariableFact">
+            <End Role="Variable" EntitySet="VariableSet" />
+            <End Role="Fact" EntitySet="FactSet" />
+          </AssociationSet>
+          <EntitySet Name="RuleSet" EntityType="ExpertSystemModel.Rule" />
+          <AssociationSet Name="FactRule" Association="ExpertSystemModel.FactRule">
+            <End Role="Fact" EntitySet="FactSet" />
+            <End Role="Rule" EntitySet="RuleSet" />
+          </AssociationSet>
+          <EntitySet Name="RuleFactSet" EntityType="ExpertSystemModel.RuleFact" />
+          <AssociationSet Name="RuleRuleFact" Association="ExpertSystemModel.RuleRuleFact">
+            <End Role="Rule" EntitySet="RuleSet" />
+            <End Role="RuleFact" EntitySet="RuleFactSet" />
+          </AssociationSet>
+          <AssociationSet Name="FactRuleFact" Association="ExpertSystemModel.FactRuleFact">
+            <End Role="Fact" EntitySet="FactSet" />
+            <End Role="RuleFact" EntitySet="RuleFactSet" />
+          </AssociationSet>
+          <AssociationSet Name="ExpertSystemRule" Association="ExpertSystemModel.ExpertSystemRule">
+            <End Role="ExpertSystem" EntitySet="ExpertSystemSet" />
+            <End Role="Rule" EntitySet="RuleSet" />
+          </AssociationSet>
+          <EntitySet Name="ConsultationSet" EntityType="ExpertSystemModel.Consultation" />
+          <EntitySet Name="SessionSet" EntityType="ExpertSystemModel.Session" />
+          <AssociationSet Name="SessionConsultation" Association="ExpertSystemModel.SessionConsultation">
+            <End Role="Session" EntitySet="SessionSet" />
+            <End Role="Consultation" EntitySet="ConsultationSet" />
+          </AssociationSet>
+          <AssociationSet Name="ExpertSystemConsultation" Association="ExpertSystemModel.ExpertSystemConsultation">
+            <End Role="ExpertSystem" EntitySet="ExpertSystemSet" />
+            <End Role="Consultation" EntitySet="ConsultationSet" />
+          </AssociationSet>
+          <EntitySet Name="ConsultationFactSet" EntityType="ExpertSystemModel.ConsultationFact" />
+          <EntitySet Name="ConsultationRuleSet" EntityType="ExpertSystemModel.ConsultationRule" />
+          <AssociationSet Name="ConsultationConsultationFact" Association="ExpertSystemModel.ConsultationConsultationFact">
+            <End Role="Consultation" EntitySet="ConsultationSet" />
+            <End Role="ConsultationFact" EntitySet="ConsultationFactSet" />
+          </AssociationSet>
+          <AssociationSet Name="ConsultationConsultationRule" Association="ExpertSystemModel.ConsultationConsultationRule">
+            <End Role="Consultation" EntitySet="ConsultationSet" />
+            <End Role="ConsultationRule" EntitySet="ConsultationRuleSet" />
+          </AssociationSet>
+          <AssociationSet Name="FactConsultationFact" Association="ExpertSystemModel.FactConsultationFact">
+            <End Role="Fact" EntitySet="FactSet" />
+            <End Role="ConsultationFact" EntitySet="ConsultationFactSet" />
+          </AssociationSet>
+          <AssociationSet Name="RuleConsultationRule" Association="ExpertSystemModel.RuleConsultationRule">
+            <End Role="Rule" EntitySet="RuleSet" />
+            <End Role="ConsultationRule" EntitySet="ConsultationRuleSet" />
+          </AssociationSet>
+          <AssociationSet Name="RuleConsultation" Association="ExpertSystemModel.RuleConsultation">
+            <End Role="Rule" EntitySet="RuleSet" />
+            <End Role="Consultation" EntitySet="ConsultationSet" />
+          </AssociationSet>
+          <EntitySet Name="GoalStackSet" EntityType="ExpertSystemModel.GoalStack" />
+          <AssociationSet Name="GoalStackConsultation" Association="ExpertSystemModel.GoalStackConsultation">
+            <End Role="GoalStack" EntitySet="GoalStackSet" />
+            <End Role="Consultation" EntitySet="ConsultationSet" />
+          </AssociationSet>
+          <AssociationSet Name="VariableGoalStack" Association="ExpertSystemModel.VariableGoalStack">
+            <End Role="Variable" EntitySet="VariableSet" />
+            <End Role="GoalStack" EntitySet="GoalStackSet" />
+          </AssociationSet>
+          <EntitySet Name="ReviewSet" EntityType="ExpertSystemModel.Review" />
+          <AssociationSet Name="GoalStackGoalStack" Association="ExpertSystemModel.GoalStackGoalStack">
+            <End Role="GoalStack" EntitySet="GoalStackSet" />
+            <End Role="GoalStack1" EntitySet="GoalStackSet" />
+          </AssociationSet>
+          <AssociationSet Name="SessionReview" Association="ExpertSystemModel.SessionReview">
+            <End Role="Session" EntitySet="SessionSet" />
+            <End Role="Review" EntitySet="ReviewSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="ExpertSystem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="AllDomains" Relationship="ExpertSystemModel.ExpertSystemDomain" FromRole="ExpertSystem" ToRole="Domain" />
+          <NavigationProperty Name="AllVariables" Relationship="ExpertSystemModel.ExpertSystemVariable" FromRole="ExpertSystem" ToRole="Variable" />
+          <NavigationProperty Name="Target" Relationship="ExpertSystemModel.ExpertSystemVariable1" FromRole="ExpertSystem" ToRole="Variable" />
+          <NavigationProperty Name="AllRules" Relationship="ExpertSystemModel.ExpertSystemRule" FromRole="ExpertSystem" ToRole="Rule" />
+        </EntityType>
+        <EntityType Name="Domain">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="DomainValue" Relationship="ExpertSystemModel.DomainDomainValue" FromRole="Domain" ToRole="DomainValue" />
+        </EntityType>
+        <Association Name="ExpertSystemDomain">
+          <End Type="ExpertSystemModel.ExpertSystem" Role="ExpertSystem" Multiplicity="1" />
+          <End Type="ExpertSystemModel.Domain" Role="Domain" Multiplicity="*" />
+        </Association>
+        <EntityType Name="DomainValue">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Value" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="DomainDomainValue">
+          <End Type="ExpertSystemModel.Domain" Role="Domain" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ExpertSystemModel.DomainValue" Role="DomainValue" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Variable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Question" Type="String" Nullable="false" />
+          <Property Name="Reasoning" Type="String" Nullable="false" />
+          <Property Name="Type" Type="ExpertSystemModel.VariableType" Nullable="false" />
+          <NavigationProperty Name="Domain" Relationship="ExpertSystemModel.DomainVariable" FromRole="Variable" ToRole="Domain" />
+        </EntityType>
+        <EnumType Name="VariableType">
+          <Member Name="Queriable" />
+          <Member Name="Detective" />
+          <Member Name="QuerriableDetective" />
+        </EnumType>
+        <Association Name="DomainVariable">
+          <End Type="ExpertSystemModel.Domain" Role="Domain" Multiplicity="1" />
+          <End Type="ExpertSystemModel.Variable" Role="Variable" Multiplicity="*" />
+        </Association>
+        <Association Name="ExpertSystemVariable">
+          <End Type="ExpertSystemModel.ExpertSystem" Role="ExpertSystem" Multiplicity="1" />
+          <End Type="ExpertSystemModel.Variable" Role="Variable" Multiplicity="*" />
+        </Association>
+        <Association Name="ExpertSystemVariable1">
+          <End Type="ExpertSystemModel.ExpertSystem" Role="ExpertSystem" Multiplicity="0..1" />
+          <End Type="ExpertSystemModel.Variable" Role="Variable" Multiplicity="0..1" />
+        </Association>
+        <EntityType Name="Fact">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="DomainValue" Relationship="ExpertSystemModel.DomainValueFact" FromRole="Fact" ToRole="DomainValue" />
+          <NavigationProperty Name="Variable" Relationship="ExpertSystemModel.VariableFact" FromRole="Fact" ToRole="Variable" />
+        </EntityType>
+        <EnumType Name="FactTruly">
+          <Member Name="Unknown" />
+          <Member Name="IsTrue" />
+          <Member Name="IsFalse" />
+        </EnumType>
+        <Association Name="DomainValueFact">
+          <End Type="ExpertSystemModel.DomainValue" Role="DomainValue" Multiplicity="1" />
+          <End Type="ExpertSystemModel.Fact" Role="Fact" Multiplicity="*" />
+        </Association>
+        <Association Name="VariableFact">
+          <End Type="ExpertSystemModel.Variable" Role="Variable" Multiplicity="1" />
+          <End Type="ExpertSystemModel.Fact" Role="Fact" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Rule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Order" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Reasoning" Type="String" Nullable="false" />
+          <NavigationProperty Name="Result" Relationship="ExpertSystemModel.FactRule" FromRole="Rule" ToRole="Fact" />
+          <NavigationProperty Name="Conditions" Relationship="ExpertSystemModel.RuleRuleFact" FromRole="Rule" ToRole="RuleFact" />
+        </EntityType>
+        <EnumType Name="RuleWork">
+          <Member Name="None" />
+          <Member Name="Signify" />
+          <Member Name="UnSignify" />
+        </EnumType>
+        <Association Name="FactRule">
+          <End Type="ExpertSystemModel.Fact" Role="Fact" Multiplicity="1" />
+          <End Type="ExpertSystemModel.Rule" Role="Rule" Multiplicity="*" />
+        </Association>
+        <EntityType Name="RuleFact">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Rule" Relationship="ExpertSystemModel.RuleRuleFact" FromRole="RuleFact" ToRole="Rule" />
+          <NavigationProperty Name="Fact" Relationship="ExpertSystemModel.FactRuleFact" FromRole="RuleFact" ToRole="Fact" />
+        </EntityType>
+        <Association Name="RuleRuleFact">
+          <End Type="ExpertSystemModel.Rule" Role="Rule" Multiplicity="1" />
+          <End Type="ExpertSystemModel.RuleFact" Role="RuleFact" Multiplicity="*" />
+        </Association>
+        <Association Name="FactRuleFact">
+          <End Type="ExpertSystemModel.Fact" Role="Fact" Multiplicity="1" />
+          <End Type="ExpertSystemModel.RuleFact" Role="RuleFact" Multiplicity="*" />
+        </Association>
+        <Association Name="ExpertSystemRule">
+          <End Type="ExpertSystemModel.ExpertSystem" Role="ExpertSystem" Multiplicity="1" />
+          <End Type="ExpertSystemModel.Rule" Role="Rule" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Consultation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Session" Relationship="ExpertSystemModel.SessionConsultation" FromRole="Consultation" ToRole="Session" />
+          <NavigationProperty Name="ExpertSystem" Relationship="ExpertSystemModel.ExpertSystemConsultation" FromRole="Consultation" ToRole="ExpertSystem" />
+          <NavigationProperty Name="ProvedFacts" Relationship="ExpertSystemModel.ConsultationConsultationFact" FromRole="Consultation" ToRole="ConsultationFact" />
+          <NavigationProperty Name="WorkedRules" Relationship="ExpertSystemModel.ConsultationConsultationRule" FromRole="Consultation" ToRole="ConsultationRule" />
+          <NavigationProperty Name="CurrentRule" Relationship="ExpertSystemModel.RuleConsultation" FromRole="Consultation" ToRole="Rule" />
+          <NavigationProperty Name="GoalStack" Relationship="ExpertSystemModel.GoalStackConsultation" FromRole="Consultation" ToRole="GoalStack" />
+        </EntityType>
+        <EntityType Name="Session">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SessionId" Type="String" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+          <Property Name="LastActivityDate" Type="DateTime" Nullable="true" />
+        </EntityType>
+        <Association Name="SessionConsultation">
+          <End Type="ExpertSystemModel.Session" Role="Session" Multiplicity="1" />
+          <End Type="ExpertSystemModel.Consultation" Role="Consultation" Multiplicity="1" />
+        </Association>
+        <Association Name="ExpertSystemConsultation">
+          <End Type="ExpertSystemModel.ExpertSystem" Role="ExpertSystem" Multiplicity="1" />
+          <End Type="ExpertSystemModel.Consultation" Role="Consultation" Multiplicity="*" />
+        </Association>
+        <EntityType Name="ConsultationFact">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Consultation" Relationship="ExpertSystemModel.ConsultationConsultationFact" FromRole="ConsultationFact" ToRole="Consultation" />
+          <NavigationProperty Name="Fact" Relationship="ExpertSystemModel.FactConsultationFact" FromRole="ConsultationFact" ToRole="Fact" />
+          <Property Name="Truly" Type="ExpertSystemModel.FactTruly" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ConsultationRule">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Consultation" Relationship="ExpertSystemModel.ConsultationConsultationRule" FromRole="ConsultationRule" ToRole="Consultation" />
+          <NavigationProperty Name="Rule" Relationship="ExpertSystemModel.RuleConsultationRule" FromRole="ConsultationRule" ToRole="Rule" />
+          <Property Name="Work" Type="ExpertSystemModel.RuleWork" Nullable="false" />
+        </EntityType>
+        <Association Name="ConsultationConsultationFact">
+          <End Type="ExpertSystemModel.Consultation" Role="Consultation" Multiplicity="1" />
+          <End Type="ExpertSystemModel.ConsultationFact" Role="ConsultationFact" Multiplicity="*" />
+        </Association>
+        <Association Name="ConsultationConsultationRule">
+          <End Type="ExpertSystemModel.Consultation" Role="Consultation" Multiplicity="1" />
+          <End Type="ExpertSystemModel.ConsultationRule" Role="ConsultationRule" Multiplicity="*" />
+        </Association>
+        <Association Name="FactConsultationFact">
+          <End Type="ExpertSystemModel.Fact" Role="Fact" Multiplicity="1" />
+          <End Type="ExpertSystemModel.ConsultationFact" Role="ConsultationFact" Multiplicity="*" />
+        </Association>
+        <Association Name="RuleConsultationRule">
+          <End Type="ExpertSystemModel.Rule" Role="Rule" Multiplicity="1" />
+          <End Type="ExpertSystemModel.ConsultationRule" Role="ConsultationRule" Multiplicity="*" />
+        </Association>
+        <Association Name="RuleConsultation">
+          <End Type="ExpertSystemModel.Rule" Role="Rule" Multiplicity="0..1" />
+          <End Type="ExpertSystemModel.Consultation" Role="Consultation" Multiplicity="*" />
+        </Association>
+        <EntityType Name="GoalStack">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Variable" Relationship="ExpertSystemModel.VariableGoalStack" FromRole="GoalStack" ToRole="Variable" />
+          <NavigationProperty Name="NextGoal" Relationship="ExpertSystemModel.GoalStackGoalStack" FromRole="GoalStack1" ToRole="GoalStack" />
+        </EntityType>
+        <Association Name="GoalStackConsultation">
+          <End Type="ExpertSystemModel.GoalStack" Role="GoalStack" Multiplicity="0..1" />
+          <End Type="ExpertSystemModel.Consultation" Role="Consultation" Multiplicity="*" />
+        </Association>
+        <Association Name="VariableGoalStack">
+          <End Type="ExpertSystemModel.Variable" Role="Variable" Multiplicity="0..1" />
+          <End Type="ExpertSystemModel.GoalStack" Role="GoalStack" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Session" Relationship="ExpertSystemModel.SessionReview" FromRole="Review" ToRole="Session" />
+          <Property Name="Estimate" Type="Int32" Nullable="false" />
+          <Property Name="Comment" Type="String" Nullable="true" />
+        </EntityType>
+        <Association Name="GoalStackGoalStack">
+          <End Type="ExpertSystemModel.GoalStack" Role="GoalStack" Multiplicity="0..1" />
+          <End Type="ExpertSystemModel.GoalStack" Role="GoalStack1" Multiplicity="*" />
+        </Association>
+        <Association Name="SessionReview">
+          <End Type="ExpertSystemModel.Session" Role="Session" Multiplicity="1" />
+          <End Type="ExpertSystemModel.Review" Role="Review" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ExpertSystemModelStoreContainer" CdmEntityContainer="ExpertSystemModelContainer">
+    <EntitySetMapping Name="ExpertSystemSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.ExpertSystem)">
+        <MappingFragment StoreEntitySet="ExpertSystemSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DomainSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.Domain)">
+        <MappingFragment StoreEntitySet="DomainSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DomainValueSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.DomainValue)">
+        <MappingFragment StoreEntitySet="DomainValueSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VariableSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.Variable)">
+        <MappingFragment StoreEntitySet="VariableSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Question" ColumnName="Question" />
+          <ScalarProperty Name="Reasoning" ColumnName="Reasoning" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FactSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.Fact)">
+        <MappingFragment StoreEntitySet="FactSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RuleSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.Rule)">
+        <MappingFragment StoreEntitySet="RuleSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Order" ColumnName="Order" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Reasoning" ColumnName="Reasoning" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RuleFactSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.RuleFact)">
+        <MappingFragment StoreEntitySet="RuleFactSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ConsultationSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.Consultation)">
+        <MappingFragment StoreEntitySet="ConsultationSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SessionSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.Session)">
+        <MappingFragment StoreEntitySet="SessionSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SessionId" ColumnName="SessionId" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="LastActivityDate" ColumnName="LastActivityDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ConsultationFactSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.ConsultationFact)">
+        <MappingFragment StoreEntitySet="ConsultationFactSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Truly" ColumnName="Truly" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ConsultationRuleSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.ConsultationRule)">
+        <MappingFragment StoreEntitySet="ConsultationRuleSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Work" ColumnName="Work" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GoalStackSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.GoalStack)">
+        <MappingFragment StoreEntitySet="GoalStackSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ReviewSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.Review)">
+        <MappingFragment StoreEntitySet="ReviewSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Estimate" ColumnName="Estimate" />
+          <ScalarProperty Name="Comment" ColumnName="Comment" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="ExpertSystemDomain" TypeName="ExpertSystemModel.ExpertSystemDomain" StoreEntitySet="DomainSet">
+      <EndProperty Name="ExpertSystem">
+        <ScalarProperty Name="Id" ColumnName="ExpertSystemDomain_Domain_Id" />
+      </EndProperty>
+      <EndProperty Name="Domain">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DomainDomainValue" TypeName="ExpertSystemModel.DomainDomainValue" StoreEntitySet="DomainValueSet">
+      <EndProperty Name="Domain">
+        <ScalarProperty Name="Id" ColumnName="DomainDomainValue_DomainValue_Id" />
+      </EndProperty>
+      <EndProperty Name="DomainValue">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DomainVariable" TypeName="ExpertSystemModel.DomainVariable" StoreEntitySet="VariableSet">
+      <EndProperty Name="Domain">
+        <ScalarProperty Name="Id" ColumnName="Domain_Id" />
+      </EndProperty>
+      <EndProperty Name="Variable">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ExpertSystemVariable" TypeName="ExpertSystemModel.ExpertSystemVariable" StoreEntitySet="VariableSet">
+      <EndProperty Name="ExpertSystem">
+        <ScalarProperty Name="Id" ColumnName="ExpertSystemVariable_Variable_Id" />
+      </EndProperty>
+      <EndProperty Name="Variable">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ExpertSystemVariable1" TypeName="ExpertSystemModel.ExpertSystemVariable1" StoreEntitySet="VariableSet">
+      <EndProperty Name="ExpertSystem">
+        <ScalarProperty Name="Id" ColumnName="ExpertSystemVariable1_Variable_Id" />
+      </EndProperty>
+      <EndProperty Name="Variable">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="ExpertSystemVariable1_Variable_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="DomainValueFact" TypeName="ExpertSystemModel.DomainValueFact" StoreEntitySet="FactSet">
+      <EndProperty Name="DomainValue">
+        <ScalarProperty Name="Id" ColumnName="DomainValue_Id" />
+      </EndProperty>
+      <EndProperty Name="Fact">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="VariableFact" TypeName="ExpertSystemModel.VariableFact" StoreEntitySet="FactSet">
+      <EndProperty Name="Variable">
+        <ScalarProperty Name="Id" ColumnName="Variable_Id" />
+      </EndProperty>
+      <EndProperty Name="Fact">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FactRule" TypeName="ExpertSystemModel.FactRule" StoreEntitySet="RuleSet">
+      <EndProperty Name="Fact">
+        <ScalarProperty Name="Id" ColumnName="Result_Id" />
+      </EndProperty>
+      <EndProperty Name="Rule">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="RuleRuleFact" TypeName="ExpertSystemModel.RuleRuleFact" StoreEntitySet="RuleFactSet">
+      <EndProperty Name="Rule">
+        <ScalarProperty Name="Id" ColumnName="Rule_Id" />
+      </EndProperty>
+      <EndProperty Name="RuleFact">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FactRuleFact" TypeName="ExpertSystemModel.FactRuleFact" StoreEntitySet="RuleFactSet">
+      <EndProperty Name="Fact">
+        <ScalarProperty Name="Id" ColumnName="Fact_Id" />
+      </EndProperty>
+      <EndProperty Name="RuleFact">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ExpertSystemRule" TypeName="ExpertSystemModel.ExpertSystemRule" StoreEntitySet="RuleSet">
+      <EndProperty Name="ExpertSystem">
+        <ScalarProperty Name="Id" ColumnName="ExpertSystemRule_Rule_Id" />
+      </EndProperty>
+      <EndProperty Name="Rule">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="SessionConsultation" TypeName="ExpertSystemModel.SessionConsultation" StoreEntitySet="SessionSet">
+      <EndProperty Name="Consultation">
+        <ScalarProperty Name="Id" ColumnName="SessionConsultation_Session_Id" />
+      </EndProperty>
+      <EndProperty Name="Session">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ExpertSystemConsultation" TypeName="ExpertSystemModel.ExpertSystemConsultation" StoreEntitySet="ConsultationSet">
+      <EndProperty Name="ExpertSystem">
+        <ScalarProperty Name="Id" ColumnName="ExpertSystem_Id" />
+      </EndProperty>
+      <EndProperty Name="Consultation">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ConsultationConsultationFact" TypeName="ExpertSystemModel.ConsultationConsultationFact" StoreEntitySet="ConsultationFactSet">
+      <EndProperty Name="Consultation">
+        <ScalarProperty Name="Id" ColumnName="Consultation_Id" />
+      </EndProperty>
+      <EndProperty Name="ConsultationFact">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ConsultationConsultationRule" TypeName="ExpertSystemModel.ConsultationConsultationRule" StoreEntitySet="ConsultationRuleSet">
+      <EndProperty Name="Consultation">
+        <ScalarProperty Name="Id" ColumnName="Consultation_Id" />
+      </EndProperty>
+      <EndProperty Name="ConsultationRule">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FactConsultationFact" TypeName="ExpertSystemModel.FactConsultationFact" StoreEntitySet="ConsultationFactSet">
+      <EndProperty Name="Fact">
+        <ScalarProperty Name="Id" ColumnName="Fact_Id" />
+      </EndProperty>
+      <EndProperty Name="ConsultationFact">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="RuleConsultationRule" TypeName="ExpertSystemModel.RuleConsultationRule" StoreEntitySet="ConsultationRuleSet">
+      <EndProperty Name="Rule">
+        <ScalarProperty Name="Id" ColumnName="Rule_Id" />
+      </EndProperty>
+      <EndProperty Name="ConsultationRule">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="RuleConsultation" TypeName="ExpertSystemModel.RuleConsultation" StoreEntitySet="ConsultationSet">
+      <EndProperty Name="Rule">
+        <ScalarProperty Name="Id" ColumnName="CurrentRule_Id" />
+      </EndProperty>
+      <EndProperty Name="Consultation">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="CurrentRule_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GoalStackConsultation" TypeName="ExpertSystemModel.GoalStackConsultation" StoreEntitySet="ConsultationSet">
+      <EndProperty Name="GoalStack">
+        <ScalarProperty Name="Id" ColumnName="GoalStack_Id" />
+      </EndProperty>
+      <EndProperty Name="Consultation">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="GoalStack_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="VariableGoalStack" TypeName="ExpertSystemModel.VariableGoalStack" StoreEntitySet="GoalStackSet">
+      <EndProperty Name="Variable">
+        <ScalarProperty Name="Id" ColumnName="Variable_Id" />
+      </EndProperty>
+      <EndProperty Name="GoalStack">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Variable_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GoalStackGoalStack" TypeName="ExpertSystemModel.GoalStackGoalStack" StoreEntitySet="GoalStackSet">
+      <EndProperty Name="GoalStack">
+        <ScalarProperty Name="Id" ColumnName="NextGoal_Id" />
+      </EndProperty>
+      <EndProperty Name="GoalStack1">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="NextGoal_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="SessionReview" TypeName="ExpertSystemModel.SessionReview" StoreEntitySet="ReviewSet">
+      <EndProperty Name="Session">
+        <ScalarProperty Name="Id" ColumnName="Session_Id" />
+      </EndProperty>
+      <EndProperty Name="Review">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

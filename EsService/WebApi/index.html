@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <p>
+        TestController - для проверки работы сервера
+        <br /><a href="/api/test/echo?text=ping">/api/test/echo?text=ping</a>
+    </p>
+    <p>
+        FilmExpertController - для работы с экспертными системами
+        <br /><a href="/api/FilmExpert/StartConsult">/api/FilmExpert/StartConsult</a> - создать новую сессию и начать консультацию
+        <br /><a href="/api/FilmExpert/SetAnswerAndNext">/api/FilmExpert/SetAnswerAndNext</a> - выполнить консультацию. POST-запросом, в теле запроса надо указать id сессии и значение переменной предыдущего вопроса.
+    </p>
+</body>
+</html>

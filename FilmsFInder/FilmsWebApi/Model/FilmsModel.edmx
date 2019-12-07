@@ -1,0 +1,493 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FilmsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="FilmsModelStoreContainer">
+    <EntitySet Name="FilmSet" EntityType="FilmsModel.Store.FilmSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CountrySet" EntityType="FilmsModel.Store.CountrySet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CountryFilmSet" EntityType="FilmsModel.Store.CountryFilmSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ActorFilmSet" EntityType="FilmsModel.Store.ActorFilmSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ActorSet" EntityType="FilmsModel.Store.ActorSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProducerSet" EntityType="FilmsModel.Store.ProducerSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GenreFilmSet" EntityType="FilmsModel.Store.GenreFilmSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GenreSet" EntityType="FilmsModel.Store.GenreSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="CountryCountryFilm" Association="FilmsModel.Store.CountryCountryFilm">
+      <End Role="Country" EntitySet="CountrySet" />
+      <End Role="CountryFilm" EntitySet="CountryFilmSet" />
+    </AssociationSet>
+    <AssociationSet Name="FilmCountryFilm" Association="FilmsModel.Store.FilmCountryFilm">
+      <End Role="Film" EntitySet="FilmSet" />
+      <End Role="CountryFilm" EntitySet="CountryFilmSet" />
+    </AssociationSet>
+    <AssociationSet Name="FilmActorFilm" Association="FilmsModel.Store.FilmActorFilm">
+      <End Role="Film" EntitySet="FilmSet" />
+      <End Role="ActorFilm" EntitySet="ActorFilmSet" />
+    </AssociationSet>
+    <AssociationSet Name="ActorActorFilm" Association="FilmsModel.Store.ActorActorFilm">
+      <End Role="Actor" EntitySet="ActorSet" />
+      <End Role="ActorFilm" EntitySet="ActorFilmSet" />
+    </AssociationSet>
+    <AssociationSet Name="ProducerFilm" Association="FilmsModel.Store.ProducerFilm">
+      <End Role="Producer" EntitySet="ProducerSet" />
+      <End Role="Film" EntitySet="FilmSet" />
+    </AssociationSet>
+    <AssociationSet Name="GenreGenreFilm" Association="FilmsModel.Store.GenreGenreFilm">
+      <End Role="Genre" EntitySet="GenreSet" />
+      <End Role="GenreFilm" EntitySet="GenreFilmSet" />
+    </AssociationSet>
+    <AssociationSet Name="FilmGenreFilm" Association="FilmsModel.Store.FilmGenreFilm">
+      <End Role="Film" EntitySet="FilmSet" />
+      <End Role="GenreFilm" EntitySet="GenreFilmSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="FilmSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Year" Type="int" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Rating" Type="decimal" Nullable="true" Precision="11" Scale="9" />
+    <Property Name="Poster" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Slogan" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Link" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="KinopoiskId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Producer_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CountrySet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CountryFilmSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Country_Id" Type="int" Nullable="false" />
+    <Property Name="Film_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ActorFilmSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Film_Id" Type="int" Nullable="false" />
+    <Property Name="Actor_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ActorSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProducerSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GenreFilmSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Genre_Id" Type="int" Nullable="false" />
+    <Property Name="Film_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GenreSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="CountryCountryFilm">
+    <End Role="Country" Type="FilmsModel.Store.CountrySet" Multiplicity="1" />
+    <End Role="CountryFilm" Type="FilmsModel.Store.CountryFilmSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CountryFilm">
+        <PropertyRef Name="Country_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FilmCountryFilm">
+    <End Role="Film" Type="FilmsModel.Store.FilmSet" Multiplicity="1" />
+    <End Role="CountryFilm" Type="FilmsModel.Store.CountryFilmSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Film">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CountryFilm">
+        <PropertyRef Name="Film_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FilmActorFilm">
+    <End Role="Film" Type="FilmsModel.Store.FilmSet" Multiplicity="1" />
+    <End Role="ActorFilm" Type="FilmsModel.Store.ActorFilmSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Film">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ActorFilm">
+        <PropertyRef Name="Film_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ActorActorFilm">
+    <End Role="Actor" Type="FilmsModel.Store.ActorSet" Multiplicity="1" />
+    <End Role="ActorFilm" Type="FilmsModel.Store.ActorFilmSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Actor">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ActorFilm">
+        <PropertyRef Name="Actor_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProducerFilm">
+    <End Role="Producer" Type="FilmsModel.Store.ProducerSet" Multiplicity="1" />
+    <End Role="Film" Type="FilmsModel.Store.FilmSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Producer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Film">
+        <PropertyRef Name="Producer_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GenreGenreFilm">
+    <End Role="Genre" Type="FilmsModel.Store.GenreSet" Multiplicity="1" />
+    <End Role="GenreFilm" Type="FilmsModel.Store.GenreFilmSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Genre">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GenreFilm">
+        <PropertyRef Name="Genre_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FilmGenreFilm">
+    <End Role="Film" Type="FilmsModel.Store.FilmSet" Multiplicity="1" />
+    <End Role="GenreFilm" Type="FilmsModel.Store.GenreFilmSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Film">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GenreFilm">
+        <PropertyRef Name="Film_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="FilmsModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="FilmsModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="FilmSet" EntityType="FilmsModel.Film" />
+          <EntitySet Name="CountrySet" EntityType="FilmsModel.Country" />
+          <EntitySet Name="CountryFilmSet" EntityType="FilmsModel.CountryFilm" />
+          <AssociationSet Name="CountryCountryFilm" Association="FilmsModel.CountryCountryFilm">
+            <End Role="Country" EntitySet="CountrySet" />
+            <End Role="CountryFilm" EntitySet="CountryFilmSet" />
+          </AssociationSet>
+          <AssociationSet Name="FilmCountryFilm" Association="FilmsModel.FilmCountryFilm">
+            <End Role="Film" EntitySet="FilmSet" />
+            <End Role="CountryFilm" EntitySet="CountryFilmSet" />
+          </AssociationSet>
+          <EntitySet Name="ActorFilmSet" EntityType="FilmsModel.ActorFilm" />
+          <EntitySet Name="ActorSet" EntityType="FilmsModel.Actor" />
+          <AssociationSet Name="FilmActorFilm" Association="FilmsModel.FilmActorFilm">
+            <End Role="Film" EntitySet="FilmSet" />
+            <End Role="ActorFilm" EntitySet="ActorFilmSet" />
+          </AssociationSet>
+          <AssociationSet Name="ActorActorFilm" Association="FilmsModel.ActorActorFilm">
+            <End Role="Actor" EntitySet="ActorSet" />
+            <End Role="ActorFilm" EntitySet="ActorFilmSet" />
+          </AssociationSet>
+          <EntitySet Name="ProducerSet" EntityType="FilmsModel.Producer" />
+          <AssociationSet Name="ProducerFilm" Association="FilmsModel.ProducerFilm">
+            <End Role="Producer" EntitySet="ProducerSet" />
+            <End Role="Film" EntitySet="FilmSet" />
+          </AssociationSet>
+          <EntitySet Name="GenreFilmSet" EntityType="FilmsModel.GenreFilm" />
+          <EntitySet Name="GenreSet" EntityType="FilmsModel.Genre" />
+          <AssociationSet Name="GenreGenreFilm" Association="FilmsModel.GenreGenreFilm">
+            <End Role="Genre" EntitySet="GenreSet" />
+            <End Role="GenreFilm" EntitySet="GenreFilmSet" />
+          </AssociationSet>
+          <AssociationSet Name="FilmGenreFilm" Association="FilmsModel.FilmGenreFilm">
+            <End Role="Film" EntitySet="FilmSet" />
+            <End Role="GenreFilm" EntitySet="GenreFilmSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Film">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="true" />
+          <Property Name="Rating" Type="Decimal" Nullable="true" Scale="9" Precision="11" />
+          <Property Name="Poster" Type="String" Nullable="true" />
+          <Property Name="Slogan" Type="String" Nullable="true" />
+          <Property Name="Link" Type="String" Nullable="true" />
+          <NavigationProperty Name="CountryFilm" Relationship="FilmsModel.FilmCountryFilm" FromRole="Film" ToRole="CountryFilm" />
+          <NavigationProperty Name="ActorFilm" Relationship="FilmsModel.FilmActorFilm" FromRole="Film" ToRole="ActorFilm" />
+          <NavigationProperty Name="Producer" Relationship="FilmsModel.ProducerFilm" FromRole="Film" ToRole="Producer" />
+          <NavigationProperty Name="GenreFilm" Relationship="FilmsModel.FilmGenreFilm" FromRole="Film" ToRole="GenreFilm" />
+          <Property Name="KinopoiskId" Type="String" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="CountryFilm" Relationship="FilmsModel.CountryCountryFilm" FromRole="Country" ToRole="CountryFilm" />
+        </EntityType>
+        <EntityType Name="CountryFilm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Country" Relationship="FilmsModel.CountryCountryFilm" FromRole="CountryFilm" ToRole="Country" />
+          <NavigationProperty Name="Film" Relationship="FilmsModel.FilmCountryFilm" FromRole="CountryFilm" ToRole="Film" />
+        </EntityType>
+        <Association Name="CountryCountryFilm">
+          <End Type="FilmsModel.Country" Role="Country" Multiplicity="1" />
+          <End Type="FilmsModel.CountryFilm" Role="CountryFilm" Multiplicity="*" />
+        </Association>
+        <Association Name="FilmCountryFilm">
+          <End Type="FilmsModel.Film" Role="Film" Multiplicity="1" />
+          <End Type="FilmsModel.CountryFilm" Role="CountryFilm" Multiplicity="*" />
+        </Association>
+        <EntityType Name="ActorFilm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Film" Relationship="FilmsModel.FilmActorFilm" FromRole="ActorFilm" ToRole="Film" />
+          <NavigationProperty Name="Actor" Relationship="FilmsModel.ActorActorFilm" FromRole="ActorFilm" ToRole="Actor" />
+        </EntityType>
+        <EntityType Name="Actor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="ActorFilm" Relationship="FilmsModel.ActorActorFilm" FromRole="Actor" ToRole="ActorFilm" />
+        </EntityType>
+        <Association Name="FilmActorFilm">
+          <End Type="FilmsModel.Film" Role="Film" Multiplicity="1" />
+          <End Type="FilmsModel.ActorFilm" Role="ActorFilm" Multiplicity="*" />
+        </Association>
+        <Association Name="ActorActorFilm">
+          <End Type="FilmsModel.Actor" Role="Actor" Multiplicity="1" />
+          <End Type="FilmsModel.ActorFilm" Role="ActorFilm" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Producer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Film" Relationship="FilmsModel.ProducerFilm" FromRole="Producer" ToRole="Film" />
+          <Property Name="Name" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="ProducerFilm">
+          <End Type="FilmsModel.Producer" Role="Producer" Multiplicity="1" />
+          <End Type="FilmsModel.Film" Role="Film" Multiplicity="*" />
+        </Association>
+        <EntityType Name="GenreFilm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Genre" Relationship="FilmsModel.GenreGenreFilm" FromRole="GenreFilm" ToRole="Genre" />
+          <NavigationProperty Name="Film" Relationship="FilmsModel.FilmGenreFilm" FromRole="GenreFilm" ToRole="Film" />
+        </EntityType>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="GenreFilm" Relationship="FilmsModel.GenreGenreFilm" FromRole="Genre" ToRole="GenreFilm" />
+          <Property Name="Name" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="GenreGenreFilm">
+          <End Type="FilmsModel.Genre" Role="Genre" Multiplicity="1" />
+          <End Type="FilmsModel.GenreFilm" Role="GenreFilm" Multiplicity="*" />
+        </Association>
+        <Association Name="FilmGenreFilm">
+          <End Type="FilmsModel.Film" Role="Film" Multiplicity="1" />
+          <End Type="FilmsModel.GenreFilm" Role="GenreFilm" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="FilmsModelStoreContainer" CdmEntityContainer="FilmsModelContainer">
+    <EntitySetMapping Name="FilmSet">
+      <EntityTypeMapping TypeName="IsTypeOf(FilmsModel.Film)">
+        <MappingFragment StoreEntitySet="FilmSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="Poster" ColumnName="Poster" />
+          <ScalarProperty Name="Slogan" ColumnName="Slogan" />
+          <ScalarProperty Name="Link" ColumnName="Link" />
+          <ScalarProperty Name="KinopoiskId" ColumnName="KinopoiskId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CountrySet">
+      <EntityTypeMapping TypeName="IsTypeOf(FilmsModel.Country)">
+        <MappingFragment StoreEntitySet="CountrySet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CountryFilmSet">
+      <EntityTypeMapping TypeName="IsTypeOf(FilmsModel.CountryFilm)">
+        <MappingFragment StoreEntitySet="CountryFilmSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ActorFilmSet">
+      <EntityTypeMapping TypeName="IsTypeOf(FilmsModel.ActorFilm)">
+        <MappingFragment StoreEntitySet="ActorFilmSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ActorSet">
+      <EntityTypeMapping TypeName="IsTypeOf(FilmsModel.Actor)">
+        <MappingFragment StoreEntitySet="ActorSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProducerSet">
+      <EntityTypeMapping TypeName="IsTypeOf(FilmsModel.Producer)">
+        <MappingFragment StoreEntitySet="ProducerSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GenreFilmSet">
+      <EntityTypeMapping TypeName="IsTypeOf(FilmsModel.GenreFilm)">
+        <MappingFragment StoreEntitySet="GenreFilmSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GenreSet">
+      <EntityTypeMapping TypeName="IsTypeOf(FilmsModel.Genre)">
+        <MappingFragment StoreEntitySet="GenreSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="CountryCountryFilm" TypeName="FilmsModel.CountryCountryFilm" StoreEntitySet="CountryFilmSet">
+      <EndProperty Name="Country">
+        <ScalarProperty Name="Id" ColumnName="Country_Id" />
+      </EndProperty>
+      <EndProperty Name="CountryFilm">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FilmCountryFilm" TypeName="FilmsModel.FilmCountryFilm" StoreEntitySet="CountryFilmSet">
+      <EndProperty Name="Film">
+        <ScalarProperty Name="Id" ColumnName="Film_Id" />
+      </EndProperty>
+      <EndProperty Name="CountryFilm">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FilmActorFilm" TypeName="FilmsModel.FilmActorFilm" StoreEntitySet="ActorFilmSet">
+      <EndProperty Name="Film">
+        <ScalarProperty Name="Id" ColumnName="Film_Id" />
+      </EndProperty>
+      <EndProperty Name="ActorFilm">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ActorActorFilm" TypeName="FilmsModel.ActorActorFilm" StoreEntitySet="ActorFilmSet">
+      <EndProperty Name="Actor">
+        <ScalarProperty Name="Id" ColumnName="Actor_Id" />
+      </EndProperty>
+      <EndProperty Name="ActorFilm">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ProducerFilm" TypeName="FilmsModel.ProducerFilm" StoreEntitySet="FilmSet">
+      <EndProperty Name="Producer">
+        <ScalarProperty Name="Id" ColumnName="Producer_Id" />
+      </EndProperty>
+      <EndProperty Name="Film">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GenreGenreFilm" TypeName="FilmsModel.GenreGenreFilm" StoreEntitySet="GenreFilmSet">
+      <EndProperty Name="Genre">
+        <ScalarProperty Name="Id" ColumnName="Genre_Id" />
+      </EndProperty>
+      <EndProperty Name="GenreFilm">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FilmGenreFilm" TypeName="FilmsModel.FilmGenreFilm" StoreEntitySet="GenreFilmSet">
+      <EndProperty Name="Film">
+        <ScalarProperty Name="Id" ColumnName="Film_Id" />
+      </EndProperty>
+      <EndProperty Name="GenreFilm">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

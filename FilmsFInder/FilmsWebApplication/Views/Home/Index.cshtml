@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Поиск фильма";
+}
+
+
+<p class="center-block text-center"><a class="btn btn-primary btn-lg" onclick="Start();">Подобрать фильм!</a></p>
+
+
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+
+
+        function Start() {
+            window.location.href = '/Home/Questions';
+        }
+    </script>
+}
+
+

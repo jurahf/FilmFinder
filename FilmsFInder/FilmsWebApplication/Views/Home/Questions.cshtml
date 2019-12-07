@@ -1,0 +1,54 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Поиск фильма";
+}
+
+
+@using FilmsWebApplication.Models;
+
+@{
+    int sessionId = (int)ViewData["SessionId"];
+    VariableDto tempVar = (VariableDto)ViewData["Variable"];
+}
+
+
+<div class="jumbotron">
+    <h2>@(tempVar?.Question ?? "Сегодня нет вопросов")</h2>
+
+    @{
+        if (tempVar != null)
+        {
+            for (int i = 0; i < tempVar.Domain.Count; i++)
+            {
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="@("inlineRadio" + i.ToString())" value="option" @(i == 0 ? "checked" : "")>
+                    <label id="@("labelinlineRadio" + i.ToString())" class="form-check-label lead" for="@("inlineRadio" + i.ToString())">@tempVar.Domain[i]</label>
+                </div>
+            }
+        }
+    }
+
+    <p><a class="btn btn-primary btn-lg" onclick="SendAnswer();">Отправить ответ</a></p>
+</div>
+
+
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+
+
+        function SendAnswer() {
+            var optionId = $('.form-check-input:checked').first().attr('id');
+            var varVal = $('#label' + optionId).html();
+            window.location.href = '/Home/IndexContinue?sessionId=@(sessionId.ToString())&varName=@(tempVar.Name)&varValue=' + varVal;
+        }
+    </script>
+}
+
+
+
+
+

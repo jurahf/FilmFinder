@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f23bf90e3017431f9400d916234fad27" Name="Diagram1" ZoomLevel="61" >
+        <EntityTypeShape EntityType="ExpertSystemModel.ExpertSystem" Width="1.5" PointX="4.625" PointY="1.875" />
+        <EntityTypeShape EntityType="ExpertSystemModel.Domain" Width="1.5" PointX="1.625" PointY="4" />
+        <AssociationConnector Association="ExpertSystemModel.ExpertSystemDomain" />
+        <EntityTypeShape EntityType="ExpertSystemModel.DomainValue" Width="1.5" PointX="1.625" PointY="6.625" />
+        <AssociationConnector Association="ExpertSystemModel.DomainDomainValue" />
+        <EntityTypeShape EntityType="ExpertSystemModel.Variable" Width="1.5" PointX="6.875" PointY="4.125" />
+        <AssociationConnector Association="ExpertSystemModel.DomainVariable" />
+        <AssociationConnector Association="ExpertSystemModel.ExpertSystemVariable" />
+        <AssociationConnector Association="ExpertSystemModel.ExpertSystemVariable1" />
+        <EntityTypeShape EntityType="ExpertSystemModel.Fact" Width="1.5" PointX="8" PointY="7.25" />
+        <AssociationConnector Association="ExpertSystemModel.DomainValueFact" />
+        <AssociationConnector Association="ExpertSystemModel.VariableFact" />
+        <EntityTypeShape EntityType="ExpertSystemModel.Rule" Width="1.5" PointX="11.125" PointY="4.125" />
+        <AssociationConnector Association="ExpertSystemModel.FactRule" ManuallyRouted="true" >
+          <ConnectorPoint PointX="9.5" PointY="8.047841796875" />
+          <ConnectorPoint PointX="11.455729166666666" PointY="8.047841796875" />
+          <ConnectorPoint PointX="11.622395833333334" PointY="8.047841796875" />
+          <ConnectorPoint PointX="12.00390625" PointY="8.047841796875" />
+          <ConnectorPoint PointX="12.00390625" PointY="6.297587890625" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="ExpertSystemModel.RuleFact" Width="1.5" PointX="9" PointY="5.875" IsExpanded="false" />
+        <AssociationConnector Association="ExpertSystemModel.RuleRuleFact" />
+        <AssociationConnector Association="ExpertSystemModel.FactRuleFact" />
+        <AssociationConnector Association="ExpertSystemModel.ExpertSystemRule" />
+        <EntityTypeShape EntityType="ExpertSystemModel.Consultation" Width="1.5" PointX="4.625" PointY="9.875" FillColor="0, 64, 0" />
+        <EntityTypeShape EntityType="ExpertSystemModel.Session" Width="1.5" PointX="2" PointY="9.875" FillColor="Red" />
+        <AssociationConnector Association="ExpertSystemModel.SessionConsultation" />
+        <AssociationConnector Association="ExpertSystemModel.ExpertSystemConsultation" />
+        <EntityTypeShape EntityType="ExpertSystemModel.ConsultationFact" Width="1.5" PointX="8.125" PointY="10" IsExpanded="true" FillColor="0, 64, 0" />
+        <EntityTypeShape EntityType="ExpertSystemModel.ConsultationRule" Width="1.5" PointX="10.75" PointY="10.5" IsExpanded="true" FillColor="0, 64, 0" />
+        <AssociationConnector Association="ExpertSystemModel.ConsultationConsultationFact" />
+        <AssociationConnector Association="ExpertSystemModel.ConsultationConsultationRule" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="ExpertSystemModel.FactConsultationFact" />
+        <AssociationConnector Association="ExpertSystemModel.RuleConsultationRule" />
+        <AssociationConnector Association="ExpertSystemModel.RuleConsultation" />
+        <EntityTypeShape EntityType="ExpertSystemModel.GoalStack" Width="1.5" PointX="4.625" PointY="13.25" FillColor="0, 64, 0" />
+        <AssociationConnector Association="ExpertSystemModel.GoalStackConsultation" />
+        <AssociationConnector Association="ExpertSystemModel.VariableGoalStack" />
+        <EntityTypeShape EntityType="ExpertSystemModel.Review" Width="1.5" PointX="2" PointY="12.875" FillColor="Red" />
+        <AssociationConnector Association="ExpertSystemModel.GoalStackGoalStack" />
+        <AssociationConnector Association="ExpertSystemModel.SessionReview" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
