@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f23bf90e3017431f9400d916234fad27" Name="Diagram1" ZoomLevel="61" >
+      <Diagram DiagramId="f23bf90e3017431f9400d916234fad27" Name="EsCore" ZoomLevel="61" >
         <EntityTypeShape EntityType="ExpertSystemModel.ExpertSystem" Width="1.5" PointX="4.625" PointY="1.875" />
         <EntityTypeShape EntityType="ExpertSystemModel.Domain" Width="1.5" PointX="1.625" PointY="4" />
         <AssociationConnector Association="ExpertSystemModel.ExpertSystemDomain" />
@@ -29,24 +29,60 @@
         <AssociationConnector Association="ExpertSystemModel.RuleRuleFact" />
         <AssociationConnector Association="ExpertSystemModel.FactRuleFact" />
         <AssociationConnector Association="ExpertSystemModel.ExpertSystemRule" />
-        <EntityTypeShape EntityType="ExpertSystemModel.Consultation" Width="1.5" PointX="4.625" PointY="9.875" FillColor="0, 64, 0" />
-        <EntityTypeShape EntityType="ExpertSystemModel.Session" Width="1.5" PointX="2" PointY="9.875" FillColor="Red" />
-        <AssociationConnector Association="ExpertSystemModel.SessionConsultation" />
-        <AssociationConnector Association="ExpertSystemModel.ExpertSystemConsultation" />
-        <EntityTypeShape EntityType="ExpertSystemModel.ConsultationFact" Width="1.5" PointX="8.125" PointY="10" IsExpanded="true" FillColor="0, 64, 0" />
-        <EntityTypeShape EntityType="ExpertSystemModel.ConsultationRule" Width="1.5" PointX="10.75" PointY="10.5" IsExpanded="true" FillColor="0, 64, 0" />
-        <AssociationConnector Association="ExpertSystemModel.ConsultationConsultationFact" />
-        <AssociationConnector Association="ExpertSystemModel.ConsultationConsultationRule" ManuallyRouted="false" >
-        </AssociationConnector>
-        <AssociationConnector Association="ExpertSystemModel.FactConsultationFact" />
-        <AssociationConnector Association="ExpertSystemModel.RuleConsultationRule" />
-        <AssociationConnector Association="ExpertSystemModel.RuleConsultation" />
-        <EntityTypeShape EntityType="ExpertSystemModel.GoalStack" Width="1.5" PointX="4.625" PointY="13.25" FillColor="0, 64, 0" />
-        <AssociationConnector Association="ExpertSystemModel.GoalStackConsultation" />
-        <AssociationConnector Association="ExpertSystemModel.VariableGoalStack" />
-        <EntityTypeShape EntityType="ExpertSystemModel.Review" Width="1.5" PointX="2" PointY="12.875" FillColor="Red" />
-        <AssociationConnector Association="ExpertSystemModel.GoalStackGoalStack" />
+        </Diagram>
+      <Diagram DiagramId="b229154287f646eaa5ba390f170cb041" Name="UserAndSession" >
+        <EntityTypeShape EntityType="ExpertSystemModel.Session" Width="1.5" PointX="0.75" PointY="0.875" FillColor="0, 122, 204" />
+        <EntityTypeShape EntityType="ExpertSystemModel.Review" Width="1.5" PointX="3" PointY="0.875" FillColor="0, 122, 204" />
         <AssociationConnector Association="ExpertSystemModel.SessionReview" />
+      </Diagram>
+      <Diagram DiagramId="9b4c4852affb488d98c7298202a99c1d" Name="Consultation" >
+        <EntityTypeShape EntityType="ExpertSystemModel.Consultation" Width="1.5" PointX="3" PointY="2" FillColor="0, 122, 204" />
+        <EntityTypeShape EntityType="ExpertSystemModel.ConsultationFact" Width="1.5" PointX="5.25" PointY="1" FillColor="0, 122, 204" />
+        <AssociationConnector Association="ExpertSystemModel.ConsultationConsultationFact" />
+        <EntityTypeShape EntityType="ExpertSystemModel.ConsultationRule" Width="1.5" PointX="5.25" PointY="3.625" FillColor="0, 122, 204" />
+        <AssociationConnector Association="ExpertSystemModel.ConsultationConsultationRule" />
+        <EntityTypeShape EntityType="ExpertSystemModel.GoalStack" Width="1.5" PointX="0.75" PointY="2.375" FillColor="0, 122, 204" />
+        <AssociationConnector Association="ExpertSystemModel.GoalStackConsultation" />
+        <AssociationConnector Association="ExpertSystemModel.GoalStackGoalStack" />
+      </Diagram>
+      <Diagram DiagramId="4f06626cd7804b8bb604f61e86a046e3" Name="Film" ZoomLevel="87" >
+        <EntityTypeShape EntityType="ExpertSystemModel.Film" Width="1.5" PointX="9.375" PointY="2.375" />
+        <EntityTypeShape EntityType="ExpertSystemModel.Country" Width="1.5" PointX="3" PointY="3.625" />
+        <EntityTypeShape EntityType="ExpertSystemModel.CountryFilm" Width="1.5" PointX="5.25" PointY="3.875" IsExpanded="false" />
+        <EntityTypeShape EntityType="ExpertSystemModel.ActorFilm" Width="1.5" PointX="5.25" PointY="2.375" IsExpanded="false" />
+        <EntityTypeShape EntityType="ExpertSystemModel.Actor" Width="1.5" PointX="3" PointY="1.5" />
+        <EntityTypeShape EntityType="ExpertSystemModel.Producer" Width="1.5" PointX="15" PointY="4.125" />
+        <EntityTypeShape EntityType="ExpertSystemModel.GenreFilm" Width="1.5" PointX="12.375" PointY="2.375" IsExpanded="false" />
+        <EntityTypeShape EntityType="ExpertSystemModel.Genre" Width="1.5" PointX="15" PointY="2.125" />
+        <AssociationConnector Association="ExpertSystemModel.FilmCountryFilm" />
+        <AssociationConnector Association="ExpertSystemModel.FilmActorFilm" />
+        <AssociationConnector Association="ExpertSystemModel.FilmGenreFilm" />
+        <AssociationConnector Association="ExpertSystemModel.CountryCountryFilm" />
+        <AssociationConnector Association="ExpertSystemModel.ActorActorFilm" />
+        <AssociationConnector Association="ExpertSystemModel.GenreGenreFilm" />
+        <EntityTypeShape EntityType="ExpertSystemModel.ProducerFilm" Width="1.5" PointX="12.375" PointY="4.125" IsExpanded="false" />
+        <AssociationConnector Association="ExpertSystemModel.ProducerProducerFilm" />
+        <AssociationConnector Association="ExpertSystemModel.FilmProducerFilm" />
+        </Diagram>
+      <Diagram DiagramId="64adbc5f3e6d4404be39023a82d47116" Name="FilmAdvise" >
+        <EntityTypeShape EntityType="ExpertSystemModel.CustomProperty" Width="1.5" PointX="7.25" PointY="4.75" />
+        <EntityTypeShape EntityType="ExpertSystemModel.FilmCustomProperty" Width="1.5" PointX="7.5" PointY="8.5" />
+        <AssociationConnector Association="ExpertSystemModel.CustomPropertyFilmCustomProperty" />
+        <EntityTypeShape EntityType="ExpertSystemModel.Advice" Width="1.5" PointX="0.75" PointY="4.5" />
+        <EntityTypeShape EntityType="ExpertSystemModel.AdviceCustomPropertyPositive" Width="1.5" PointX="3" PointY="4.75" IsExpanded="false" />
+        <AssociationConnector Association="ExpertSystemModel.CustomPropertyAdviceCustomPropertyPositive" />
+        <AssociationConnector Association="ExpertSystemModel.AdviceAdviceCustomPropertyPositive" />
+        <EntityTypeShape EntityType="ExpertSystemModel.AdviceCustomPropertyNegative" Width="1.5" PointX="4.875" PointY="5.75" IsExpanded="false" />
+        <AssociationConnector Association="ExpertSystemModel.CustomPropertyAdviceCustomPropertyNegative" />
+        <AssociationConnector Association="ExpertSystemModel.AdviceAdviceCustomPropertyNegative" />
+        <EntityTypeShape EntityType="ExpertSystemModel.AdviceFilmPositive" Width="1.5" PointX="3" PointY="9.5" IsExpanded="false" />
+        <AssociationConnector Association="ExpertSystemModel.AdviceAdviceFilmPositive" />
+        <EntityTypeShape EntityType="ExpertSystemModel.AdviceFilmNegative" Width="1.5" PointX="3" PointY="8.5" IsExpanded="false" />
+        <AssociationConnector Association="ExpertSystemModel.AdviceAdviceFilmNegative" />
+        <EntityTypeShape EntityType="ExpertSystemModel.Film" Width="1.5" PointX="5.25" PointY="7.375" />
+        <AssociationConnector Association="ExpertSystemModel.FilmFilmCustomProperty" />
+        <AssociationConnector Association="ExpertSystemModel.FilmAdviceFilmNegative" />
+        <AssociationConnector Association="ExpertSystemModel.FilmAdviceFilmPositive" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -19,6 +19,22 @@
     <EntitySet Name="ConsultationRuleSet" EntityType="ExpertSystemModel.Store.ConsultationRuleSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="GoalStackSet" EntityType="ExpertSystemModel.Store.GoalStackSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="ReviewSet" EntityType="ExpertSystemModel.Store.ReviewSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FilmSet" EntityType="ExpertSystemModel.Store.FilmSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CountrySet" EntityType="ExpertSystemModel.Store.CountrySet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CountryFilmSet" EntityType="ExpertSystemModel.Store.CountryFilmSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ActorFilmSet" EntityType="ExpertSystemModel.Store.ActorFilmSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ActorSet" EntityType="ExpertSystemModel.Store.ActorSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProducerSet" EntityType="ExpertSystemModel.Store.ProducerSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GenreFilmSet" EntityType="ExpertSystemModel.Store.GenreFilmSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GenreSet" EntityType="ExpertSystemModel.Store.GenreSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ProducerFilmSet" EntityType="ExpertSystemModel.Store.ProducerFilmSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustomPropertySet" EntityType="ExpertSystemModel.Store.CustomPropertySet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FilmCustomPropertySet" EntityType="ExpertSystemModel.Store.FilmCustomPropertySet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AdviceSet" EntityType="ExpertSystemModel.Store.AdviceSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AdviceCustomPropertyPositiveSet" EntityType="ExpertSystemModel.Store.AdviceCustomPropertyPositiveSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AdviceCustomPropertyNegativeSet" EntityType="ExpertSystemModel.Store.AdviceCustomPropertyNegativeSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AdviceFilmPositiveSet" EntityType="ExpertSystemModel.Store.AdviceFilmPositiveSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AdviceFilmNegativeSet" EntityType="ExpertSystemModel.Store.AdviceFilmNegativeSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="ExpertSystemDomain" Association="ExpertSystemModel.Store.ExpertSystemDomain">
       <End Role="ExpertSystem" EntitySet="ExpertSystemSet" />
       <End Role="Domain" EntitySet="DomainSet" />
@@ -106,6 +122,78 @@
     <AssociationSet Name="SessionReview" Association="ExpertSystemModel.Store.SessionReview">
       <End Role="Session" EntitySet="SessionSet" />
       <End Role="Review" EntitySet="ReviewSet" />
+    </AssociationSet>
+    <AssociationSet Name="FilmCountryFilm" Association="ExpertSystemModel.Store.FilmCountryFilm">
+      <End Role="Film" EntitySet="FilmSet" />
+      <End Role="CountryFilm" EntitySet="CountryFilmSet" />
+    </AssociationSet>
+    <AssociationSet Name="FilmActorFilm" Association="ExpertSystemModel.Store.FilmActorFilm">
+      <End Role="Film" EntitySet="FilmSet" />
+      <End Role="ActorFilm" EntitySet="ActorFilmSet" />
+    </AssociationSet>
+    <AssociationSet Name="FilmGenreFilm" Association="ExpertSystemModel.Store.FilmGenreFilm">
+      <End Role="Film" EntitySet="FilmSet" />
+      <End Role="GenreFilm" EntitySet="GenreFilmSet" />
+    </AssociationSet>
+    <AssociationSet Name="CountryCountryFilm" Association="ExpertSystemModel.Store.CountryCountryFilm">
+      <End Role="Country" EntitySet="CountrySet" />
+      <End Role="CountryFilm" EntitySet="CountryFilmSet" />
+    </AssociationSet>
+    <AssociationSet Name="ActorActorFilm" Association="ExpertSystemModel.Store.ActorActorFilm">
+      <End Role="Actor" EntitySet="ActorSet" />
+      <End Role="ActorFilm" EntitySet="ActorFilmSet" />
+    </AssociationSet>
+    <AssociationSet Name="GenreGenreFilm" Association="ExpertSystemModel.Store.GenreGenreFilm">
+      <End Role="Genre" EntitySet="GenreSet" />
+      <End Role="GenreFilm" EntitySet="GenreFilmSet" />
+    </AssociationSet>
+    <AssociationSet Name="ProducerProducerFilm" Association="ExpertSystemModel.Store.ProducerProducerFilm">
+      <End Role="Producer" EntitySet="ProducerSet" />
+      <End Role="ProducerFilm" EntitySet="ProducerFilmSet" />
+    </AssociationSet>
+    <AssociationSet Name="FilmProducerFilm" Association="ExpertSystemModel.Store.FilmProducerFilm">
+      <End Role="Film" EntitySet="FilmSet" />
+      <End Role="ProducerFilm" EntitySet="ProducerFilmSet" />
+    </AssociationSet>
+    <AssociationSet Name="FilmFilmCustomProperty" Association="ExpertSystemModel.Store.FilmFilmCustomProperty">
+      <End Role="Film" EntitySet="FilmSet" />
+      <End Role="FilmCustomProperty" EntitySet="FilmCustomPropertySet" />
+    </AssociationSet>
+    <AssociationSet Name="CustomPropertyFilmCustomProperty" Association="ExpertSystemModel.Store.CustomPropertyFilmCustomProperty">
+      <End Role="CustomProperty" EntitySet="CustomPropertySet" />
+      <End Role="FilmCustomProperty" EntitySet="FilmCustomPropertySet" />
+    </AssociationSet>
+    <AssociationSet Name="CustomPropertyAdviceCustomPropertyPositive" Association="ExpertSystemModel.Store.CustomPropertyAdviceCustomPropertyPositive">
+      <End Role="CustomProperty" EntitySet="CustomPropertySet" />
+      <End Role="AdviceCustomPropertyPositive" EntitySet="AdviceCustomPropertyPositiveSet" />
+    </AssociationSet>
+    <AssociationSet Name="CustomPropertyAdviceCustomPropertyNegative" Association="ExpertSystemModel.Store.CustomPropertyAdviceCustomPropertyNegative">
+      <End Role="CustomProperty" EntitySet="CustomPropertySet" />
+      <End Role="AdviceCustomPropertyNegative" EntitySet="AdviceCustomPropertyNegativeSet" />
+    </AssociationSet>
+    <AssociationSet Name="AdviceAdviceCustomPropertyPositive" Association="ExpertSystemModel.Store.AdviceAdviceCustomPropertyPositive">
+      <End Role="Advice" EntitySet="AdviceSet" />
+      <End Role="AdviceCustomPropertyPositive" EntitySet="AdviceCustomPropertyPositiveSet" />
+    </AssociationSet>
+    <AssociationSet Name="AdviceAdviceCustomPropertyNegative" Association="ExpertSystemModel.Store.AdviceAdviceCustomPropertyNegative">
+      <End Role="Advice" EntitySet="AdviceSet" />
+      <End Role="AdviceCustomPropertyNegative" EntitySet="AdviceCustomPropertyNegativeSet" />
+    </AssociationSet>
+    <AssociationSet Name="AdviceAdviceFilmPositive" Association="ExpertSystemModel.Store.AdviceAdviceFilmPositive">
+      <End Role="Advice" EntitySet="AdviceSet" />
+      <End Role="AdviceFilmPositive" EntitySet="AdviceFilmPositiveSet" />
+    </AssociationSet>
+    <AssociationSet Name="AdviceAdviceFilmNegative" Association="ExpertSystemModel.Store.AdviceAdviceFilmNegative">
+      <End Role="Advice" EntitySet="AdviceSet" />
+      <End Role="AdviceFilmNegative" EntitySet="AdviceFilmNegativeSet" />
+    </AssociationSet>
+    <AssociationSet Name="FilmAdviceFilmNegative" Association="ExpertSystemModel.Store.FilmAdviceFilmNegative">
+      <End Role="Film" EntitySet="FilmSet" />
+      <End Role="AdviceFilmNegative" EntitySet="AdviceFilmNegativeSet" />
+    </AssociationSet>
+    <AssociationSet Name="FilmAdviceFilmPositive" Association="ExpertSystemModel.Store.FilmAdviceFilmPositive">
+      <End Role="Film" EntitySet="FilmSet" />
+      <End Role="AdviceFilmPositive" EntitySet="AdviceFilmPositiveSet" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="ExpertSystemSet">
@@ -224,6 +312,135 @@
     <Property Name="Estimate" Type="int" Nullable="false" />
     <Property Name="Comment" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Session_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="FilmSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Year" Type="int" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Rating" Type="decimal" Nullable="true" Precision="11" Scale="9" />
+    <Property Name="Poster" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Slogan" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Link" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="KinopoiskId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CountrySet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CountryFilmSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Film_Id" Type="int" Nullable="false" />
+    <Property Name="Country_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ActorFilmSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Film_Id" Type="int" Nullable="false" />
+    <Property Name="Actor_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ActorSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProducerSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GenreFilmSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Film_Id" Type="int" Nullable="false" />
+    <Property Name="Genre_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GenreSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProducerFilmSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Producer_Id" Type="int" Nullable="false" />
+    <Property Name="Film_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustomPropertySet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Value" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="FilmCustomPropertySet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Film_Id" Type="int" Nullable="false" />
+    <Property Name="CustomProperty_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AdviceSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Key" Type="uniqueidentifier" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AdviceCustomPropertyPositiveSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomProperty_Id" Type="int" Nullable="false" />
+    <Property Name="Advice_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AdviceCustomPropertyNegativeSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomProperty_Id" Type="int" Nullable="false" />
+    <Property Name="Advice_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AdviceFilmPositiveSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Advice_Id" Type="int" Nullable="false" />
+    <Property Name="Film_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AdviceFilmNegativeSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Advice_Id" Type="int" Nullable="false" />
+    <Property Name="Film_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="ExpertSystemDomain">
     <End Role="ExpertSystem" Type="ExpertSystemModel.Store.ExpertSystemSet" Multiplicity="1" />
@@ -491,6 +708,222 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FilmCountryFilm">
+    <End Role="Film" Type="ExpertSystemModel.Store.FilmSet" Multiplicity="1" />
+    <End Role="CountryFilm" Type="ExpertSystemModel.Store.CountryFilmSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Film">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CountryFilm">
+        <PropertyRef Name="Film_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FilmActorFilm">
+    <End Role="Film" Type="ExpertSystemModel.Store.FilmSet" Multiplicity="1" />
+    <End Role="ActorFilm" Type="ExpertSystemModel.Store.ActorFilmSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Film">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ActorFilm">
+        <PropertyRef Name="Film_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FilmGenreFilm">
+    <End Role="Film" Type="ExpertSystemModel.Store.FilmSet" Multiplicity="1" />
+    <End Role="GenreFilm" Type="ExpertSystemModel.Store.GenreFilmSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Film">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GenreFilm">
+        <PropertyRef Name="Film_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CountryCountryFilm">
+    <End Role="Country" Type="ExpertSystemModel.Store.CountrySet" Multiplicity="1" />
+    <End Role="CountryFilm" Type="ExpertSystemModel.Store.CountryFilmSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CountryFilm">
+        <PropertyRef Name="Country_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ActorActorFilm">
+    <End Role="Actor" Type="ExpertSystemModel.Store.ActorSet" Multiplicity="1" />
+    <End Role="ActorFilm" Type="ExpertSystemModel.Store.ActorFilmSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Actor">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ActorFilm">
+        <PropertyRef Name="Actor_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GenreGenreFilm">
+    <End Role="Genre" Type="ExpertSystemModel.Store.GenreSet" Multiplicity="1" />
+    <End Role="GenreFilm" Type="ExpertSystemModel.Store.GenreFilmSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Genre">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GenreFilm">
+        <PropertyRef Name="Genre_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProducerProducerFilm">
+    <End Role="Producer" Type="ExpertSystemModel.Store.ProducerSet" Multiplicity="1" />
+    <End Role="ProducerFilm" Type="ExpertSystemModel.Store.ProducerFilmSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Producer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProducerFilm">
+        <PropertyRef Name="Producer_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FilmProducerFilm">
+    <End Role="Film" Type="ExpertSystemModel.Store.FilmSet" Multiplicity="1" />
+    <End Role="ProducerFilm" Type="ExpertSystemModel.Store.ProducerFilmSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Film">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProducerFilm">
+        <PropertyRef Name="Film_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FilmFilmCustomProperty">
+    <End Role="Film" Type="ExpertSystemModel.Store.FilmSet" Multiplicity="1" />
+    <End Role="FilmCustomProperty" Type="ExpertSystemModel.Store.FilmCustomPropertySet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Film">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FilmCustomProperty">
+        <PropertyRef Name="Film_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CustomPropertyFilmCustomProperty">
+    <End Role="CustomProperty" Type="ExpertSystemModel.Store.CustomPropertySet" Multiplicity="1" />
+    <End Role="FilmCustomProperty" Type="ExpertSystemModel.Store.FilmCustomPropertySet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustomProperty">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FilmCustomProperty">
+        <PropertyRef Name="CustomProperty_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CustomPropertyAdviceCustomPropertyPositive">
+    <End Role="CustomProperty" Type="ExpertSystemModel.Store.CustomPropertySet" Multiplicity="1" />
+    <End Role="AdviceCustomPropertyPositive" Type="ExpertSystemModel.Store.AdviceCustomPropertyPositiveSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustomProperty">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AdviceCustomPropertyPositive">
+        <PropertyRef Name="CustomProperty_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CustomPropertyAdviceCustomPropertyNegative">
+    <End Role="CustomProperty" Type="ExpertSystemModel.Store.CustomPropertySet" Multiplicity="1" />
+    <End Role="AdviceCustomPropertyNegative" Type="ExpertSystemModel.Store.AdviceCustomPropertyNegativeSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustomProperty">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AdviceCustomPropertyNegative">
+        <PropertyRef Name="CustomProperty_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AdviceAdviceCustomPropertyPositive">
+    <End Role="Advice" Type="ExpertSystemModel.Store.AdviceSet" Multiplicity="1" />
+    <End Role="AdviceCustomPropertyPositive" Type="ExpertSystemModel.Store.AdviceCustomPropertyPositiveSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Advice">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AdviceCustomPropertyPositive">
+        <PropertyRef Name="Advice_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AdviceAdviceCustomPropertyNegative">
+    <End Role="Advice" Type="ExpertSystemModel.Store.AdviceSet" Multiplicity="1" />
+    <End Role="AdviceCustomPropertyNegative" Type="ExpertSystemModel.Store.AdviceCustomPropertyNegativeSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Advice">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AdviceCustomPropertyNegative">
+        <PropertyRef Name="Advice_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AdviceAdviceFilmPositive">
+    <End Role="Advice" Type="ExpertSystemModel.Store.AdviceSet" Multiplicity="1" />
+    <End Role="AdviceFilmPositive" Type="ExpertSystemModel.Store.AdviceFilmPositiveSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Advice">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AdviceFilmPositive">
+        <PropertyRef Name="Advice_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AdviceAdviceFilmNegative">
+    <End Role="Advice" Type="ExpertSystemModel.Store.AdviceSet" Multiplicity="1" />
+    <End Role="AdviceFilmNegative" Type="ExpertSystemModel.Store.AdviceFilmNegativeSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Advice">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AdviceFilmNegative">
+        <PropertyRef Name="Advice_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FilmAdviceFilmNegative">
+    <End Role="Film" Type="ExpertSystemModel.Store.FilmSet" Multiplicity="1" />
+    <End Role="AdviceFilmNegative" Type="ExpertSystemModel.Store.AdviceFilmNegativeSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Film">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AdviceFilmNegative">
+        <PropertyRef Name="Film_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FilmAdviceFilmPositive">
+    <End Role="Film" Type="ExpertSystemModel.Store.FilmSet" Multiplicity="1" />
+    <End Role="AdviceFilmPositive" Type="ExpertSystemModel.Store.AdviceFilmPositiveSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Film">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AdviceFilmPositive">
+        <PropertyRef Name="Film_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -596,6 +1029,94 @@
           <AssociationSet Name="SessionReview" Association="ExpertSystemModel.SessionReview">
             <End Role="Session" EntitySet="SessionSet" />
             <End Role="Review" EntitySet="ReviewSet" />
+          </AssociationSet>
+          <EntitySet Name="FilmSet" EntityType="ExpertSystemModel.Film" />
+          <EntitySet Name="CountrySet" EntityType="ExpertSystemModel.Country" />
+          <EntitySet Name="CountryFilmSet" EntityType="ExpertSystemModel.CountryFilm" />
+          <EntitySet Name="ActorFilmSet" EntityType="ExpertSystemModel.ActorFilm" />
+          <EntitySet Name="ActorSet" EntityType="ExpertSystemModel.Actor" />
+          <EntitySet Name="ProducerSet" EntityType="ExpertSystemModel.Producer" />
+          <EntitySet Name="GenreFilmSet" EntityType="ExpertSystemModel.GenreFilm" />
+          <EntitySet Name="GenreSet" EntityType="ExpertSystemModel.Genre" />
+          <AssociationSet Name="FilmCountryFilm" Association="ExpertSystemModel.FilmCountryFilm">
+            <End Role="Film" EntitySet="FilmSet" />
+            <End Role="CountryFilm" EntitySet="CountryFilmSet" />
+          </AssociationSet>
+          <AssociationSet Name="FilmActorFilm" Association="ExpertSystemModel.FilmActorFilm">
+            <End Role="Film" EntitySet="FilmSet" />
+            <End Role="ActorFilm" EntitySet="ActorFilmSet" />
+          </AssociationSet>
+          <AssociationSet Name="FilmGenreFilm" Association="ExpertSystemModel.FilmGenreFilm">
+            <End Role="Film" EntitySet="FilmSet" />
+            <End Role="GenreFilm" EntitySet="GenreFilmSet" />
+          </AssociationSet>
+          <AssociationSet Name="CountryCountryFilm" Association="ExpertSystemModel.CountryCountryFilm">
+            <End Role="Country" EntitySet="CountrySet" />
+            <End Role="CountryFilm" EntitySet="CountryFilmSet" />
+          </AssociationSet>
+          <AssociationSet Name="ActorActorFilm" Association="ExpertSystemModel.ActorActorFilm">
+            <End Role="Actor" EntitySet="ActorSet" />
+            <End Role="ActorFilm" EntitySet="ActorFilmSet" />
+          </AssociationSet>
+          <AssociationSet Name="GenreGenreFilm" Association="ExpertSystemModel.GenreGenreFilm">
+            <End Role="Genre" EntitySet="GenreSet" />
+            <End Role="GenreFilm" EntitySet="GenreFilmSet" />
+          </AssociationSet>
+          <EntitySet Name="ProducerFilmSet" EntityType="ExpertSystemModel.ProducerFilm" />
+          <AssociationSet Name="ProducerProducerFilm" Association="ExpertSystemModel.ProducerProducerFilm">
+            <End Role="Producer" EntitySet="ProducerSet" />
+            <End Role="ProducerFilm" EntitySet="ProducerFilmSet" />
+          </AssociationSet>
+          <AssociationSet Name="FilmProducerFilm" Association="ExpertSystemModel.FilmProducerFilm">
+            <End Role="Film" EntitySet="FilmSet" />
+            <End Role="ProducerFilm" EntitySet="ProducerFilmSet" />
+          </AssociationSet>
+          <EntitySet Name="CustomPropertySet" EntityType="ExpertSystemModel.CustomProperty" />
+          <EntitySet Name="FilmCustomPropertySet" EntityType="ExpertSystemModel.FilmCustomProperty" />
+          <AssociationSet Name="FilmFilmCustomProperty" Association="ExpertSystemModel.FilmFilmCustomProperty">
+            <End Role="Film" EntitySet="FilmSet" />
+            <End Role="FilmCustomProperty" EntitySet="FilmCustomPropertySet" />
+          </AssociationSet>
+          <AssociationSet Name="CustomPropertyFilmCustomProperty" Association="ExpertSystemModel.CustomPropertyFilmCustomProperty">
+            <End Role="CustomProperty" EntitySet="CustomPropertySet" />
+            <End Role="FilmCustomProperty" EntitySet="FilmCustomPropertySet" />
+          </AssociationSet>
+          <EntitySet Name="AdviceSet" EntityType="ExpertSystemModel.Advice" />
+          <EntitySet Name="AdviceCustomPropertyPositiveSet" EntityType="ExpertSystemModel.AdviceCustomPropertyPositive" />
+          <EntitySet Name="AdviceCustomPropertyNegativeSet" EntityType="ExpertSystemModel.AdviceCustomPropertyNegative" />
+          <EntitySet Name="AdviceFilmPositiveSet" EntityType="ExpertSystemModel.AdviceFilmPositive" />
+          <EntitySet Name="AdviceFilmNegativeSet" EntityType="ExpertSystemModel.AdviceFilmNegative" />
+          <AssociationSet Name="CustomPropertyAdviceCustomPropertyPositive" Association="ExpertSystemModel.CustomPropertyAdviceCustomPropertyPositive">
+            <End Role="CustomProperty" EntitySet="CustomPropertySet" />
+            <End Role="AdviceCustomPropertyPositive" EntitySet="AdviceCustomPropertyPositiveSet" />
+          </AssociationSet>
+          <AssociationSet Name="CustomPropertyAdviceCustomPropertyNegative" Association="ExpertSystemModel.CustomPropertyAdviceCustomPropertyNegative">
+            <End Role="CustomProperty" EntitySet="CustomPropertySet" />
+            <End Role="AdviceCustomPropertyNegative" EntitySet="AdviceCustomPropertyNegativeSet" />
+          </AssociationSet>
+          <AssociationSet Name="AdviceAdviceCustomPropertyPositive" Association="ExpertSystemModel.AdviceAdviceCustomPropertyPositive">
+            <End Role="Advice" EntitySet="AdviceSet" />
+            <End Role="AdviceCustomPropertyPositive" EntitySet="AdviceCustomPropertyPositiveSet" />
+          </AssociationSet>
+          <AssociationSet Name="AdviceAdviceCustomPropertyNegative" Association="ExpertSystemModel.AdviceAdviceCustomPropertyNegative">
+            <End Role="Advice" EntitySet="AdviceSet" />
+            <End Role="AdviceCustomPropertyNegative" EntitySet="AdviceCustomPropertyNegativeSet" />
+          </AssociationSet>
+          <AssociationSet Name="AdviceAdviceFilmPositive" Association="ExpertSystemModel.AdviceAdviceFilmPositive">
+            <End Role="Advice" EntitySet="AdviceSet" />
+            <End Role="AdviceFilmPositive" EntitySet="AdviceFilmPositiveSet" />
+          </AssociationSet>
+          <AssociationSet Name="AdviceAdviceFilmNegative" Association="ExpertSystemModel.AdviceAdviceFilmNegative">
+            <End Role="Advice" EntitySet="AdviceSet" />
+            <End Role="AdviceFilmNegative" EntitySet="AdviceFilmNegativeSet" />
+          </AssociationSet>
+          <AssociationSet Name="FilmAdviceFilmNegative" Association="ExpertSystemModel.FilmAdviceFilmNegative">
+            <End Role="Film" EntitySet="FilmSet" />
+            <End Role="AdviceFilmNegative" EntitySet="AdviceFilmNegativeSet" />
+          </AssociationSet>
+          <AssociationSet Name="FilmAdviceFilmPositive" Association="ExpertSystemModel.FilmAdviceFilmPositive">
+            <End Role="Film" EntitySet="FilmSet" />
+            <End Role="AdviceFilmPositive" EntitySet="AdviceFilmPositiveSet" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="ExpertSystem">
@@ -823,6 +1344,216 @@
           <End Type="ExpertSystemModel.Session" Role="Session" Multiplicity="1" />
           <End Type="ExpertSystemModel.Review" Role="Review" Multiplicity="*" />
         </Association>
+        <EntityType Name="Film">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" Nullable="true" />
+          <Property Name="Rating" Type="Decimal" Nullable="true" Precision="11" Scale="9" />
+          <Property Name="Poster" Type="String" Nullable="true" />
+          <Property Name="Slogan" Type="String" Nullable="true" />
+          <Property Name="Link" Type="String" Nullable="true" />
+          <Property Name="KinopoiskId" Type="String" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="CountryFilm" Relationship="ExpertSystemModel.FilmCountryFilm" FromRole="Film" ToRole="CountryFilm" />
+          <NavigationProperty Name="ActorFilm" Relationship="ExpertSystemModel.FilmActorFilm" FromRole="Film" ToRole="ActorFilm" />
+          <NavigationProperty Name="GenreFilm" Relationship="ExpertSystemModel.FilmGenreFilm" FromRole="Film" ToRole="GenreFilm" />
+          <NavigationProperty Name="ProducerFilm" Relationship="ExpertSystemModel.FilmProducerFilm" FromRole="Film" ToRole="ProducerFilm" />
+          <NavigationProperty Name="FilmCustomProperty" Relationship="ExpertSystemModel.FilmFilmCustomProperty" FromRole="Film" ToRole="FilmCustomProperty" />
+        </EntityType>
+        <EntityType Name="Country">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CountryFilm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Film" Relationship="ExpertSystemModel.FilmCountryFilm" FromRole="CountryFilm" ToRole="Film" />
+          <NavigationProperty Name="Country" Relationship="ExpertSystemModel.CountryCountryFilm" FromRole="CountryFilm" ToRole="Country" />
+        </EntityType>
+        <EntityType Name="ActorFilm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Film" Relationship="ExpertSystemModel.FilmActorFilm" FromRole="ActorFilm" ToRole="Film" />
+          <NavigationProperty Name="Actor" Relationship="ExpertSystemModel.ActorActorFilm" FromRole="ActorFilm" ToRole="Actor" />
+        </EntityType>
+        <EntityType Name="Actor">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Producer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GenreFilm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Film" Relationship="ExpertSystemModel.FilmGenreFilm" FromRole="GenreFilm" ToRole="Film" />
+          <NavigationProperty Name="Genre" Relationship="ExpertSystemModel.GenreGenreFilm" FromRole="GenreFilm" ToRole="Genre" />
+        </EntityType>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+        </EntityType>
+        <Association Name="FilmCountryFilm">
+          <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" />
+          <End Type="ExpertSystemModel.CountryFilm" Role="CountryFilm" Multiplicity="*" />
+        </Association>
+        <Association Name="FilmActorFilm">
+          <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" />
+          <End Type="ExpertSystemModel.ActorFilm" Role="ActorFilm" Multiplicity="*" />
+        </Association>
+        <Association Name="FilmGenreFilm">
+          <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" />
+          <End Type="ExpertSystemModel.GenreFilm" Role="GenreFilm" Multiplicity="*" />
+        </Association>
+        <Association Name="CountryCountryFilm">
+          <End Type="ExpertSystemModel.Country" Role="Country" Multiplicity="1" />
+          <End Type="ExpertSystemModel.CountryFilm" Role="CountryFilm" Multiplicity="*" />
+        </Association>
+        <Association Name="ActorActorFilm">
+          <End Type="ExpertSystemModel.Actor" Role="Actor" Multiplicity="1" />
+          <End Type="ExpertSystemModel.ActorFilm" Role="ActorFilm" Multiplicity="*" />
+        </Association>
+        <Association Name="GenreGenreFilm">
+          <End Type="ExpertSystemModel.Genre" Role="Genre" Multiplicity="1" />
+          <End Type="ExpertSystemModel.GenreFilm" Role="GenreFilm" Multiplicity="*" />
+        </Association>
+        <EntityType Name="ProducerFilm">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Producer" Relationship="ExpertSystemModel.ProducerProducerFilm" FromRole="ProducerFilm" ToRole="Producer" />
+          <NavigationProperty Name="Film" Relationship="ExpertSystemModel.FilmProducerFilm" FromRole="ProducerFilm" ToRole="Film" />
+        </EntityType>
+        <Association Name="ProducerProducerFilm">
+          <End Type="ExpertSystemModel.Producer" Role="Producer" Multiplicity="1" />
+          <End Type="ExpertSystemModel.ProducerFilm" Role="ProducerFilm" Multiplicity="*" />
+        </Association>
+        <Association Name="FilmProducerFilm">
+          <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" />
+          <End Type="ExpertSystemModel.ProducerFilm" Role="ProducerFilm" Multiplicity="*" />
+        </Association>
+        <EntityType Name="CustomProperty">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" />
+          <Property Name="Value" Type="String" Nullable="true" />
+        </EntityType>
+        <EntityType Name="FilmCustomProperty">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Film" Relationship="ExpertSystemModel.FilmFilmCustomProperty" FromRole="FilmCustomProperty" ToRole="Film" />
+          <NavigationProperty Name="CustomProperty" Relationship="ExpertSystemModel.CustomPropertyFilmCustomProperty" FromRole="FilmCustomProperty" ToRole="CustomProperty" />
+        </EntityType>
+        <Association Name="FilmFilmCustomProperty">
+          <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" />
+          <End Type="ExpertSystemModel.FilmCustomProperty" Role="FilmCustomProperty" Multiplicity="*" />
+        </Association>
+        <Association Name="CustomPropertyFilmCustomProperty">
+          <End Type="ExpertSystemModel.CustomProperty" Role="CustomProperty" Multiplicity="1" />
+          <End Type="ExpertSystemModel.FilmCustomProperty" Role="FilmCustomProperty" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Advice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Key" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="AdviceCustomPropertyPositive" Relationship="ExpertSystemModel.AdviceAdviceCustomPropertyPositive" FromRole="Advice" ToRole="AdviceCustomPropertyPositive" />
+          <NavigationProperty Name="AdviceCustomPropertyNegative" Relationship="ExpertSystemModel.AdviceAdviceCustomPropertyNegative" FromRole="Advice" ToRole="AdviceCustomPropertyNegative" />
+          <NavigationProperty Name="AdviceFilmPositive" Relationship="ExpertSystemModel.AdviceAdviceFilmPositive" FromRole="Advice" ToRole="AdviceFilmPositive" />
+          <NavigationProperty Name="AdviceFilmNegative" Relationship="ExpertSystemModel.AdviceAdviceFilmNegative" FromRole="Advice" ToRole="AdviceFilmNegative" />
+        </EntityType>
+        <EntityType Name="AdviceCustomPropertyPositive">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="CustomProperty" Relationship="ExpertSystemModel.CustomPropertyAdviceCustomPropertyPositive" FromRole="AdviceCustomPropertyPositive" ToRole="CustomProperty" />
+          <NavigationProperty Name="Advice" Relationship="ExpertSystemModel.AdviceAdviceCustomPropertyPositive" FromRole="AdviceCustomPropertyPositive" ToRole="Advice" />
+        </EntityType>
+        <EntityType Name="AdviceCustomPropertyNegative">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="CustomProperty" Relationship="ExpertSystemModel.CustomPropertyAdviceCustomPropertyNegative" FromRole="AdviceCustomPropertyNegative" ToRole="CustomProperty" />
+          <NavigationProperty Name="Advice" Relationship="ExpertSystemModel.AdviceAdviceCustomPropertyNegative" FromRole="AdviceCustomPropertyNegative" ToRole="Advice" />
+        </EntityType>
+        <EntityType Name="AdviceFilmPositive">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Advice" Relationship="ExpertSystemModel.AdviceAdviceFilmPositive" FromRole="AdviceFilmPositive" ToRole="Advice" />
+          <NavigationProperty Name="Film" Relationship="ExpertSystemModel.FilmAdviceFilmPositive" FromRole="AdviceFilmPositive" ToRole="Film" />
+        </EntityType>
+        <EntityType Name="AdviceFilmNegative">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Advice" Relationship="ExpertSystemModel.AdviceAdviceFilmNegative" FromRole="AdviceFilmNegative" ToRole="Advice" />
+          <NavigationProperty Name="Film" Relationship="ExpertSystemModel.FilmAdviceFilmNegative" FromRole="AdviceFilmNegative" ToRole="Film" />
+        </EntityType>
+        <Association Name="CustomPropertyAdviceCustomPropertyPositive">
+          <End Type="ExpertSystemModel.CustomProperty" Role="CustomProperty" Multiplicity="1" />
+          <End Type="ExpertSystemModel.AdviceCustomPropertyPositive" Role="AdviceCustomPropertyPositive" Multiplicity="*" />
+        </Association>
+        <Association Name="CustomPropertyAdviceCustomPropertyNegative">
+          <End Type="ExpertSystemModel.CustomProperty" Role="CustomProperty" Multiplicity="1" />
+          <End Type="ExpertSystemModel.AdviceCustomPropertyNegative" Role="AdviceCustomPropertyNegative" Multiplicity="*" />
+        </Association>
+        <Association Name="AdviceAdviceCustomPropertyPositive">
+          <End Type="ExpertSystemModel.Advice" Role="Advice" Multiplicity="1" />
+          <End Type="ExpertSystemModel.AdviceCustomPropertyPositive" Role="AdviceCustomPropertyPositive" Multiplicity="*" />
+        </Association>
+        <Association Name="AdviceAdviceCustomPropertyNegative">
+          <End Type="ExpertSystemModel.Advice" Role="Advice" Multiplicity="1" />
+          <End Type="ExpertSystemModel.AdviceCustomPropertyNegative" Role="AdviceCustomPropertyNegative" Multiplicity="*" />
+        </Association>
+        <Association Name="AdviceAdviceFilmPositive">
+          <End Type="ExpertSystemModel.Advice" Role="Advice" Multiplicity="1" />
+          <End Type="ExpertSystemModel.AdviceFilmPositive" Role="AdviceFilmPositive" Multiplicity="*" />
+        </Association>
+        <Association Name="AdviceAdviceFilmNegative">
+          <End Type="ExpertSystemModel.Advice" Role="Advice" Multiplicity="1" />
+          <End Type="ExpertSystemModel.AdviceFilmNegative" Role="AdviceFilmNegative" Multiplicity="*" />
+        </Association>
+        <Association Name="FilmAdviceFilmNegative">
+          <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" />
+          <End Type="ExpertSystemModel.AdviceFilmNegative" Role="AdviceFilmNegative" Multiplicity="*" />
+        </Association>
+        <Association Name="FilmAdviceFilmPositive">
+          <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" />
+          <End Type="ExpertSystemModel.AdviceFilmPositive" Role="AdviceFilmPositive" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -934,6 +1665,133 @@
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Estimate" ColumnName="Estimate" />
           <ScalarProperty Name="Comment" ColumnName="Comment" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FilmSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.Film)">
+        <MappingFragment StoreEntitySet="FilmSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="Poster" ColumnName="Poster" />
+          <ScalarProperty Name="Slogan" ColumnName="Slogan" />
+          <ScalarProperty Name="Link" ColumnName="Link" />
+          <ScalarProperty Name="KinopoiskId" ColumnName="KinopoiskId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CountrySet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.Country)">
+        <MappingFragment StoreEntitySet="CountrySet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CountryFilmSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.CountryFilm)">
+        <MappingFragment StoreEntitySet="CountryFilmSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ActorFilmSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.ActorFilm)">
+        <MappingFragment StoreEntitySet="ActorFilmSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ActorSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.Actor)">
+        <MappingFragment StoreEntitySet="ActorSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProducerSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.Producer)">
+        <MappingFragment StoreEntitySet="ProducerSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GenreFilmSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.GenreFilm)">
+        <MappingFragment StoreEntitySet="GenreFilmSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GenreSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.Genre)">
+        <MappingFragment StoreEntitySet="GenreSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProducerFilmSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.ProducerFilm)">
+        <MappingFragment StoreEntitySet="ProducerFilmSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustomPropertySet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.CustomProperty)">
+        <MappingFragment StoreEntitySet="CustomPropertySet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="FilmCustomPropertySet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.FilmCustomProperty)">
+        <MappingFragment StoreEntitySet="FilmCustomPropertySet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AdviceSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.Advice)">
+        <MappingFragment StoreEntitySet="AdviceSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Key" ColumnName="Key" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AdviceCustomPropertyPositiveSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.AdviceCustomPropertyPositive)">
+        <MappingFragment StoreEntitySet="AdviceCustomPropertyPositiveSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AdviceCustomPropertyNegativeSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.AdviceCustomPropertyNegative)">
+        <MappingFragment StoreEntitySet="AdviceCustomPropertyNegativeSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AdviceFilmPositiveSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.AdviceFilmPositive)">
+        <MappingFragment StoreEntitySet="AdviceFilmPositiveSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AdviceFilmNegativeSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.AdviceFilmNegative)">
+        <MappingFragment StoreEntitySet="AdviceFilmNegativeSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1115,6 +1973,150 @@
         <ScalarProperty Name="Id" ColumnName="Session_Id" />
       </EndProperty>
       <EndProperty Name="Review">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FilmCountryFilm" TypeName="ExpertSystemModel.FilmCountryFilm" StoreEntitySet="CountryFilmSet">
+      <EndProperty Name="Film">
+        <ScalarProperty Name="Id" ColumnName="Film_Id" />
+      </EndProperty>
+      <EndProperty Name="CountryFilm">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FilmActorFilm" TypeName="ExpertSystemModel.FilmActorFilm" StoreEntitySet="ActorFilmSet">
+      <EndProperty Name="Film">
+        <ScalarProperty Name="Id" ColumnName="Film_Id" />
+      </EndProperty>
+      <EndProperty Name="ActorFilm">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FilmGenreFilm" TypeName="ExpertSystemModel.FilmGenreFilm" StoreEntitySet="GenreFilmSet">
+      <EndProperty Name="Film">
+        <ScalarProperty Name="Id" ColumnName="Film_Id" />
+      </EndProperty>
+      <EndProperty Name="GenreFilm">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CountryCountryFilm" TypeName="ExpertSystemModel.CountryCountryFilm" StoreEntitySet="CountryFilmSet">
+      <EndProperty Name="Country">
+        <ScalarProperty Name="Id" ColumnName="Country_Id" />
+      </EndProperty>
+      <EndProperty Name="CountryFilm">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ActorActorFilm" TypeName="ExpertSystemModel.ActorActorFilm" StoreEntitySet="ActorFilmSet">
+      <EndProperty Name="Actor">
+        <ScalarProperty Name="Id" ColumnName="Actor_Id" />
+      </EndProperty>
+      <EndProperty Name="ActorFilm">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GenreGenreFilm" TypeName="ExpertSystemModel.GenreGenreFilm" StoreEntitySet="GenreFilmSet">
+      <EndProperty Name="Genre">
+        <ScalarProperty Name="Id" ColumnName="Genre_Id" />
+      </EndProperty>
+      <EndProperty Name="GenreFilm">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ProducerProducerFilm" TypeName="ExpertSystemModel.ProducerProducerFilm" StoreEntitySet="ProducerFilmSet">
+      <EndProperty Name="Producer">
+        <ScalarProperty Name="Id" ColumnName="Producer_Id" />
+      </EndProperty>
+      <EndProperty Name="ProducerFilm">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FilmProducerFilm" TypeName="ExpertSystemModel.FilmProducerFilm" StoreEntitySet="ProducerFilmSet">
+      <EndProperty Name="Film">
+        <ScalarProperty Name="Id" ColumnName="Film_Id" />
+      </EndProperty>
+      <EndProperty Name="ProducerFilm">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FilmFilmCustomProperty" TypeName="ExpertSystemModel.FilmFilmCustomProperty" StoreEntitySet="FilmCustomPropertySet">
+      <EndProperty Name="Film">
+        <ScalarProperty Name="Id" ColumnName="Film_Id" />
+      </EndProperty>
+      <EndProperty Name="FilmCustomProperty">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CustomPropertyFilmCustomProperty" TypeName="ExpertSystemModel.CustomPropertyFilmCustomProperty" StoreEntitySet="FilmCustomPropertySet">
+      <EndProperty Name="CustomProperty">
+        <ScalarProperty Name="Id" ColumnName="CustomProperty_Id" />
+      </EndProperty>
+      <EndProperty Name="FilmCustomProperty">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CustomPropertyAdviceCustomPropertyPositive" TypeName="ExpertSystemModel.CustomPropertyAdviceCustomPropertyPositive" StoreEntitySet="AdviceCustomPropertyPositiveSet">
+      <EndProperty Name="CustomProperty">
+        <ScalarProperty Name="Id" ColumnName="CustomProperty_Id" />
+      </EndProperty>
+      <EndProperty Name="AdviceCustomPropertyPositive">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CustomPropertyAdviceCustomPropertyNegative" TypeName="ExpertSystemModel.CustomPropertyAdviceCustomPropertyNegative" StoreEntitySet="AdviceCustomPropertyNegativeSet">
+      <EndProperty Name="CustomProperty">
+        <ScalarProperty Name="Id" ColumnName="CustomProperty_Id" />
+      </EndProperty>
+      <EndProperty Name="AdviceCustomPropertyNegative">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AdviceAdviceCustomPropertyPositive" TypeName="ExpertSystemModel.AdviceAdviceCustomPropertyPositive" StoreEntitySet="AdviceCustomPropertyPositiveSet">
+      <EndProperty Name="Advice">
+        <ScalarProperty Name="Id" ColumnName="Advice_Id" />
+      </EndProperty>
+      <EndProperty Name="AdviceCustomPropertyPositive">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AdviceAdviceCustomPropertyNegative" TypeName="ExpertSystemModel.AdviceAdviceCustomPropertyNegative" StoreEntitySet="AdviceCustomPropertyNegativeSet">
+      <EndProperty Name="Advice">
+        <ScalarProperty Name="Id" ColumnName="Advice_Id" />
+      </EndProperty>
+      <EndProperty Name="AdviceCustomPropertyNegative">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AdviceAdviceFilmPositive" TypeName="ExpertSystemModel.AdviceAdviceFilmPositive" StoreEntitySet="AdviceFilmPositiveSet">
+      <EndProperty Name="Advice">
+        <ScalarProperty Name="Id" ColumnName="Advice_Id" />
+      </EndProperty>
+      <EndProperty Name="AdviceFilmPositive">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AdviceAdviceFilmNegative" TypeName="ExpertSystemModel.AdviceAdviceFilmNegative" StoreEntitySet="AdviceFilmNegativeSet">
+      <EndProperty Name="Advice">
+        <ScalarProperty Name="Id" ColumnName="Advice_Id" />
+      </EndProperty>
+      <EndProperty Name="AdviceFilmNegative">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FilmAdviceFilmNegative" TypeName="ExpertSystemModel.FilmAdviceFilmNegative" StoreEntitySet="AdviceFilmNegativeSet">
+      <EndProperty Name="Film">
+        <ScalarProperty Name="Id" ColumnName="Film_Id" />
+      </EndProperty>
+      <EndProperty Name="AdviceFilmNegative">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FilmAdviceFilmPositive" TypeName="ExpertSystemModel.FilmAdviceFilmPositive" StoreEntitySet="AdviceFilmPositiveSet">
+      <EndProperty Name="Film">
+        <ScalarProperty Name="Id" ColumnName="Film_Id" />
+      </EndProperty>
+      <EndProperty Name="AdviceFilmPositive">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

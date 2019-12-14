@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/01/2019 22:25:24
--- Generated from EDMX file: D:\PROJECTS\CSharp\FilmsFinder\EsService\ExpertSystemDb\ExpertSystemModel.edmx
+-- Date Created: 12/14/2019 23:07:47
+-- Generated from EDMX file: D:\PROJECTS\CSharp\FilmFinder\EsService\ExpertSystemDb\ExpertSystemModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -83,6 +83,60 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_SessionReview]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[ReviewSet] DROP CONSTRAINT [FK_SessionReview];
 GO
+IF OBJECT_ID(N'[dbo].[FK_FilmCountryFilm]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CountryFilmSet] DROP CONSTRAINT [FK_FilmCountryFilm];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FilmActorFilm]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ActorFilmSet] DROP CONSTRAINT [FK_FilmActorFilm];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FilmGenreFilm]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[GenreFilmSet] DROP CONSTRAINT [FK_FilmGenreFilm];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CountryCountryFilm]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CountryFilmSet] DROP CONSTRAINT [FK_CountryCountryFilm];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ActorActorFilm]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ActorFilmSet] DROP CONSTRAINT [FK_ActorActorFilm];
+GO
+IF OBJECT_ID(N'[dbo].[FK_GenreGenreFilm]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[GenreFilmSet] DROP CONSTRAINT [FK_GenreGenreFilm];
+GO
+IF OBJECT_ID(N'[dbo].[FK_ProducerProducerFilm]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ProducerFilmSet] DROP CONSTRAINT [FK_ProducerProducerFilm];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FilmProducerFilm]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[ProducerFilmSet] DROP CONSTRAINT [FK_FilmProducerFilm];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FilmFilmCustomProperty]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FilmCustomPropertySet] DROP CONSTRAINT [FK_FilmFilmCustomProperty];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustomPropertyFilmCustomProperty]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FilmCustomPropertySet] DROP CONSTRAINT [FK_CustomPropertyFilmCustomProperty];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustomPropertyAdviceCustomPropertyPositive]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AdviceCustomPropertyPositiveSet] DROP CONSTRAINT [FK_CustomPropertyAdviceCustomPropertyPositive];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustomPropertyAdviceCustomPropertyNegative]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AdviceCustomPropertyNegativeSet] DROP CONSTRAINT [FK_CustomPropertyAdviceCustomPropertyNegative];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AdviceAdviceCustomPropertyPositive]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AdviceCustomPropertyPositiveSet] DROP CONSTRAINT [FK_AdviceAdviceCustomPropertyPositive];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AdviceAdviceCustomPropertyNegative]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AdviceCustomPropertyNegativeSet] DROP CONSTRAINT [FK_AdviceAdviceCustomPropertyNegative];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AdviceAdviceFilmPositive]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AdviceFilmPositiveSet] DROP CONSTRAINT [FK_AdviceAdviceFilmPositive];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AdviceAdviceFilmNegative]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AdviceFilmNegativeSet] DROP CONSTRAINT [FK_AdviceAdviceFilmNegative];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AdviceFilmNegativeFilm]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FilmSet] DROP CONSTRAINT [FK_AdviceFilmNegativeFilm];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AdviceFilmPositiveFilm]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FilmSet] DROP CONSTRAINT [FK_AdviceFilmPositiveFilm];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -126,6 +180,54 @@ IF OBJECT_ID(N'[dbo].[GoalStackSet]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[ReviewSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[ReviewSet];
+GO
+IF OBJECT_ID(N'[dbo].[FilmSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[FilmSet];
+GO
+IF OBJECT_ID(N'[dbo].[CountrySet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CountrySet];
+GO
+IF OBJECT_ID(N'[dbo].[CountryFilmSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CountryFilmSet];
+GO
+IF OBJECT_ID(N'[dbo].[ActorFilmSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ActorFilmSet];
+GO
+IF OBJECT_ID(N'[dbo].[ActorSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ActorSet];
+GO
+IF OBJECT_ID(N'[dbo].[ProducerSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ProducerSet];
+GO
+IF OBJECT_ID(N'[dbo].[GenreFilmSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[GenreFilmSet];
+GO
+IF OBJECT_ID(N'[dbo].[GenreSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[GenreSet];
+GO
+IF OBJECT_ID(N'[dbo].[ProducerFilmSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[ProducerFilmSet];
+GO
+IF OBJECT_ID(N'[dbo].[CustomPropertySet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustomPropertySet];
+GO
+IF OBJECT_ID(N'[dbo].[FilmCustomPropertySet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[FilmCustomPropertySet];
+GO
+IF OBJECT_ID(N'[dbo].[AdviceSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AdviceSet];
+GO
+IF OBJECT_ID(N'[dbo].[AdviceCustomPropertyPositiveSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AdviceCustomPropertyPositiveSet];
+GO
+IF OBJECT_ID(N'[dbo].[AdviceCustomPropertyNegativeSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AdviceCustomPropertyNegativeSet];
+GO
+IF OBJECT_ID(N'[dbo].[AdviceFilmPositiveSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AdviceFilmPositiveSet];
+GO
+IF OBJECT_ID(N'[dbo].[AdviceFilmNegativeSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[AdviceFilmNegativeSet];
 GO
 
 -- --------------------------------------------------
@@ -249,6 +351,135 @@ CREATE TABLE [dbo].[ReviewSet] (
 );
 GO
 
+-- Creating table 'FilmSet'
+CREATE TABLE [dbo].[FilmSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Year] int  NOT NULL,
+    [Description] nvarchar(max)  NULL,
+    [Rating] decimal(11,9)  NULL,
+    [Poster] nvarchar(max)  NULL,
+    [Slogan] nvarchar(max)  NULL,
+    [Link] nvarchar(max)  NULL,
+    [KinopoiskId] nvarchar(max)  NOT NULL,
+    [Name] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'CountrySet'
+CREATE TABLE [dbo].[CountrySet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'CountryFilmSet'
+CREATE TABLE [dbo].[CountryFilmSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Film_Id] int  NOT NULL,
+    [Country_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'ActorFilmSet'
+CREATE TABLE [dbo].[ActorFilmSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Film_Id] int  NOT NULL,
+    [Actor_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'ActorSet'
+CREATE TABLE [dbo].[ActorSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'ProducerSet'
+CREATE TABLE [dbo].[ProducerSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'GenreFilmSet'
+CREATE TABLE [dbo].[GenreFilmSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Film_Id] int  NOT NULL,
+    [Genre_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'GenreSet'
+CREATE TABLE [dbo].[GenreSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(max)  NOT NULL
+);
+GO
+
+-- Creating table 'ProducerFilmSet'
+CREATE TABLE [dbo].[ProducerFilmSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Producer_Id] int  NOT NULL,
+    [Film_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'CustomPropertySet'
+CREATE TABLE [dbo].[CustomPropertySet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(max)  NOT NULL,
+    [Value] nvarchar(max)  NULL
+);
+GO
+
+-- Creating table 'FilmCustomPropertySet'
+CREATE TABLE [dbo].[FilmCustomPropertySet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Film_Id] int  NOT NULL,
+    [CustomProperty_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'AdviceSet'
+CREATE TABLE [dbo].[AdviceSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Key] uniqueidentifier  NOT NULL
+);
+GO
+
+-- Creating table 'AdviceCustomPropertyPositiveSet'
+CREATE TABLE [dbo].[AdviceCustomPropertyPositiveSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [CustomProperty_Id] int  NOT NULL,
+    [Advice_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'AdviceCustomPropertyNegativeSet'
+CREATE TABLE [dbo].[AdviceCustomPropertyNegativeSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [CustomProperty_Id] int  NOT NULL,
+    [Advice_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'AdviceFilmPositiveSet'
+CREATE TABLE [dbo].[AdviceFilmPositiveSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Advice_Id] int  NOT NULL,
+    [Film_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'AdviceFilmNegativeSet'
+CREATE TABLE [dbo].[AdviceFilmNegativeSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Advice_Id] int  NOT NULL,
+    [Film_Id] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -328,6 +559,102 @@ GO
 -- Creating primary key on [Id] in table 'ReviewSet'
 ALTER TABLE [dbo].[ReviewSet]
 ADD CONSTRAINT [PK_ReviewSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'FilmSet'
+ALTER TABLE [dbo].[FilmSet]
+ADD CONSTRAINT [PK_FilmSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CountrySet'
+ALTER TABLE [dbo].[CountrySet]
+ADD CONSTRAINT [PK_CountrySet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CountryFilmSet'
+ALTER TABLE [dbo].[CountryFilmSet]
+ADD CONSTRAINT [PK_CountryFilmSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'ActorFilmSet'
+ALTER TABLE [dbo].[ActorFilmSet]
+ADD CONSTRAINT [PK_ActorFilmSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'ActorSet'
+ALTER TABLE [dbo].[ActorSet]
+ADD CONSTRAINT [PK_ActorSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'ProducerSet'
+ALTER TABLE [dbo].[ProducerSet]
+ADD CONSTRAINT [PK_ProducerSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'GenreFilmSet'
+ALTER TABLE [dbo].[GenreFilmSet]
+ADD CONSTRAINT [PK_GenreFilmSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'GenreSet'
+ALTER TABLE [dbo].[GenreSet]
+ADD CONSTRAINT [PK_GenreSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'ProducerFilmSet'
+ALTER TABLE [dbo].[ProducerFilmSet]
+ADD CONSTRAINT [PK_ProducerFilmSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustomPropertySet'
+ALTER TABLE [dbo].[CustomPropertySet]
+ADD CONSTRAINT [PK_CustomPropertySet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'FilmCustomPropertySet'
+ALTER TABLE [dbo].[FilmCustomPropertySet]
+ADD CONSTRAINT [PK_FilmCustomPropertySet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AdviceSet'
+ALTER TABLE [dbo].[AdviceSet]
+ADD CONSTRAINT [PK_AdviceSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AdviceCustomPropertyPositiveSet'
+ALTER TABLE [dbo].[AdviceCustomPropertyPositiveSet]
+ADD CONSTRAINT [PK_AdviceCustomPropertyPositiveSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AdviceCustomPropertyNegativeSet'
+ALTER TABLE [dbo].[AdviceCustomPropertyNegativeSet]
+ADD CONSTRAINT [PK_AdviceCustomPropertyNegativeSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AdviceFilmPositiveSet'
+ALTER TABLE [dbo].[AdviceFilmPositiveSet]
+ADD CONSTRAINT [PK_AdviceFilmPositiveSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'AdviceFilmNegativeSet'
+ALTER TABLE [dbo].[AdviceFilmNegativeSet]
+ADD CONSTRAINT [PK_AdviceFilmNegativeSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -663,6 +990,276 @@ GO
 CREATE INDEX [IX_FK_SessionReview]
 ON [dbo].[ReviewSet]
     ([Session_Id]);
+GO
+
+-- Creating foreign key on [Film_Id] in table 'CountryFilmSet'
+ALTER TABLE [dbo].[CountryFilmSet]
+ADD CONSTRAINT [FK_FilmCountryFilm]
+    FOREIGN KEY ([Film_Id])
+    REFERENCES [dbo].[FilmSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_FilmCountryFilm'
+CREATE INDEX [IX_FK_FilmCountryFilm]
+ON [dbo].[CountryFilmSet]
+    ([Film_Id]);
+GO
+
+-- Creating foreign key on [Film_Id] in table 'ActorFilmSet'
+ALTER TABLE [dbo].[ActorFilmSet]
+ADD CONSTRAINT [FK_FilmActorFilm]
+    FOREIGN KEY ([Film_Id])
+    REFERENCES [dbo].[FilmSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_FilmActorFilm'
+CREATE INDEX [IX_FK_FilmActorFilm]
+ON [dbo].[ActorFilmSet]
+    ([Film_Id]);
+GO
+
+-- Creating foreign key on [Film_Id] in table 'GenreFilmSet'
+ALTER TABLE [dbo].[GenreFilmSet]
+ADD CONSTRAINT [FK_FilmGenreFilm]
+    FOREIGN KEY ([Film_Id])
+    REFERENCES [dbo].[FilmSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_FilmGenreFilm'
+CREATE INDEX [IX_FK_FilmGenreFilm]
+ON [dbo].[GenreFilmSet]
+    ([Film_Id]);
+GO
+
+-- Creating foreign key on [Country_Id] in table 'CountryFilmSet'
+ALTER TABLE [dbo].[CountryFilmSet]
+ADD CONSTRAINT [FK_CountryCountryFilm]
+    FOREIGN KEY ([Country_Id])
+    REFERENCES [dbo].[CountrySet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CountryCountryFilm'
+CREATE INDEX [IX_FK_CountryCountryFilm]
+ON [dbo].[CountryFilmSet]
+    ([Country_Id]);
+GO
+
+-- Creating foreign key on [Actor_Id] in table 'ActorFilmSet'
+ALTER TABLE [dbo].[ActorFilmSet]
+ADD CONSTRAINT [FK_ActorActorFilm]
+    FOREIGN KEY ([Actor_Id])
+    REFERENCES [dbo].[ActorSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ActorActorFilm'
+CREATE INDEX [IX_FK_ActorActorFilm]
+ON [dbo].[ActorFilmSet]
+    ([Actor_Id]);
+GO
+
+-- Creating foreign key on [Genre_Id] in table 'GenreFilmSet'
+ALTER TABLE [dbo].[GenreFilmSet]
+ADD CONSTRAINT [FK_GenreGenreFilm]
+    FOREIGN KEY ([Genre_Id])
+    REFERENCES [dbo].[GenreSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_GenreGenreFilm'
+CREATE INDEX [IX_FK_GenreGenreFilm]
+ON [dbo].[GenreFilmSet]
+    ([Genre_Id]);
+GO
+
+-- Creating foreign key on [Producer_Id] in table 'ProducerFilmSet'
+ALTER TABLE [dbo].[ProducerFilmSet]
+ADD CONSTRAINT [FK_ProducerProducerFilm]
+    FOREIGN KEY ([Producer_Id])
+    REFERENCES [dbo].[ProducerSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_ProducerProducerFilm'
+CREATE INDEX [IX_FK_ProducerProducerFilm]
+ON [dbo].[ProducerFilmSet]
+    ([Producer_Id]);
+GO
+
+-- Creating foreign key on [Film_Id] in table 'ProducerFilmSet'
+ALTER TABLE [dbo].[ProducerFilmSet]
+ADD CONSTRAINT [FK_FilmProducerFilm]
+    FOREIGN KEY ([Film_Id])
+    REFERENCES [dbo].[FilmSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_FilmProducerFilm'
+CREATE INDEX [IX_FK_FilmProducerFilm]
+ON [dbo].[ProducerFilmSet]
+    ([Film_Id]);
+GO
+
+-- Creating foreign key on [Film_Id] in table 'FilmCustomPropertySet'
+ALTER TABLE [dbo].[FilmCustomPropertySet]
+ADD CONSTRAINT [FK_FilmFilmCustomProperty]
+    FOREIGN KEY ([Film_Id])
+    REFERENCES [dbo].[FilmSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_FilmFilmCustomProperty'
+CREATE INDEX [IX_FK_FilmFilmCustomProperty]
+ON [dbo].[FilmCustomPropertySet]
+    ([Film_Id]);
+GO
+
+-- Creating foreign key on [CustomProperty_Id] in table 'FilmCustomPropertySet'
+ALTER TABLE [dbo].[FilmCustomPropertySet]
+ADD CONSTRAINT [FK_CustomPropertyFilmCustomProperty]
+    FOREIGN KEY ([CustomProperty_Id])
+    REFERENCES [dbo].[CustomPropertySet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustomPropertyFilmCustomProperty'
+CREATE INDEX [IX_FK_CustomPropertyFilmCustomProperty]
+ON [dbo].[FilmCustomPropertySet]
+    ([CustomProperty_Id]);
+GO
+
+-- Creating foreign key on [CustomProperty_Id] in table 'AdviceCustomPropertyPositiveSet'
+ALTER TABLE [dbo].[AdviceCustomPropertyPositiveSet]
+ADD CONSTRAINT [FK_CustomPropertyAdviceCustomPropertyPositive]
+    FOREIGN KEY ([CustomProperty_Id])
+    REFERENCES [dbo].[CustomPropertySet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustomPropertyAdviceCustomPropertyPositive'
+CREATE INDEX [IX_FK_CustomPropertyAdviceCustomPropertyPositive]
+ON [dbo].[AdviceCustomPropertyPositiveSet]
+    ([CustomProperty_Id]);
+GO
+
+-- Creating foreign key on [CustomProperty_Id] in table 'AdviceCustomPropertyNegativeSet'
+ALTER TABLE [dbo].[AdviceCustomPropertyNegativeSet]
+ADD CONSTRAINT [FK_CustomPropertyAdviceCustomPropertyNegative]
+    FOREIGN KEY ([CustomProperty_Id])
+    REFERENCES [dbo].[CustomPropertySet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustomPropertyAdviceCustomPropertyNegative'
+CREATE INDEX [IX_FK_CustomPropertyAdviceCustomPropertyNegative]
+ON [dbo].[AdviceCustomPropertyNegativeSet]
+    ([CustomProperty_Id]);
+GO
+
+-- Creating foreign key on [Advice_Id] in table 'AdviceCustomPropertyPositiveSet'
+ALTER TABLE [dbo].[AdviceCustomPropertyPositiveSet]
+ADD CONSTRAINT [FK_AdviceAdviceCustomPropertyPositive]
+    FOREIGN KEY ([Advice_Id])
+    REFERENCES [dbo].[AdviceSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AdviceAdviceCustomPropertyPositive'
+CREATE INDEX [IX_FK_AdviceAdviceCustomPropertyPositive]
+ON [dbo].[AdviceCustomPropertyPositiveSet]
+    ([Advice_Id]);
+GO
+
+-- Creating foreign key on [Advice_Id] in table 'AdviceCustomPropertyNegativeSet'
+ALTER TABLE [dbo].[AdviceCustomPropertyNegativeSet]
+ADD CONSTRAINT [FK_AdviceAdviceCustomPropertyNegative]
+    FOREIGN KEY ([Advice_Id])
+    REFERENCES [dbo].[AdviceSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AdviceAdviceCustomPropertyNegative'
+CREATE INDEX [IX_FK_AdviceAdviceCustomPropertyNegative]
+ON [dbo].[AdviceCustomPropertyNegativeSet]
+    ([Advice_Id]);
+GO
+
+-- Creating foreign key on [Advice_Id] in table 'AdviceFilmPositiveSet'
+ALTER TABLE [dbo].[AdviceFilmPositiveSet]
+ADD CONSTRAINT [FK_AdviceAdviceFilmPositive]
+    FOREIGN KEY ([Advice_Id])
+    REFERENCES [dbo].[AdviceSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AdviceAdviceFilmPositive'
+CREATE INDEX [IX_FK_AdviceAdviceFilmPositive]
+ON [dbo].[AdviceFilmPositiveSet]
+    ([Advice_Id]);
+GO
+
+-- Creating foreign key on [Advice_Id] in table 'AdviceFilmNegativeSet'
+ALTER TABLE [dbo].[AdviceFilmNegativeSet]
+ADD CONSTRAINT [FK_AdviceAdviceFilmNegative]
+    FOREIGN KEY ([Advice_Id])
+    REFERENCES [dbo].[AdviceSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AdviceAdviceFilmNegative'
+CREATE INDEX [IX_FK_AdviceAdviceFilmNegative]
+ON [dbo].[AdviceFilmNegativeSet]
+    ([Advice_Id]);
+GO
+
+-- Creating foreign key on [Film_Id] in table 'AdviceFilmNegativeSet'
+ALTER TABLE [dbo].[AdviceFilmNegativeSet]
+ADD CONSTRAINT [FK_FilmAdviceFilmNegative]
+    FOREIGN KEY ([Film_Id])
+    REFERENCES [dbo].[FilmSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_FilmAdviceFilmNegative'
+CREATE INDEX [IX_FK_FilmAdviceFilmNegative]
+ON [dbo].[AdviceFilmNegativeSet]
+    ([Film_Id]);
+GO
+
+-- Creating foreign key on [Film_Id] in table 'AdviceFilmPositiveSet'
+ALTER TABLE [dbo].[AdviceFilmPositiveSet]
+ADD CONSTRAINT [FK_FilmAdviceFilmPositive]
+    FOREIGN KEY ([Film_Id])
+    REFERENCES [dbo].[FilmSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_FilmAdviceFilmPositive'
+CREATE INDEX [IX_FK_FilmAdviceFilmPositive]
+ON [dbo].[AdviceFilmPositiveSet]
+    ([Film_Id]);
 GO
 
 -- --------------------------------------------------
