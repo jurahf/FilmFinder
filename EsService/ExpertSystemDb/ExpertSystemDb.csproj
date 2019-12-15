@@ -50,6 +50,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actor.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActorFilm.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Advice.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AdviceCustomPropertyNegative.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AdviceCustomPropertyPositive.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AdviceFilmNegative.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AdviceFilmPositive.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Consultation.cs">
       <DependentUpon>ExpertSystemModel.tt</DependentUpon>
     </Compile>
@@ -57,6 +78,15 @@
       <DependentUpon>ExpertSystemModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ConsultationRule.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Country.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CountryFilm.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomProperty.cs">
       <DependentUpon>ExpertSystemModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DBWork.cs" />
@@ -92,7 +122,26 @@
     <Compile Include="FactTruly.cs">
       <DependentUpon>ExpertSystemModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Film.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FilmCustomProperty.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Genre.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GenreFilm.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="GoalStack.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IDataWork.cs" />
+    <Compile Include="Producer.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProducerFilm.cs">
       <DependentUpon>ExpertSystemModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

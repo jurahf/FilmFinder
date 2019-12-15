@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ExpertSystemDb
 {
-    public class DBWork
+    public class DBWork : IDataWork
     {
         private const string idFieldName = "Id";
         private static ExpertSystemModelContainer database = null;
@@ -29,6 +29,29 @@ namespace ExpertSystemDb
             return (int)typeof(T).GetProperty(idFieldName).GetValue(obj, null);
         }
 
+        public int GetCount<T>() where T : class
+        {
+            try
+            {
+                return Database.Set<T>().Count();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public int GetCount<T>(Func<T, bool> whereClause) where T : class
+        {
+            try
+            {
+                return Database.Set<T>().Where(whereClause).Count();
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
         public List<T> GetFromDatabase<T>() where T : class
         {
@@ -47,6 +70,26 @@ namespace ExpertSystemDb
             try
             {
                 return Database.Set<T>().Where(filter).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public List<object> GetFromDatabase(Type type)
+        {
+            try
+            {
+                var set = Database.Set(type);
+                List<object> res = new List<object>();
+
+                foreach (var e in set)
+                {
+                    res.Add(e);
+                }
+
+                return res;
             }
             catch (Exception ex)
             {
