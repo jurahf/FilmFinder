@@ -75,7 +75,7 @@ namespace BaseUI
         public BaseListForm(IDataWork dataWork, bool forChoosing = false, InheritMode mode = InheritMode.BaseOnly, Comparison<T> InitSort = null)
         {
             this.MinimumSize = new Size(400, 600);
-            this.StartPosition = FormStartPosition.CenterScreen;
+            this.StartPosition = FormStartPosition.WindowsDefaultLocation;
             DialogResult = DialogResult.Cancel;
             this.forChoosing = forChoosing;
             this.InitSort = InitSort;

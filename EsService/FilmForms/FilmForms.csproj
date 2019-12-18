@@ -76,6 +76,12 @@
     <Compile Include="frmCountryEdit.Designer.cs">
       <DependentUpon>frmCountryEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmCountryFilmEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCountryFilmEdit.Designer.cs">
+      <DependentUpon>frmCountryFilmEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmCountryList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +99,12 @@
     </Compile>
     <Compile Include="frmCustomPropertyList.Designer.cs">
       <DependentUpon>frmCustomPropertyList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmFilmCustomPropertyEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFilmCustomPropertyEdit.Designer.cs">
+      <DependentUpon>frmFilmCustomPropertyEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="frmFilmEdit.cs">
       <SubType>Form</SubType>
@@ -112,6 +124,12 @@
     <Compile Include="frmGenreEdit.Designer.cs">
       <DependentUpon>frmGenreEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmGenreFilmEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGenreFilmEdit.Designer.cs">
+      <DependentUpon>frmGenreFilmEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmGenreList.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -129,6 +147,12 @@
     </Compile>
     <Compile Include="frmProducerEdit.Designer.cs">
       <DependentUpon>frmProducerEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmProducerFilmEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmProducerFilmEdit.Designer.cs">
+      <DependentUpon>frmProducerFilmEdit.cs</DependentUpon>
     </Compile>
     <Compile Include="frmProducerList.cs">
       <SubType>Form</SubType>

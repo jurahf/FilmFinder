@@ -19,6 +19,8 @@ namespace FilmForms
         public frmMain()
         {
             InitializeComponent();
+
+            this.Load += frmMain_Load;
         }
 
         private void OpenForm(Type formType)

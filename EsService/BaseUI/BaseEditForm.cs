@@ -71,7 +71,7 @@ namespace BaseUI
         public BaseEditForm(IDataWork dataWork, T objectToEdit, bool isNewObject)
         {
             this.DataWork = dataWork;
-            this.StartPosition = FormStartPosition.CenterScreen;
+            this.StartPosition = FormStartPosition.WindowsDefaultLocation;
             this.objectToEdit = objectToEdit;
             this.isNewObject = isNewObject;
 

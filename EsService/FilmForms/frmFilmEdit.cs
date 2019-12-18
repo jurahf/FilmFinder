@@ -38,18 +38,68 @@ namespace FilmForms
                     }
                 },
 
+                new FieldForEditUI(EditedObject, ReflectionHelper.Nameof<Film>(p => p.ProducerFilm), "Режиссёры", new Dictionary<Type, Type>() { { typeof(ProducerFilm), typeof(frmProducerFilmEdit) } })
+                {
+                    Master = new MasterDefinition(EditedObject, ReflectionHelper.Nameof<ProducerFilm>(s => s.Film)),
+                    ListFields = new List<FieldForListUI> ()
+                    {
+                        new FieldForListUI( ReflectionHelper.Nameof<ProducerFilm>(s => s.Producer.Name), "Имя")
+                    }
+                },
+
+                new FieldForEditUI(EditedObject, ReflectionHelper.Nameof<Film>(p => p.GenreFilm), "Жанры", new Dictionary<Type, Type>() { { typeof(GenreFilm), typeof(frmGenreFilmEdit) } })
+                {
+                    Master = new MasterDefinition(EditedObject, ReflectionHelper.Nameof<GenreFilm>(s => s.Film)),
+                    ListFields = new List<FieldForListUI> ()
+                    {
+                        new FieldForListUI( ReflectionHelper.Nameof<GenreFilm>(s => s.Genre.Name), "Название")
+                    }
+                },
+
+                new FieldForEditUI(EditedObject, ReflectionHelper.Nameof<Film>(p => p.CountryFilm), "Страны", new Dictionary<Type, Type>() { { typeof(CountryFilm), typeof(frmCountryFilmEdit) } })
+                {
+                    Master = new MasterDefinition(EditedObject, ReflectionHelper.Nameof<CountryFilm>(s => s.Film)),
+                    ListFields = new List<FieldForListUI> ()
+                    {
+                        new FieldForListUI( ReflectionHelper.Nameof<CountryFilm>(s => s.Country.Name), "Название")
+                    }
+                },
+
+                new FieldForEditUI(EditedObject, ReflectionHelper.Nameof<Film>(p => p.FilmCustomProperty), "Дополнительные свойства", new Dictionary<Type, Type>() { { typeof(FilmCustomProperty), typeof(frmFilmCustomPropertyEdit) } })
+                {
+                    Master = new MasterDefinition(EditedObject, ReflectionHelper.Nameof<FilmCustomProperty>(s => s.Film)),
+                    ListFields = new List<FieldForListUI> ()
+                    {
+                        new FieldForListUI( ReflectionHelper.Nameof<FilmCustomProperty>(s => s.CustomProperty.Name), "Название"),
+                        new FieldForListUI( ReflectionHelper.Nameof<FilmCustomProperty>(s => s.CustomProperty.Value), "Значение")
+                    }
+                },
+
             };
         }
 
 
         public frmFilmEdit()
-            : base(new DBWork())
+            : this(null, false)
         {
         }
 
         public frmFilmEdit(Film objToEdit, bool isNewObject)
             : base(new DBWork(), objToEdit, isNewObject)
         {
+            Tab = new TabControl();
+            Tab.Height = 300;
+            Tab.Width = 300;
+            pnlBody.Controls.Add(Tab);
+            this.Load += FrmFilmEdit_Load;
+        }
+
+        private void FrmFilmEdit_Load(object sender, EventArgs e)
+        {
+            Tab.Location = new Point(1, pnlBody.Height - Tab.Height);
+            Tab.Anchor = AnchorStyles.Bottom | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Left;
+            this.Width = 900;
+            this.Height += 200;
         }
     }
 }
