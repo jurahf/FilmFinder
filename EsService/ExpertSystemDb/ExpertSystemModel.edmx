@@ -324,7 +324,7 @@
     <Property Name="Poster" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Slogan" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Link" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="KinopoiskId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="KinopoiskId" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="CountrySet">
@@ -1355,7 +1355,7 @@
           <Property Name="Poster" Type="String" Nullable="true" />
           <Property Name="Slogan" Type="String" Nullable="true" />
           <Property Name="Link" Type="String" Nullable="true" />
-          <Property Name="KinopoiskId" Type="String" Nullable="false" />
+          <Property Name="KinopoiskId" Type="String" Nullable="true" />
           <Property Name="Name" Type="String" Nullable="false" />
           <NavigationProperty Name="CountryFilm" Relationship="ExpertSystemModel.FilmCountryFilm" FromRole="Film" ToRole="CountryFilm" />
           <NavigationProperty Name="ActorFilm" Relationship="ExpertSystemModel.FilmActorFilm" FromRole="Film" ToRole="ActorFilm" />

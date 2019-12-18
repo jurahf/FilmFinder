@@ -90,6 +90,34 @@ namespace BaseUI
             set;
         }
 
+        /*
+        public ListPresentation(List<FieldForListUI> ColumnsNames, Dictionary<Type, Type> EditFormType, Comparison<T> InitSort = null, InheritMode InheritMode = InheritMode.BaseOnly)
+        {
+            this.columnsNames = ColumnsNames;
+            this.editFormTypes = EditFormType;
+            this.inheritMode = InheritMode;
+            this.initSort = InitSort;
+
+            switch (inheritMode)
+            {
+                case InheritMode.BaseOnly:
+                    usedTypes.Add(typeof(T));
+                    break;
+                case InheritMode.DerivedOnly:
+                    usedTypes.AddRange(Assembly.GetAssembly(typeof(T)).GetTypes().Where(t => t.IsSubclassOf(typeof(T))));
+                    break;
+            }            
+
+            InitializeComponent();
+        }
+
+        public ListPresentation(List<FieldForListUI> ColumnsNames, Dictionary<Type, Type> EditFormType, MasterDefinition master, Comparison<T> InitSort = null, InheritMode InheritMode = InheritMode.BaseOnly)
+            : this(ColumnsNames, EditFormType, InitSort, InheritMode)
+        {
+            this.master = master;
+        }
+         */
+
         public ListPresentation(IDataWork dataWork, List<FieldForListUI> ColumnsNames, Dictionary<Type, Type> EditFormType, Comparison<T> InitSort = null, InheritMode InheritMode = InheritMode.BaseOnly)
         {
             this.DataWork = dataWork;

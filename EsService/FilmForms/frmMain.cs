@@ -87,8 +87,29 @@ namespace FilmForms
             OpenForm(typeof(frmActorList));
         }
 
+        private void жанрыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenForm(typeof(frmGenreList));
+        }
 
+        private void режиссерыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenForm(typeof(frmProducerList));
+        }
 
+        private void страныToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenForm(typeof(frmCountryList));
+        }
 
+        private void пользовательскиеСвойстваToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenForm(typeof(frmCustomPropertyList));
+        }
+
+        private void фильмыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenForm(typeof(frmFilmList));
+        }
     }
 }

@@ -89,7 +89,7 @@ namespace BaseUI
         /// <summary>
         /// Тип формы для выбора значения поля из списка (только если поле - объект БД) или формы редактирования (если поле - список объектов)
         /// </summary>
-        public Type FormType
+        public Dictionary<Type, Type> FormType
         {
             get; set;
         }
@@ -102,7 +102,7 @@ namespace BaseUI
         /// <param name="FieldForUser">Поле (можно с путем), значение которого будет выводиться вместо значения Field (только если поле - объект БД)</param>
         /// <param name="NameForUser">Название поля для отображения</param>
         /// <param name="ListFormType">Тип формы для выбора значения поля из списка (только если поле - объект БД)</param>
-        public FieldForEditUI(object Object, string Field, string FieldForUser, string NameForUser, Type ListFormType = null)
+        public FieldForEditUI(object Object, string Field, string FieldForUser, string NameForUser, Dictionary<Type, Type> ListFormType = null)
         {
             this.Object = Object;
             this.Field = Field;
@@ -118,7 +118,7 @@ namespace BaseUI
         /// <param name="Field">Само поле (без пути)</param>
         /// <param name="NameForUser">Название поля для отображения</param>
         /// <param name="ListFormType">Тип формы для выбора значения поля из списка (только если поле - объект БД)</param>
-        public FieldForEditUI(object Object, string Field, string NameForUser, Type ListFormType = null)
+        public FieldForEditUI(object Object, string Field, string NameForUser, Dictionary<Type, Type> ListFormType = null)
             : this(Object, Field, null, NameForUser, ListFormType)
         {
         }

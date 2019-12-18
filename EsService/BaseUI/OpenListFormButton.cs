@@ -11,7 +11,7 @@ namespace BaseUI
 {
     public partial class OpenListFormButton<T> : Button, IReturnValueControl where T : class, new()
     {
-        private Type listFormType;
+        private Dictionary<Type, Type> listFormType;
         private object value = null;
 
         public event EventHandler Selected;
@@ -28,12 +28,14 @@ namespace BaseUI
             }
         }
 
-        public OpenListFormButton(Type ListFormType)
+        public OpenListFormButton(Dictionary<Type, Type> ListFormType)
         {
+            /*
             if (ListFormType == null || !ListFormType.IsSubclassOf(typeof(BaseListForm<T>)))
             {
                 throw new Exception("Кнопке открытия формы не предоставлен тип формы.");
             }                
+            */
 
             this.listFormType = ListFormType;
             this.Click += button1_Click;
@@ -53,7 +55,7 @@ namespace BaseUI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            BaseListForm<T> form = (BaseListForm<T>)Activator.CreateInstance(listFormType, new object[] { true });
+            BaseListForm<T> form = (BaseListForm<T>)Activator.CreateInstance(listFormType.First().Value, new object[] { true });
             form.FormClosing += Form_FormClosing;
             form.ShowDialog();
         }

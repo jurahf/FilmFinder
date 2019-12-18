@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Globalization;
+using ExpertSystemDb;
 
 namespace BaseUI
 {
@@ -209,7 +210,9 @@ namespace BaseUI
                 {
                     label1.Visible = false;
                     Type tableType = typeof(ListPresentation<>).MakeGenericType(type.GetGenericArguments()[0]);
-                    ctrlForEdit = (Control)Activator.CreateInstance(tableType, field.ListFields, field.FormType, field.Master);
+
+                    // TODO: DBWORK тут это жестко
+                    ctrlForEdit = (Control)Activator.CreateInstance(tableType, new DBWork(), field.ListFields, field.FormType, field.Master, null, InheritMode.BaseOnly);
                     this.Controls.Add(ctrlForEdit);
                     ctrlForEdit.Dock = DockStyle.Fill;
                     this.Height = TableHeight;

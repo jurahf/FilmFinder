@@ -58,17 +58,83 @@
     <Compile Include="frmActorEdit.Designer.cs">
       <DependentUpon>frmActorEdit.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmActorFilmEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmActorFilmEdit.Designer.cs">
+      <DependentUpon>frmActorFilmEdit.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmActorList.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmActorList.Designer.cs">
       <DependentUpon>frmActorList.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmCountryEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCountryEdit.Designer.cs">
+      <DependentUpon>frmCountryEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCountryList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCountryList.Designer.cs">
+      <DependentUpon>frmCountryList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCustomPropertyEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCustomPropertyEdit.Designer.cs">
+      <DependentUpon>frmCustomPropertyEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCustomPropertyList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCustomPropertyList.Designer.cs">
+      <DependentUpon>frmCustomPropertyList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmFilmEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFilmEdit.Designer.cs">
+      <DependentUpon>frmFilmEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmFilmList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmFilmList.Designer.cs">
+      <DependentUpon>frmFilmList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmGenreEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGenreEdit.Designer.cs">
+      <DependentUpon>frmGenreEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmGenreList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGenreList.Designer.cs">
+      <DependentUpon>frmGenreList.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmProducerEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmProducerEdit.Designer.cs">
+      <DependentUpon>frmProducerEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmProducerList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmProducerList.Designer.cs">
+      <DependentUpon>frmProducerList.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

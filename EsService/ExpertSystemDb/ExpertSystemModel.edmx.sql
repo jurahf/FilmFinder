@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/14/2019 23:07:47
+-- Date Created: 12/18/2019 22:10:19
 -- Generated from EDMX file: D:\PROJECTS\CSharp\FilmFinder\EsService\ExpertSystemDb\ExpertSystemModel.edmx
 -- --------------------------------------------------
 
@@ -131,11 +131,11 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_AdviceAdviceFilmNegative]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AdviceFilmNegativeSet] DROP CONSTRAINT [FK_AdviceAdviceFilmNegative];
 GO
-IF OBJECT_ID(N'[dbo].[FK_AdviceFilmNegativeFilm]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[FilmSet] DROP CONSTRAINT [FK_AdviceFilmNegativeFilm];
+IF OBJECT_ID(N'[dbo].[FK_FilmAdviceFilmNegative]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AdviceFilmNegativeSet] DROP CONSTRAINT [FK_FilmAdviceFilmNegative];
 GO
-IF OBJECT_ID(N'[dbo].[FK_AdviceFilmPositiveFilm]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[FilmSet] DROP CONSTRAINT [FK_AdviceFilmPositiveFilm];
+IF OBJECT_ID(N'[dbo].[FK_FilmAdviceFilmPositive]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AdviceFilmPositiveSet] DROP CONSTRAINT [FK_FilmAdviceFilmPositive];
 GO
 
 -- --------------------------------------------------
@@ -360,7 +360,7 @@ CREATE TABLE [dbo].[FilmSet] (
     [Poster] nvarchar(max)  NULL,
     [Slogan] nvarchar(max)  NULL,
     [Link] nvarchar(max)  NULL,
-    [KinopoiskId] nvarchar(max)  NOT NULL,
+    [KinopoiskId] nvarchar(max)  NULL,
     [Name] nvarchar(max)  NOT NULL
 );
 GO

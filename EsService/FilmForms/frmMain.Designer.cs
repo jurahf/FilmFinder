@@ -32,7 +32,14 @@
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сущностиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.справочникиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.актёрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.жанрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.режиссерыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.страныToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.пользовательскиеСвойстваToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.фильмыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.советыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Название = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Год = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -64,24 +71,79 @@
             // выходToolStripMenuItem
             // 
             this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            this.выходToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(128, 26);
             this.выходToolStripMenuItem.Text = "Выход";
             this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
             // сущностиToolStripMenuItem
             // 
             this.сущностиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.актёрыToolStripMenuItem});
+            this.справочникиToolStripMenuItem,
+            this.фильмыToolStripMenuItem,
+            this.советыToolStripMenuItem});
             this.сущностиToolStripMenuItem.Name = "сущностиToolStripMenuItem";
             this.сущностиToolStripMenuItem.Size = new System.Drawing.Size(89, 24);
             this.сущностиToolStripMenuItem.Text = "Сущности";
             // 
+            // справочникиToolStripMenuItem
+            // 
+            this.справочникиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.актёрыToolStripMenuItem,
+            this.жанрыToolStripMenuItem,
+            this.режиссерыToolStripMenuItem,
+            this.страныToolStripMenuItem,
+            this.пользовательскиеСвойстваToolStripMenuItem});
+            this.справочникиToolStripMenuItem.Name = "справочникиToolStripMenuItem";
+            this.справочникиToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.справочникиToolStripMenuItem.Text = "Справочники";
+            // 
             // актёрыToolStripMenuItem
             // 
             this.актёрыToolStripMenuItem.Name = "актёрыToolStripMenuItem";
-            this.актёрыToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.актёрыToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
             this.актёрыToolStripMenuItem.Text = "Актёры";
             this.актёрыToolStripMenuItem.Click += new System.EventHandler(this.актёрыToolStripMenuItem_Click);
+            // 
+            // жанрыToolStripMenuItem
+            // 
+            this.жанрыToolStripMenuItem.Name = "жанрыToolStripMenuItem";
+            this.жанрыToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.жанрыToolStripMenuItem.Text = "Жанры";
+            this.жанрыToolStripMenuItem.Click += new System.EventHandler(this.жанрыToolStripMenuItem_Click);
+            // 
+            // режиссерыToolStripMenuItem
+            // 
+            this.режиссерыToolStripMenuItem.Name = "режиссерыToolStripMenuItem";
+            this.режиссерыToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.режиссерыToolStripMenuItem.Text = "Режиссеры";
+            this.режиссерыToolStripMenuItem.Click += new System.EventHandler(this.режиссерыToolStripMenuItem_Click);
+            // 
+            // страныToolStripMenuItem
+            // 
+            this.страныToolStripMenuItem.Name = "страныToolStripMenuItem";
+            this.страныToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.страныToolStripMenuItem.Text = "Страны";
+            this.страныToolStripMenuItem.Click += new System.EventHandler(this.страныToolStripMenuItem_Click);
+            // 
+            // пользовательскиеСвойстваToolStripMenuItem
+            // 
+            this.пользовательскиеСвойстваToolStripMenuItem.Name = "пользовательскиеСвойстваToolStripMenuItem";
+            this.пользовательскиеСвойстваToolStripMenuItem.Size = new System.Drawing.Size(279, 26);
+            this.пользовательскиеСвойстваToolStripMenuItem.Text = "Пользовательские свойства";
+            this.пользовательскиеСвойстваToolStripMenuItem.Click += new System.EventHandler(this.пользовательскиеСвойстваToolStripMenuItem_Click);
+            // 
+            // фильмыToolStripMenuItem
+            // 
+            this.фильмыToolStripMenuItem.Name = "фильмыToolStripMenuItem";
+            this.фильмыToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.фильмыToolStripMenuItem.Text = "Фильмы";
+            this.фильмыToolStripMenuItem.Click += new System.EventHandler(this.фильмыToolStripMenuItem_Click);
+            // 
+            // советыToolStripMenuItem
+            // 
+            this.советыToolStripMenuItem.Name = "советыToolStripMenuItem";
+            this.советыToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.советыToolStripMenuItem.Text = "Советы";
             // 
             // dataGridView1
             // 
@@ -144,11 +206,18 @@
         private System.Windows.Forms.ToolStripMenuItem файлToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem выходToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem сущностиToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem актёрыToolStripMenuItem;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Название;
         private System.Windows.Forms.DataGridViewTextBoxColumn Год;
         private System.Windows.Forms.DataGridViewTextBoxColumn Описание;
+        private System.Windows.Forms.ToolStripMenuItem справочникиToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem актёрыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem жанрыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem режиссерыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem страныToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem пользовательскиеСвойстваToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem фильмыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem советыToolStripMenuItem;
     }
 }
 
