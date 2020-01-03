@@ -70,6 +70,30 @@
     <Compile Include="frmActorList.Designer.cs">
       <DependentUpon>frmActorList.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmAdviceCustomPropertyEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAdviceCustomPropertyEdit.Designer.cs">
+      <DependentUpon>frmAdviceCustomPropertyEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAdviceEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAdviceEdit.Designer.cs">
+      <DependentUpon>frmAdviceEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAdviceFilmEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAdviceFilmEdit.Designer.cs">
+      <DependentUpon>frmAdviceFilmEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmAdviceList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmAdviceList.Designer.cs">
+      <DependentUpon>frmAdviceList.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmCountryEdit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -196,6 +220,10 @@
     <ProjectReference Include="..\ExpertSystemDb\ExpertSystemDb.csproj">
       <Project>{FF09E43E-5801-4847-BAB1-C9865550AB6B}</Project>
       <Name>ExpertSystemDb</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Logic\Logic.csproj">
+      <Project>{F6E0850B-F39A-4765-99E6-72D3AB13B3DC}</Project>
+      <Name>Logic</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

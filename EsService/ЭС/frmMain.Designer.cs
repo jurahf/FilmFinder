@@ -46,6 +46,8 @@
             this.объяснениеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.связьСБДФильмовToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.синхронизироватьДоменToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,7 +57,8 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.файлToolStripMenuItem,
             this.редактированиеToolStripMenuItem,
-            this.консультацияToolStripMenuItem});
+            this.консультацияToolStripMenuItem,
+            this.связьСБДФильмовToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(8, 2, 0, 2);
@@ -214,6 +217,21 @@
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Filter = "Файлы экспертной системы|*.es|Все файлы|*.*";
             // 
+            // связьСБДФильмовToolStripMenuItem
+            // 
+            this.связьСБДФильмовToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.синхронизироватьДоменToolStripMenuItem});
+            this.связьСБДФильмовToolStripMenuItem.Name = "связьСБДФильмовToolStripMenuItem";
+            this.связьСБДФильмовToolStripMenuItem.Size = new System.Drawing.Size(162, 24);
+            this.связьСБДФильмовToolStripMenuItem.Text = "Связь с БД фильмов";
+            // 
+            // синхронизироватьДоменToolStripMenuItem
+            // 
+            this.синхронизироватьДоменToolStripMenuItem.Name = "синхронизироватьДоменToolStripMenuItem";
+            this.синхронизироватьДоменToolStripMenuItem.Size = new System.Drawing.Size(267, 26);
+            this.синхронизироватьДоменToolStripMenuItem.Text = "Синхронизировать домен";
+            this.синхронизироватьДоменToolStripMenuItem.Click += new System.EventHandler(this.синхронизироватьДоменToolStripMenuItem_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -254,6 +272,8 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ToolStripMenuItem доменыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem сохранитьКакToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem связьСБДФильмовToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem синхронизироватьДоменToolStripMenuItem;
     }
 }
 

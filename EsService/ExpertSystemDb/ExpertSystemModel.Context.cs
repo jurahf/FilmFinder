@@ -50,9 +50,7 @@ namespace ExpertSystemDb
         public virtual DbSet<CustomProperty> CustomPropertySet { get; set; }
         public virtual DbSet<FilmCustomProperty> FilmCustomPropertySet { get; set; }
         public virtual DbSet<Advice> AdviceSet { get; set; }
-        public virtual DbSet<AdviceCustomPropertyPositive> AdviceCustomPropertyPositiveSet { get; set; }
-        public virtual DbSet<AdviceCustomPropertyNegative> AdviceCustomPropertyNegativeSet { get; set; }
-        public virtual DbSet<AdviceFilmPositive> AdviceFilmPositiveSet { get; set; }
-        public virtual DbSet<AdviceFilmNegative> AdviceFilmNegativeSet { get; set; }
+        public virtual DbSet<AdviceCustomProperty> AdviceCustomPropertySet { get; set; }
+        public virtual DbSet<AdviceFilm> AdviceFilmSet { get; set; }
     }
 }

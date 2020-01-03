@@ -12,11 +12,12 @@ namespace ExpertSystemDb
     using System;
     using System.Collections.Generic;
     
-    public partial class AdviceCustomPropertyPositive
+    public partial class AdviceCustomProperty
     {
         public int Id { get; set; }
     
         public virtual CustomProperty CustomProperty { get; set; }
-        public virtual Advice Advice { get; set; }
+        public virtual Advice AdvicePositive { get; set; }
+        public virtual Advice AdviceNegative { get; set; }
     }
 }

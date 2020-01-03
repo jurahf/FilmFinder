@@ -59,16 +59,10 @@
     <Compile Include="Advice.cs">
       <DependentUpon>ExpertSystemModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="AdviceCustomPropertyNegative.cs">
+    <Compile Include="AdviceCustomProperty.cs">
       <DependentUpon>ExpertSystemModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="AdviceCustomPropertyPositive.cs">
-      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AdviceFilmNegative.cs">
-      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="AdviceFilmPositive.cs">
+    <Compile Include="AdviceFilm.cs">
       <DependentUpon>ExpertSystemModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Consultation.cs">
@@ -116,6 +110,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ExpertSystemModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\AdviceExtension.cs" />
     <Compile Include="Fact.cs">
       <DependentUpon>ExpertSystemModel.tt</DependentUpon>
     </Compile>
@@ -196,8 +191,6 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

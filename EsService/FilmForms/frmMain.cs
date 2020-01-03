@@ -1,4 +1,5 @@
 ﻿using ExpertSystemDb;
+using Logic;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -112,6 +113,26 @@ namespace FilmForms
         private void фильмыToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenForm(typeof(frmFilmList));
+        }
+
+        private void советыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenForm(typeof(frmAdviceList));
+        }
+
+        private void синхронизироватьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var s = new СинхронизацияБдФильмовСБзЭс();
+                s.СоветыВСпецДомен();
+
+                MessageBox.Show("Успешно синхронизировали");
+            }
+            catch
+            {
+                MessageBox.Show("При синхронизации произошла ошибка");
+            }
         }
     }
 }

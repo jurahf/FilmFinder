@@ -12,6 +12,7 @@ using System.Xml.Serialization;
 using System.Xml;
 using ClassicClasses;
 using EsStorageAdapter;
+using Logic;
 
 namespace ЭС
 {
@@ -270,5 +271,19 @@ namespace ЭС
             this.Left = 0;
         }
 
+        private void синхронизироватьДоменToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var s = new СинхронизацияБдФильмовСБзЭс();
+                s.СоветыВСпецДомен();
+
+                MessageBox.Show("Успешно синхронизировали");
+            }
+            catch
+            {
+                MessageBox.Show("При синхронизации произошла ошибка");
+            }
+        }
     }
 }

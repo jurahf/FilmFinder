@@ -45,6 +45,7 @@
     <Compile Include="EsLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionLogic.cs" />
+    <Compile Include="СинхронизацияБдФильмовСБзЭс.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExpertSystemDb\ExpertSystemDb.csproj">

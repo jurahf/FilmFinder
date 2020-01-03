@@ -14,25 +14,16 @@ namespace ExpertSystemDb
     
     public partial class Advice
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Advice()
-        {
-            this.AdviceCustomPropertyPositive = new HashSet<AdviceCustomPropertyPositive>();
-            this.AdviceCustomPropertyNegative = new HashSet<AdviceCustomPropertyNegative>();
-            this.AdviceFilmPositive = new HashSet<AdviceFilmPositive>();
-            this.AdviceFilmNegative = new HashSet<AdviceFilmNegative>();
-        }
-    
         public int Id { get; set; }
         public System.Guid Key { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AdviceCustomPropertyPositive> AdviceCustomPropertyPositive { get; set; }
+        public virtual ICollection<AdviceCustomProperty> AdviceCustomPropertyPositive { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AdviceCustomPropertyNegative> AdviceCustomPropertyNegative { get; set; }
+        public virtual ICollection<AdviceFilm> AdviceFilmPositive { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AdviceFilmPositive> AdviceFilmPositive { get; set; }
+        public virtual ICollection<AdviceCustomProperty> AdviceCustomPropertyNegative { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AdviceFilmNegative> AdviceFilmNegative { get; set; }
+        public virtual ICollection<AdviceFilm> AdviceFilmNegative { get; set; }
     }
 }

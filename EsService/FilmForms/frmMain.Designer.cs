@@ -44,6 +44,8 @@
             this.Название = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Год = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Описание = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.связьСЭСToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.синхронизироватьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -53,7 +55,8 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.файлToolStripMenuItem,
-            this.сущностиToolStripMenuItem});
+            this.сущностиToolStripMenuItem,
+            this.связьСЭСToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(800, 28);
@@ -144,6 +147,7 @@
             this.советыToolStripMenuItem.Name = "советыToolStripMenuItem";
             this.советыToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
             this.советыToolStripMenuItem.Text = "Советы";
+            this.советыToolStripMenuItem.Click += new System.EventHandler(this.советыToolStripMenuItem_Click);
             // 
             // dataGridView1
             // 
@@ -182,6 +186,21 @@
             this.Описание.Name = "Описание";
             this.Описание.ReadOnly = true;
             // 
+            // связьСЭСToolStripMenuItem
+            // 
+            this.связьСЭСToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.синхронизироватьToolStripMenuItem});
+            this.связьСЭСToolStripMenuItem.Name = "связьСЭСToolStripMenuItem";
+            this.связьСЭСToolStripMenuItem.Size = new System.Drawing.Size(94, 24);
+            this.связьСЭСToolStripMenuItem.Text = "Связь с ЭС";
+            // 
+            // синхронизироватьToolStripMenuItem
+            // 
+            this.синхронизироватьToolStripMenuItem.Name = "синхронизироватьToolStripMenuItem";
+            this.синхронизироватьToolStripMenuItem.Size = new System.Drawing.Size(218, 26);
+            this.синхронизироватьToolStripMenuItem.Text = "Синхронизировать";
+            this.синхронизироватьToolStripMenuItem.Click += new System.EventHandler(this.синхронизироватьToolStripMenuItem_Click);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -218,6 +237,8 @@
         private System.Windows.Forms.ToolStripMenuItem пользовательскиеСвойстваToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem фильмыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem советыToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem связьСЭСToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem синхронизироватьToolStripMenuItem;
     }
 }
 

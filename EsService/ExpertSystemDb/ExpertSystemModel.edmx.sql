@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 12/18/2019 22:10:19
+-- Date Created: 01/03/2020 15:12:50
 -- Generated from EDMX file: D:\PROJECTS\CSharp\FilmFinder\EsService\ExpertSystemDb\ExpertSystemModel.edmx
 -- --------------------------------------------------
 
@@ -116,23 +116,11 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CustomPropertyAdviceCustomPropertyPositive]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AdviceCustomPropertyPositiveSet] DROP CONSTRAINT [FK_CustomPropertyAdviceCustomPropertyPositive];
 GO
-IF OBJECT_ID(N'[dbo].[FK_CustomPropertyAdviceCustomPropertyNegative]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AdviceCustomPropertyNegativeSet] DROP CONSTRAINT [FK_CustomPropertyAdviceCustomPropertyNegative];
-GO
 IF OBJECT_ID(N'[dbo].[FK_AdviceAdviceCustomPropertyPositive]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AdviceCustomPropertyPositiveSet] DROP CONSTRAINT [FK_AdviceAdviceCustomPropertyPositive];
 GO
-IF OBJECT_ID(N'[dbo].[FK_AdviceAdviceCustomPropertyNegative]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AdviceCustomPropertyNegativeSet] DROP CONSTRAINT [FK_AdviceAdviceCustomPropertyNegative];
-GO
 IF OBJECT_ID(N'[dbo].[FK_AdviceAdviceFilmPositive]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AdviceFilmPositiveSet] DROP CONSTRAINT [FK_AdviceAdviceFilmPositive];
-GO
-IF OBJECT_ID(N'[dbo].[FK_AdviceAdviceFilmNegative]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AdviceFilmNegativeSet] DROP CONSTRAINT [FK_AdviceAdviceFilmNegative];
-GO
-IF OBJECT_ID(N'[dbo].[FK_FilmAdviceFilmNegative]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AdviceFilmNegativeSet] DROP CONSTRAINT [FK_FilmAdviceFilmNegative];
 GO
 IF OBJECT_ID(N'[dbo].[FK_FilmAdviceFilmPositive]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AdviceFilmPositiveSet] DROP CONSTRAINT [FK_FilmAdviceFilmPositive];
@@ -220,14 +208,8 @@ GO
 IF OBJECT_ID(N'[dbo].[AdviceCustomPropertyPositiveSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AdviceCustomPropertyPositiveSet];
 GO
-IF OBJECT_ID(N'[dbo].[AdviceCustomPropertyNegativeSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[AdviceCustomPropertyNegativeSet];
-GO
 IF OBJECT_ID(N'[dbo].[AdviceFilmPositiveSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AdviceFilmPositiveSet];
-GO
-IF OBJECT_ID(N'[dbo].[AdviceFilmNegativeSet]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[AdviceFilmNegativeSet];
 GO
 
 -- --------------------------------------------------
@@ -448,35 +430,21 @@ CREATE TABLE [dbo].[AdviceSet] (
 );
 GO
 
--- Creating table 'AdviceCustomPropertyPositiveSet'
-CREATE TABLE [dbo].[AdviceCustomPropertyPositiveSet] (
+-- Creating table 'AdviceCustomPropertySet'
+CREATE TABLE [dbo].[AdviceCustomPropertySet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [CustomProperty_Id] int  NOT NULL,
-    [Advice_Id] int  NOT NULL
+    [AdvicePositive_Id] int  NULL,
+    [AdviceNegative_Id] int  NULL
 );
 GO
 
--- Creating table 'AdviceCustomPropertyNegativeSet'
-CREATE TABLE [dbo].[AdviceCustomPropertyNegativeSet] (
+-- Creating table 'AdviceFilmSet'
+CREATE TABLE [dbo].[AdviceFilmSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [CustomProperty_Id] int  NOT NULL,
-    [Advice_Id] int  NOT NULL
-);
-GO
-
--- Creating table 'AdviceFilmPositiveSet'
-CREATE TABLE [dbo].[AdviceFilmPositiveSet] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Advice_Id] int  NOT NULL,
-    [Film_Id] int  NOT NULL
-);
-GO
-
--- Creating table 'AdviceFilmNegativeSet'
-CREATE TABLE [dbo].[AdviceFilmNegativeSet] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Advice_Id] int  NOT NULL,
-    [Film_Id] int  NOT NULL
+    [AdvicePositive_Id] int  NULL,
+    [Film_Id] int  NOT NULL,
+    [AdviceNegative_Id] int  NULL
 );
 GO
 
@@ -634,27 +602,15 @@ ADD CONSTRAINT [PK_AdviceSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'AdviceCustomPropertyPositiveSet'
-ALTER TABLE [dbo].[AdviceCustomPropertyPositiveSet]
-ADD CONSTRAINT [PK_AdviceCustomPropertyPositiveSet]
+-- Creating primary key on [Id] in table 'AdviceCustomPropertySet'
+ALTER TABLE [dbo].[AdviceCustomPropertySet]
+ADD CONSTRAINT [PK_AdviceCustomPropertySet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'AdviceCustomPropertyNegativeSet'
-ALTER TABLE [dbo].[AdviceCustomPropertyNegativeSet]
-ADD CONSTRAINT [PK_AdviceCustomPropertyNegativeSet]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'AdviceFilmPositiveSet'
-ALTER TABLE [dbo].[AdviceFilmPositiveSet]
-ADD CONSTRAINT [PK_AdviceFilmPositiveSet]
-    PRIMARY KEY CLUSTERED ([Id] ASC);
-GO
-
--- Creating primary key on [Id] in table 'AdviceFilmNegativeSet'
-ALTER TABLE [dbo].[AdviceFilmNegativeSet]
-ADD CONSTRAINT [PK_AdviceFilmNegativeSet]
+-- Creating primary key on [Id] in table 'AdviceFilmSet'
+ALTER TABLE [dbo].[AdviceFilmSet]
+ADD CONSTRAINT [PK_AdviceFilmSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -1142,8 +1098,8 @@ ON [dbo].[FilmCustomPropertySet]
     ([CustomProperty_Id]);
 GO
 
--- Creating foreign key on [CustomProperty_Id] in table 'AdviceCustomPropertyPositiveSet'
-ALTER TABLE [dbo].[AdviceCustomPropertyPositiveSet]
+-- Creating foreign key on [CustomProperty_Id] in table 'AdviceCustomPropertySet'
+ALTER TABLE [dbo].[AdviceCustomPropertySet]
 ADD CONSTRAINT [FK_CustomPropertyAdviceCustomPropertyPositive]
     FOREIGN KEY ([CustomProperty_Id])
     REFERENCES [dbo].[CustomPropertySet]
@@ -1153,29 +1109,14 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_CustomPropertyAdviceCustomPropertyPositive'
 CREATE INDEX [IX_FK_CustomPropertyAdviceCustomPropertyPositive]
-ON [dbo].[AdviceCustomPropertyPositiveSet]
+ON [dbo].[AdviceCustomPropertySet]
     ([CustomProperty_Id]);
 GO
 
--- Creating foreign key on [CustomProperty_Id] in table 'AdviceCustomPropertyNegativeSet'
-ALTER TABLE [dbo].[AdviceCustomPropertyNegativeSet]
-ADD CONSTRAINT [FK_CustomPropertyAdviceCustomPropertyNegative]
-    FOREIGN KEY ([CustomProperty_Id])
-    REFERENCES [dbo].[CustomPropertySet]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_CustomPropertyAdviceCustomPropertyNegative'
-CREATE INDEX [IX_FK_CustomPropertyAdviceCustomPropertyNegative]
-ON [dbo].[AdviceCustomPropertyNegativeSet]
-    ([CustomProperty_Id]);
-GO
-
--- Creating foreign key on [Advice_Id] in table 'AdviceCustomPropertyPositiveSet'
-ALTER TABLE [dbo].[AdviceCustomPropertyPositiveSet]
+-- Creating foreign key on [AdvicePositive_Id] in table 'AdviceCustomPropertySet'
+ALTER TABLE [dbo].[AdviceCustomPropertySet]
 ADD CONSTRAINT [FK_AdviceAdviceCustomPropertyPositive]
-    FOREIGN KEY ([Advice_Id])
+    FOREIGN KEY ([AdvicePositive_Id])
     REFERENCES [dbo].[AdviceSet]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -1183,29 +1124,14 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_AdviceAdviceCustomPropertyPositive'
 CREATE INDEX [IX_FK_AdviceAdviceCustomPropertyPositive]
-ON [dbo].[AdviceCustomPropertyPositiveSet]
-    ([Advice_Id]);
+ON [dbo].[AdviceCustomPropertySet]
+    ([AdvicePositive_Id]);
 GO
 
--- Creating foreign key on [Advice_Id] in table 'AdviceCustomPropertyNegativeSet'
-ALTER TABLE [dbo].[AdviceCustomPropertyNegativeSet]
-ADD CONSTRAINT [FK_AdviceAdviceCustomPropertyNegative]
-    FOREIGN KEY ([Advice_Id])
-    REFERENCES [dbo].[AdviceSet]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_AdviceAdviceCustomPropertyNegative'
-CREATE INDEX [IX_FK_AdviceAdviceCustomPropertyNegative]
-ON [dbo].[AdviceCustomPropertyNegativeSet]
-    ([Advice_Id]);
-GO
-
--- Creating foreign key on [Advice_Id] in table 'AdviceFilmPositiveSet'
-ALTER TABLE [dbo].[AdviceFilmPositiveSet]
+-- Creating foreign key on [AdvicePositive_Id] in table 'AdviceFilmSet'
+ALTER TABLE [dbo].[AdviceFilmSet]
 ADD CONSTRAINT [FK_AdviceAdviceFilmPositive]
-    FOREIGN KEY ([Advice_Id])
+    FOREIGN KEY ([AdvicePositive_Id])
     REFERENCES [dbo].[AdviceSet]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -1213,42 +1139,12 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_AdviceAdviceFilmPositive'
 CREATE INDEX [IX_FK_AdviceAdviceFilmPositive]
-ON [dbo].[AdviceFilmPositiveSet]
-    ([Advice_Id]);
+ON [dbo].[AdviceFilmSet]
+    ([AdvicePositive_Id]);
 GO
 
--- Creating foreign key on [Advice_Id] in table 'AdviceFilmNegativeSet'
-ALTER TABLE [dbo].[AdviceFilmNegativeSet]
-ADD CONSTRAINT [FK_AdviceAdviceFilmNegative]
-    FOREIGN KEY ([Advice_Id])
-    REFERENCES [dbo].[AdviceSet]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_AdviceAdviceFilmNegative'
-CREATE INDEX [IX_FK_AdviceAdviceFilmNegative]
-ON [dbo].[AdviceFilmNegativeSet]
-    ([Advice_Id]);
-GO
-
--- Creating foreign key on [Film_Id] in table 'AdviceFilmNegativeSet'
-ALTER TABLE [dbo].[AdviceFilmNegativeSet]
-ADD CONSTRAINT [FK_FilmAdviceFilmNegative]
-    FOREIGN KEY ([Film_Id])
-    REFERENCES [dbo].[FilmSet]
-        ([Id])
-    ON DELETE NO ACTION ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_FilmAdviceFilmNegative'
-CREATE INDEX [IX_FK_FilmAdviceFilmNegative]
-ON [dbo].[AdviceFilmNegativeSet]
-    ([Film_Id]);
-GO
-
--- Creating foreign key on [Film_Id] in table 'AdviceFilmPositiveSet'
-ALTER TABLE [dbo].[AdviceFilmPositiveSet]
+-- Creating foreign key on [Film_Id] in table 'AdviceFilmSet'
+ALTER TABLE [dbo].[AdviceFilmSet]
 ADD CONSTRAINT [FK_FilmAdviceFilmPositive]
     FOREIGN KEY ([Film_Id])
     REFERENCES [dbo].[FilmSet]
@@ -1258,8 +1154,38 @@ GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_FilmAdviceFilmPositive'
 CREATE INDEX [IX_FK_FilmAdviceFilmPositive]
-ON [dbo].[AdviceFilmPositiveSet]
+ON [dbo].[AdviceFilmSet]
     ([Film_Id]);
+GO
+
+-- Creating foreign key on [AdviceNegative_Id] in table 'AdviceCustomPropertySet'
+ALTER TABLE [dbo].[AdviceCustomPropertySet]
+ADD CONSTRAINT [FK_AdviceAdviceCustomPropertyPositive1]
+    FOREIGN KEY ([AdviceNegative_Id])
+    REFERENCES [dbo].[AdviceSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AdviceAdviceCustomPropertyPositive1'
+CREATE INDEX [IX_FK_AdviceAdviceCustomPropertyPositive1]
+ON [dbo].[AdviceCustomPropertySet]
+    ([AdviceNegative_Id]);
+GO
+
+-- Creating foreign key on [AdviceNegative_Id] in table 'AdviceFilmSet'
+ALTER TABLE [dbo].[AdviceFilmSet]
+ADD CONSTRAINT [FK_AdviceAdviceFilm]
+    FOREIGN KEY ([AdviceNegative_Id])
+    REFERENCES [dbo].[AdviceSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_AdviceAdviceFilm'
+CREATE INDEX [IX_FK_AdviceAdviceFilm]
+ON [dbo].[AdviceFilmSet]
+    ([AdviceNegative_Id]);
 GO
 
 -- --------------------------------------------------

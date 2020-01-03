@@ -69,20 +69,16 @@
         <EntityTypeShape EntityType="ExpertSystemModel.FilmCustomProperty" Width="1.5" PointX="7.5" PointY="8.5" />
         <AssociationConnector Association="ExpertSystemModel.CustomPropertyFilmCustomProperty" />
         <EntityTypeShape EntityType="ExpertSystemModel.Advice" Width="1.5" PointX="0.75" PointY="4.5" />
-        <EntityTypeShape EntityType="ExpertSystemModel.AdviceCustomPropertyPositive" Width="1.5" PointX="3" PointY="4.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="ExpertSystemModel.AdviceCustomProperty" Width="2.75" PointX="3.375" PointY="4.625" IsExpanded="true" />
         <AssociationConnector Association="ExpertSystemModel.CustomPropertyAdviceCustomPropertyPositive" />
         <AssociationConnector Association="ExpertSystemModel.AdviceAdviceCustomPropertyPositive" />
-        <EntityTypeShape EntityType="ExpertSystemModel.AdviceCustomPropertyNegative" Width="1.5" PointX="4.875" PointY="5.75" IsExpanded="false" />
-        <AssociationConnector Association="ExpertSystemModel.CustomPropertyAdviceCustomPropertyNegative" />
-        <AssociationConnector Association="ExpertSystemModel.AdviceAdviceCustomPropertyNegative" />
-        <EntityTypeShape EntityType="ExpertSystemModel.AdviceFilmPositive" Width="1.5" PointX="3" PointY="9.5" IsExpanded="false" />
+        <EntityTypeShape EntityType="ExpertSystemModel.AdviceFilm" Width="2.375" PointX="2.125" PointY="7.75" IsExpanded="true" />
         <AssociationConnector Association="ExpertSystemModel.AdviceAdviceFilmPositive" />
-        <EntityTypeShape EntityType="ExpertSystemModel.AdviceFilmNegative" Width="1.5" PointX="3" PointY="8.5" IsExpanded="false" />
-        <AssociationConnector Association="ExpertSystemModel.AdviceAdviceFilmNegative" />
         <EntityTypeShape EntityType="ExpertSystemModel.Film" Width="1.5" PointX="5.25" PointY="7.375" />
         <AssociationConnector Association="ExpertSystemModel.FilmFilmCustomProperty" />
-        <AssociationConnector Association="ExpertSystemModel.FilmAdviceFilmNegative" />
         <AssociationConnector Association="ExpertSystemModel.FilmAdviceFilmPositive" />
+        <AssociationConnector Association="ExpertSystemModel.AdviceAdviceCustomPropertyPositive1" />
+        <AssociationConnector Association="ExpertSystemModel.AdviceAdviceFilm" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
