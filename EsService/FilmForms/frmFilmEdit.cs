@@ -28,6 +28,7 @@ namespace FilmForms
                 new FieldForEditUI(EditedObject, ReflectionHelper.Nameof<Film>(f => f.Description), "Описание"),
                 new FieldForEditUI(EditedObject, ReflectionHelper.Nameof<Film>(f => f.Rating), "Рейтинг") { MinUpDown = 0, MaxUpDown = 10, UpDownDefaultValue = 5 },
                 new FieldForEditUI(EditedObject, ReflectionHelper.Nameof<Film>(f => f.Link), "Ссылка"),
+                new FieldForEditUI(EditedObject, ReflectionHelper.Nameof<Film>(f => f.Poster), "Ссылка на изображение"),
 
                 new FieldForEditUI(EditedObject, ReflectionHelper.Nameof<Film>(p => p.ActorFilm), "Актёры", new Dictionary<Type, Type>() { { typeof(ActorFilm), typeof(frmActorFilmEdit) } })
                 {

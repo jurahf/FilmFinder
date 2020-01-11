@@ -134,5 +134,10 @@ namespace FilmForms
                 MessageBox.Show("При синхронизации произошла ошибка");
             }
         }
+
+        private void заполнитьФильмToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenForm(typeof(frmFillFilmFromUrl));
+        }
     }
 }
