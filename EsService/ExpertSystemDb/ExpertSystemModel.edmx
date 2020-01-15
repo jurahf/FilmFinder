@@ -685,7 +685,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FilmCountryFilm">
-    <End Role="Film" Type="ExpertSystemModel.Store.FilmSet" Multiplicity="1" />
+    <End Role="Film" Type="ExpertSystemModel.Store.FilmSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="CountryFilm" Type="ExpertSystemModel.Store.CountryFilmSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Film">
@@ -697,7 +699,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FilmActorFilm">
-    <End Role="Film" Type="ExpertSystemModel.Store.FilmSet" Multiplicity="1" />
+    <End Role="Film" Type="ExpertSystemModel.Store.FilmSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="ActorFilm" Type="ExpertSystemModel.Store.ActorFilmSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Film">
@@ -709,7 +713,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FilmGenreFilm">
-    <End Role="Film" Type="ExpertSystemModel.Store.FilmSet" Multiplicity="1" />
+    <End Role="Film" Type="ExpertSystemModel.Store.FilmSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="GenreFilm" Type="ExpertSystemModel.Store.GenreFilmSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Film">
@@ -769,7 +775,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FilmProducerFilm">
-    <End Role="Film" Type="ExpertSystemModel.Store.FilmSet" Multiplicity="1" />
+    <End Role="Film" Type="ExpertSystemModel.Store.FilmSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="ProducerFilm" Type="ExpertSystemModel.Store.ProducerFilmSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Film">
@@ -781,7 +789,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FilmFilmCustomProperty">
-    <End Role="Film" Type="ExpertSystemModel.Store.FilmSet" Multiplicity="1" />
+    <End Role="Film" Type="ExpertSystemModel.Store.FilmSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="FilmCustomProperty" Type="ExpertSystemModel.Store.FilmCustomPropertySet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Film">
@@ -817,7 +827,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="AdviceAdviceCustomPropertyPositive">
-    <End Role="Advice" Type="ExpertSystemModel.Store.AdviceSet" Multiplicity="0..1" />
+    <End Role="Advice" Type="ExpertSystemModel.Store.AdviceSet" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="AdviceCustomPropertyPositive" Type="ExpertSystemModel.Store.AdviceCustomPropertySet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Advice">
@@ -829,7 +841,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="AdviceAdviceFilmPositive">
-    <End Role="Advice" Type="ExpertSystemModel.Store.AdviceSet" Multiplicity="0..1" />
+    <End Role="Advice" Type="ExpertSystemModel.Store.AdviceSet" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="AdviceFilmPositive" Type="ExpertSystemModel.Store.AdviceFilmSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Advice">
@@ -853,7 +867,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="AdviceAdviceCustomPropertyPositive1">
-    <End Role="Advice" Type="ExpertSystemModel.Store.AdviceSet" Multiplicity="0..1" />
+    <End Role="Advice" Type="ExpertSystemModel.Store.AdviceSet" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="AdviceCustomPropertyPositive" Type="ExpertSystemModel.Store.AdviceCustomPropertySet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Advice">
@@ -865,7 +881,9 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="AdviceAdviceFilm">
-    <End Role="Advice" Type="ExpertSystemModel.Store.AdviceSet" Multiplicity="0..1" />
+    <End Role="Advice" Type="ExpertSystemModel.Store.AdviceSet" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
     <End Role="AdviceFilm" Type="ExpertSystemModel.Store.AdviceFilmSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Advice">
@@ -1358,15 +1376,21 @@
           <Property Name="Name" Type="String" Nullable="false" />
         </EntityType>
         <Association Name="FilmCountryFilm">
-          <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" />
+          <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="ExpertSystemModel.CountryFilm" Role="CountryFilm" Multiplicity="*" />
         </Association>
         <Association Name="FilmActorFilm">
-          <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" />
+          <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="ExpertSystemModel.ActorFilm" Role="ActorFilm" Multiplicity="*" />
         </Association>
         <Association Name="FilmGenreFilm">
-          <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" />
+          <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="ExpertSystemModel.GenreFilm" Role="GenreFilm" Multiplicity="*" />
         </Association>
         <Association Name="CountryCountryFilm">
@@ -1394,7 +1418,9 @@
           <End Type="ExpertSystemModel.ProducerFilm" Role="ProducerFilm" Multiplicity="*" />
         </Association>
         <Association Name="FilmProducerFilm">
-          <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" />
+          <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="ExpertSystemModel.ProducerFilm" Role="ProducerFilm" Multiplicity="*" />
         </Association>
         <EntityType Name="CustomProperty">
@@ -1414,11 +1440,14 @@
           <NavigationProperty Name="CustomProperty" Relationship="ExpertSystemModel.CustomPropertyFilmCustomProperty" FromRole="FilmCustomProperty" ToRole="CustomProperty" />
         </EntityType>
         <Association Name="FilmFilmCustomProperty">
-          <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" />
+          <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="ExpertSystemModel.FilmCustomProperty" Role="FilmCustomProperty" Multiplicity="*" />
         </Association>
         <Association Name="CustomPropertyFilmCustomProperty">
-          <End Type="ExpertSystemModel.CustomProperty" Role="CustomProperty" Multiplicity="1" />
+          <End Type="ExpertSystemModel.CustomProperty" Role="CustomProperty" Multiplicity="1" >
+          </End>
           <End Type="ExpertSystemModel.FilmCustomProperty" Role="FilmCustomProperty" Multiplicity="*" />
         </Association>
         <EntityType Name="Advice">
@@ -1451,27 +1480,37 @@
           <NavigationProperty Name="AdviceNegative" Relationship="ExpertSystemModel.AdviceAdviceFilm" FromRole="AdviceFilm" ToRole="Advice" />
         </EntityType>
         <Association Name="CustomPropertyAdviceCustomPropertyPositive">
-          <End Type="ExpertSystemModel.CustomProperty" Role="CustomProperty" Multiplicity="1" />
+          <End Type="ExpertSystemModel.CustomProperty" Role="CustomProperty" Multiplicity="1" >
+          </End>
           <End Type="ExpertSystemModel.AdviceCustomProperty" Role="AdviceCustomPropertyPositive" Multiplicity="*" />
         </Association>
         <Association Name="AdviceAdviceCustomPropertyPositive">
-          <End Type="ExpertSystemModel.Advice" Role="Advice" Multiplicity="0..1" />
+          <End Type="ExpertSystemModel.Advice" Role="Advice" Multiplicity="0..1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="ExpertSystemModel.AdviceCustomProperty" Role="AdviceCustomPropertyPositive" Multiplicity="*" />
         </Association>
         <Association Name="AdviceAdviceFilmPositive">
-          <End Type="ExpertSystemModel.Advice" Role="Advice" Multiplicity="0..1" />
+          <End Type="ExpertSystemModel.Advice" Role="Advice" Multiplicity="0..1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="ExpertSystemModel.AdviceFilm" Role="AdviceFilmPositive" Multiplicity="*" />
         </Association>
         <Association Name="FilmAdviceFilmPositive">
-          <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" />
+          <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" >
+          </End>
           <End Type="ExpertSystemModel.AdviceFilm" Role="AdviceFilmPositive" Multiplicity="*" />
         </Association>
         <Association Name="AdviceAdviceCustomPropertyPositive1">
-          <End Type="ExpertSystemModel.Advice" Role="Advice" Multiplicity="0..1" />
+          <End Type="ExpertSystemModel.Advice" Role="Advice" Multiplicity="0..1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="ExpertSystemModel.AdviceCustomProperty" Role="AdviceCustomPropertyPositive" Multiplicity="*" />
         </Association>
         <Association Name="AdviceAdviceFilm">
-          <End Type="ExpertSystemModel.Advice" Role="Advice" Multiplicity="0..1" />
+          <End Type="ExpertSystemModel.Advice" Role="Advice" Multiplicity="0..1" >
+            <OnDelete Action="Cascade" />
+          </End>
           <End Type="ExpertSystemModel.AdviceFilm" Role="AdviceFilm" Multiplicity="*" />
         </Association>
       </Schema>

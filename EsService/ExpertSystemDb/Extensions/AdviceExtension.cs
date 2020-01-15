@@ -34,6 +34,20 @@ namespace ExpertSystemDb
             }
         }
 
+        public string CustomPropertiesStr
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (var cp in AdviceCustomPropertyPositive)
+                {
+                    sb.Append($"{cp.CustomProperty.Name}:{cp.CustomProperty.Value}; ");
+                }
+
+                return sb.ToString().Trim();
+            }
+        }
+
         public string TagStr
         {
             get

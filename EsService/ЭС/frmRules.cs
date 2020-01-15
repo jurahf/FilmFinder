@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ClassicClasses;
+using Logic;
 using Rule = ClassicClasses.Rule;
 
 namespace ЭС
@@ -29,7 +30,7 @@ namespace ЭС
             foreach (string s in es.Rules.Keys)
             {
                 rules.Add(s, es.Rules[s]);
-                lstRules.Items.Add(s + ": " + es.Rules[s].ToString());                
+                lstRules.Items.Add(new ОтображениеПравила(es.Rules[s]));
             }
             lstRules.SelectedIndex = -1;
         }
@@ -58,9 +59,9 @@ namespace ЭС
             if (off) // выводим посылки и вывод правила
             {
                 for (int i = 0; i < rules[getSelectedRuleName()].ReasonCount(); i++)
-                    lstReasons.Items.Add(rules[getSelectedRuleName()].GetReason(i));
+                    lstReasons.Items.Add(new ОтображениеФакта(rules[getSelectedRuleName()].GetReason(i)));
                 if (rules[getSelectedRuleName()].Result != null)
-                    lstResult.Items.Add(rules[getSelectedRuleName()].Result);
+                    lstResult.Items.Add(new ОтображениеФакта(rules[getSelectedRuleName()].Result));
                 textBox1.Text = rules[getSelectedRuleName()].Reasoning;
             }
 
@@ -89,7 +90,7 @@ namespace ЭС
                 Rule r = new Rule(newRule);
                 r.Reasoning = newReasoning;
                 rules.Add(newRule, r);
-                lstRules.Items.Add(newRule + ": " + r.ToString());
+                lstRules.Items.Add(new ОтображениеПравила(r));
                 lstRules.SelectedItem = newRule + ": " + r.ToString();
             }
         }
@@ -119,7 +120,7 @@ namespace ЭС
                 {
                     Fact newFact = new Fact(es.Vars[newVar], newWeight);
                     rules[getSelectedRuleName()].AddReason(newFact, rules[getSelectedRuleName()].Reasons.Count);
-                    lstReasons.Items.Add(newFact);
+                    lstReasons.Items.Add(new ОтображениеФакта(newFact));
                     // обновление имени правила
                     RefreshRule();
                 }
@@ -137,7 +138,7 @@ namespace ЭС
             int si = lstRules.SelectedIndex;
             Rule r = rules[getSelectedRuleName()];
             lstRules.Items.RemoveAt(si);
-            lstRules.Items.Insert(si, r.Name + ": " + r.ToString());
+            lstRules.Items.Insert(si, new ОтображениеПравила(r));
             lstRules.SelectedIndex = si;
         }
 
@@ -159,7 +160,7 @@ namespace ЭС
                 Fact newFact = new Fact(es.Vars[newVar], newWeight);
                 rules[getSelectedRuleName()].Result = newFact;
                 lstResult.Items.Clear();
-                lstResult.Items.Add(newFact);
+                lstResult.Items.Add(new ОтображениеФакта(newFact));
                 RefreshRule();
             }
         }
@@ -211,7 +212,7 @@ namespace ЭС
                     MessageBox.Show("Сначала необходимо выбрать посылку");
                     return;
                 }
-                Fact newFact = lstReasons.SelectedItem as Fact;
+                Fact newFact = (lstReasons.SelectedItem as ОтображениеФакта).Факт;
                 frmAddReason fr = new frmAddReason(this, newFact);
                 if (fr.ShowDialog() == DialogResult.OK)
                 {
@@ -268,7 +269,7 @@ namespace ЭС
                 r.Reasoning = newReasoning;
                 rules.Remove(old);
                 rules.Add(newRule, r);
-                lstRules.Items[pos] = newRule + ": " + r.ToString();//newRule;
+                lstRules.Items[pos] = new ОтображениеПравила(r);
             }
         }
 

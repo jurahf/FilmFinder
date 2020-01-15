@@ -43,12 +43,17 @@
   <ItemGroup>
     <Compile Include="EsAlgorithm.cs" />
     <Compile Include="EsLogic.cs" />
+    <Compile Include="FilmAndAdviceLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionLogic.cs" />
     <Compile Include="ЗагрузкаФильмаИзКинопоиска.cs" />
     <Compile Include="СинхронизацияБдФильмовСБзЭс.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ClassicClasses\ClassicClasses.csproj">
+      <Project>{8ecb4e69-0f1d-41f6-b283-ab736a02b233}</Project>
+      <Name>ClassicClasses</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ExpertSystemDb\ExpertSystemDb.csproj">
       <Project>{FF09E43E-5801-4847-BAB1-C9865550AB6B}</Project>
       <Name>ExpertSystemDb</Name>

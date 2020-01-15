@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ClassicClasses;
+using Logic;
 
 namespace ЭС
 {
@@ -42,8 +43,14 @@ namespace ЭС
             listBox2.Items.Clear();
             if (listBox1.SelectedIndex >= 0)
             {
+                СинхронизацияБдФильмовСБзЭс синхр = new СинхронизацияБдФильмовСБзЭс();
                 for (int i = 0; i < domains[listBox1.SelectedItem.ToString()].Count; i++)
-                    listBox2.Items.Add(domains[listBox1.SelectedItem.ToString()].GetVal(i));
+                {
+                    ValueDomain domain = domains[listBox1.SelectedItem.ToString()];
+                    string val = синхр.ЗначениеДомена(domain, i).КрасивоеПредставление;
+
+                    listBox2.Items.Add(val);
+                }
             }
         }
 

@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Logic
 {
+    /// <summary>
+    /// Крупные методы для доступа к функциям ЭС
+    /// </summary>
     public class EsAlgorithm
     {
         private DBWork db;

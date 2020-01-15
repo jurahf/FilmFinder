@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Logic
 {
+    /// <summary>
+    /// Непосредственно запуск консультации и поиск цели.
+    /// </summary>
     public class EsLogic
     {
         private DBWork db;
