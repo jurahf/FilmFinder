@@ -15,7 +15,7 @@ namespace WebApi.Controllers
     {
         private DBWork db;
         private EsAlgorithm algorithm;
-        private const string esName = "Поиск фильма";
+        private const string esName = "Фильмы";
 
         public FilmExpertController()
         {
