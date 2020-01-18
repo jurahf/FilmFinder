@@ -117,8 +117,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\ExpertSystemDb\ExpertSystemDb.csproj">
-      <Project>{FF09E43E-5801-4847-BAB1-C9865550AB6B}</Project>
+    <ProjectReference Include="..\..\ExpertSystemDb\ExpertSystemDb.csproj">
+      <Project>{ff09e43e-5801-4847-bab1-c9865550ab6b}</Project>
       <Name>ExpertSystemDb</Name>
     </ProjectReference>
     <ProjectReference Include="..\Logic\Logic.csproj">

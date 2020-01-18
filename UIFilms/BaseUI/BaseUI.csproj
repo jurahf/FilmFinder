@@ -136,7 +136,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ExpertSystemDb\ExpertSystemDb.csproj">
+    <ProjectReference Include="..\..\ExpertSystemDb\ExpertSystemDb.csproj">
       <Project>{ff09e43e-5801-4847-bab1-c9865550ab6b}</Project>
       <Name>ExpertSystemDb</Name>
     </ProjectReference>

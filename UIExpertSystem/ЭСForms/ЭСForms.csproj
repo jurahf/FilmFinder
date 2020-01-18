@@ -246,7 +246,7 @@
       <Project>{5129E1C7-D5DA-418C-8D45-FFCF4240D8B1}</Project>
       <Name>EsStorageAdapter</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Logic\Logic.csproj">
+    <ProjectReference Include="..\..\EsService\Logic\Logic.csproj">
       <Project>{F6E0850B-F39A-4765-99E6-72D3AB13B3DC}</Project>
       <Name>Logic</Name>
     </ProjectReference>

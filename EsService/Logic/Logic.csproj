@@ -50,13 +50,13 @@
     <Compile Include="СинхронизацияБдФильмовСБзЭс.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClassicClasses\ClassicClasses.csproj">
+    <ProjectReference Include="..\..\ExpertSystemDb\ExpertSystemDb.csproj">
+      <Project>{ff09e43e-5801-4847-bab1-c9865550ab6b}</Project>
+      <Name>ExpertSystemDb</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\UIExpertSystem\ClassicClasses\ClassicClasses.csproj">
       <Project>{8ecb4e69-0f1d-41f6-b283-ab736a02b233}</Project>
       <Name>ClassicClasses</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ExpertSystemDb\ExpertSystemDb.csproj">
-      <Project>{FF09E43E-5801-4847-BAB1-C9865550AB6B}</Project>
-      <Name>ExpertSystemDb</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

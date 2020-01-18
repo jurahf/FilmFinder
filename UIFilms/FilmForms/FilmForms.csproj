@@ -226,11 +226,11 @@
       <Project>{5B30D555-F855-41AE-B5E1-CCAFF1FB7A96}</Project>
       <Name>BaseUI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ExpertSystemDb\ExpertSystemDb.csproj">
+    <ProjectReference Include="..\..\ExpertSystemDb\ExpertSystemDb.csproj">
       <Project>{FF09E43E-5801-4847-BAB1-C9865550AB6B}</Project>
       <Name>ExpertSystemDb</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Logic\Logic.csproj">
+    <ProjectReference Include="..\..\EsService\Logic\Logic.csproj">
       <Project>{F6E0850B-F39A-4765-99E6-72D3AB13B3DC}</Project>
       <Name>Logic</Name>
     </ProjectReference>
