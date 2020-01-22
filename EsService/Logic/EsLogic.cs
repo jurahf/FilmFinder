@@ -305,7 +305,24 @@ namespace Logic
             if (consult.GoalStack == null || currentRule == null) // текущего правила может не быть только если главная цель была запрашиваемая
             {
                 // мы нашли значение цели консультации
-                var resultFact = db.GetFromDatabase<ConsultationFact>(x => x.Fact.Variable == lastGoal.Variable && x.Truly == FactTruly.IsTrue).FirstOrDefault();
+                ConsultationFact resultFact;
+                if (lastGoal == null)
+                {
+                    // вероятно, нашли цель когда-то давно
+                    resultFact = db.GetFromDatabase<ConsultationFact>(x => 
+                            x.Consultation == consult
+                            && x.Fact.Variable.Name == consult.ExpertSystem.Target.Name 
+                            && x.Truly == FactTruly.IsTrue)
+                        .FirstOrDefault();
+                }
+                else
+                {
+                    resultFact = db.GetFromDatabase<ConsultationFact>(x => 
+                            x.Consultation == consult
+                            && x.Fact.Variable == lastGoal.Variable 
+                            && x.Truly == FactTruly.IsTrue)
+                        .FirstOrDefault();
+                }
 
                 if (resultFact != null)
                 {

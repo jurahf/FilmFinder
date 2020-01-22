@@ -22,3 +22,13 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.hide {
+    display: none !important;
+}
+
+
+.main_title a {
+    text-decoration: none;
+    color: black;
+}

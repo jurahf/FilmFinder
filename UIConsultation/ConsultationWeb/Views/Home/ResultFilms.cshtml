@@ -10,97 +10,117 @@
     AdviceDto advice = (AdviceDto)ViewData["Advice"];
 }
 
-<div class="row">
-
-    @foreach (var film in advice.Films)
+@{
+    int i = 0;
+    foreach (var film in advice.Films)
     {
-        <div class="col col-xs-12">
-            <h1><a @*href="@film.Link"*@>@(film.Name)</a></h1>
-        </div>
-    }
+        i++;
+<div class="row hide" id="film_block_@i">
 
-    @*<div class="col col-xs-4">
-        <img src="@film.Poster" alt="poster" height="400" />
+    <div class="col col-xs-12">
+        <h1><a href="@(string.IsNullOrEmpty(film.Link) ? film.Link: "#")">@Html.Raw(film.Name)</a></h1>
     </div>
+
+    <div class="col col-xs-4">
+        <img src="@film.PosterUrl" alt="poster" height="400" />
+    </div>
+
     <div class="col col-xs-6">
         <div class="row">
-            <p><i>@film.Slogan</i></p>
+            <p><i>@Html.Raw(film.Slogan)</i></p>
         </div>
 
         <div class="row">
             <p>
-                Производство:
+                <b>Производство:</b>
                 @{
                     foreach (var country in film.Countries)
                     {
-                        @(country.Name + ";  ")
+                        @(Html.Raw(country.Name) + ";  ")
                     }
                 }
             </p>
         </div>
 
         <div class="row">
-            <p>Год: @film.Year</p>
+            <p><b>Год:</b> @film.Year</p>
         </div>
 
         <div class="row">
             <p>
-                Жанр:
+                <b>Жанр:</b>
                 @{
-                    foreach (var genre in film.Genres)
+                    foreach (var genre in film.Genries)
                     {
-                        @(genre.Name + ";  ")
+                        @(Html.Raw(genre.Name) + ";  ")
                     }
                 }
             </p>
         </div>
 
         <div class="row">
-            <p>Режиссер: @film.Producer.Name</p>
+            <p>
+                <b>Режиссер:</b>
+                @{
+                    foreach (var producer in film.Producers)
+                    {
+                        @(Html.Raw(producer.Name) + ";  ")
+                    }
+                }
+            </p>
         </div>
 
         <div class="row">
             <p>
-                В ролях:
+                <b>В ролях:</b>
                 @{
                     foreach (var actor in film.Actors)
                     {
-                        @(actor.Name + ";  ")
+                        @(Html.Raw(actor.Name) + ";  ")
                     }
                 }
             </p>
         </div>
 
         <div class="row">
-            <p>@film.Description</p>
+            <p>@Html.Raw(film.Description)</p>
         </div>
 
         <div class="row">
-            <p>Рейтинг: @(film.Rating.ToString("0.000"))</p>
+            <p><b>Рейтинг:</b> @(film.Rating.ToString("0.000"))</p>
         </div>
-    </div>*@
-</div>
-
-
-<div class="row" style="margin-top:20px;">
-    <div class="col col-xs-12">
-        <p><a class="btn btn-primary btn-lg" onclick="ToMain();">На главную</a></p>
     </div>
+
+    <div class="col col-xs-12">
+        <div class="row" style="margin-top:20px;">
+            <div class="col col-xs-12">
+                <p><a class="btn btn-secondary btn-lg" onclick="ShowNext(@i);">Другое</a></p>
+            </div>
+        </div>
+    </div>
+
 </div>
 
+    }
+}
 
 
 
-@section scripts {
-    <script type="text/javascript">
+    @section scripts {
+        <script type="text/javascript">
         $(document).ready(function () {
-
+            $('#film_block_1').removeClass('hide');
         });
 
-        function ToMain() {
-            window.location.href = '/Home/Index';
+        function ShowNext(index) {
+            $('#film_block_' + index).addClass('hide');
+            if (index >= @advice.Films.Count)
+                index = 0;
+
+            $('#film_block_' + (index + 1)).removeClass('hide');
         }
-    </script>
-}
+
+        </script>
+    }
 
 
