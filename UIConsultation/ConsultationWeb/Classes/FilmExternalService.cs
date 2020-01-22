@@ -1,15 +1,15 @@
-﻿using FilmsWebApplication.Models;
+﻿using ConsultationWeb.Classes.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
 
-namespace FilmsWebApplication.Classes
+namespace ConsultationWeb.Classes
 {
     public class FilmExternalService
     {
-        private static string serviceUrl = "http://localhost:3175/"; // FilmsWebApi
+        private static string serviceUrl = "http://localhost:3178/"; // EsService/WebApi
 
         private HttpClient CreateHttpClient()
         {
@@ -19,21 +19,22 @@ namespace FilmsWebApplication.Classes
             return client;
         }
 
-        public Film GetFilm(int id)
+        public AdviceDto GetAdviceDetails(string key)
         {
-            string query = $"api/Films/GetFilm?id={id}";
+            string query = $"api/FilmAdvice/GetAdviceDetails?key={key}";
             var client = CreateHttpClient();
 
             HttpResponseMessage response = client.GetAsync(query).Result;
 
             if (response.IsSuccessStatusCode)
             {
-                var film = response.Content.ReadAsAsync<Film>().Result;
+                var advice = response.Content.ReadAsAsync<AdviceDto>().Result;
 
-                return film;
+                return advice;
             }
             else
                 return null;
         }
+
     }
 }

@@ -94,7 +94,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Classes\AdviceDto.cs" />
     <Compile Include="Classes\StartEsArgs.cs" />
+    <Compile Include="Controllers\FilmAdviceController.cs" />
     <Compile Include="Controllers\FilmExpertController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Global.asax.cs">

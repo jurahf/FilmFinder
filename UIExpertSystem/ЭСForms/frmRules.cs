@@ -190,7 +190,7 @@ namespace ЭС
                     MessageBox.Show("Сначала необходимо выбрать посылку");
                     return;
                 }
-                rules[getSelectedRuleName()].Remove(lstReasons.SelectedItem as Fact);
+                rules[getSelectedRuleName()].Remove((lstReasons.SelectedItem as ОтображениеФакта).Факт);
                 lstReasons.Items.Remove(lstReasons.SelectedItem);
             }
             catch (RuleException re)

@@ -1,14 +1,14 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "Поиск фильма";
+    ViewBag.Title = "Вопрос";
 }
 
 
-@using FilmsWebApplication.Models;
+@using ConsultationWeb.Classes.DTO;
 
 @{
-    int sessionId = (int)ViewData["SessionId"];
-    VariableDto tempVar = (VariableDto)ViewData["Variable"];
+    string sessionId = (string)ViewData["SessionId"];
+    VariableDto tempVar = (VariableDto)ViewData["Quest"];
 }
 
 
@@ -43,7 +43,7 @@
         function SendAnswer() {
             var optionId = $('.form-check-input:checked').first().attr('id');
             var varVal = $('#label' + optionId).html();
-            window.location.href = '/Home/IndexContinue?sessionId=@(sessionId.ToString())&varName=@(tempVar.Name)&varValue=' + varVal;
+            window.location.href = '/Home/Answer?sessionId=@(sessionId)&varName=@(tempVar.Name)&varValue=' + varVal;
         }
     </script>
 }

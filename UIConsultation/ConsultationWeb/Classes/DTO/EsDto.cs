@@ -3,8 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace FilmsWebApplication.Models
+namespace ConsultationWeb.Classes.DTO
 {
+    public class QuestionOrResultDto
+    {
+        public string SessionId { get; set; }
+        public VariableDto Question { get; set; }
+        public ConsultResultDto Result { get; set; }
+    }
+
     public class ConsultResultDto
     {
         public FactDto Fact { get; set; }
@@ -30,21 +37,5 @@ namespace FilmsWebApplication.Models
         public string Name { get; set; }
         public string Question { get; set; }
         public List<string> Domain { get; set; }
-    }
-
-    public class EsParameters
-    {
-        public string FileName => "FilmsEs.es";
-
-        public string Goal => "Фильм";
-
-        public List<EsVariables> VarValues { get; set; } = new List<EsVariables>();
-    }
-
-
-    public class EsVariables
-    {
-        public string Variable { get; set; }
-        public string Value { get; set; }
     }
 }

@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // Управление общими сведениями о сборке осуществляется следующим образом
 // набора атрибутов. Измените значения этих атрибутов для изменения сведений,
 // связанных с этой сборкой.
-[assembly: AssemblyTitle("FilmsWebApplication")]
+[assembly: AssemblyTitle("ConsultationWeb")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("FilmsWebApplication")]
-[assembly: AssemblyCopyright("© , 2019")]
+[assembly: AssemblyProduct("ConsultationWeb")]
+[assembly: AssemblyCopyright("© , 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // Следующий GUID служит для ID библиотеки типов typelib, если этот проект видим для COM
-[assembly: Guid("275f989b-a109-4d87-ac08-92805867715c")]
+[assembly: Guid("4244c91f-ed2f-4c20-946f-1c196f4fd530")]
 
 // Сведения о версии сборки состоят из указанных ниже четырех значений:
 //

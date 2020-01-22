@@ -1,18 +1,25 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Результат";
 }
 
-@using FilmsWebApplication.Models;
+
+@using ConsultationWeb.Classes.DTO;
 
 @{
-    Film film = (Film)ViewData["Film"];
+    AdviceDto advice = (AdviceDto)ViewData["Advice"];
 }
 
 <div class="row">
-    <div class="col col-xs-12">
-        <h1><a href="@film.Link">@(film.Name)</a></h1>
-    </div>
-    <div class="col col-xs-4">
+
+    @foreach (var film in advice.Films)
+    {
+        <div class="col col-xs-12">
+            <h1><a @*href="@film.Link"*@>@(film.Name)</a></h1>
+        </div>
+    }
+
+    @*<div class="col col-xs-4">
         <img src="@film.Poster" alt="poster" height="400" />
     </div>
     <div class="col col-xs-6">
@@ -71,7 +78,7 @@
         <div class="row">
             <p>Рейтинг: @(film.Rating.ToString("0.000"))</p>
         </div>
-    </div>
+    </div>*@
 </div>
 
 
