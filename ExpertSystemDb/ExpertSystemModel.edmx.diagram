@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f23bf90e3017431f9400d916234fad27" Name="EsCore" ZoomLevel="61" >
+      <Diagram DiagramId="f23bf90e3017431f9400d916234fad27" Name="EsCore" ZoomLevel="98" >
         <EntityTypeShape EntityType="ExpertSystemModel.ExpertSystem" Width="1.5" PointX="4.625" PointY="1.875" />
         <EntityTypeShape EntityType="ExpertSystemModel.Domain" Width="1.5" PointX="1.625" PointY="4" />
         <AssociationConnector Association="ExpertSystemModel.ExpertSystemDomain" />
@@ -19,11 +19,9 @@
         <AssociationConnector Association="ExpertSystemModel.VariableFact" />
         <EntityTypeShape EntityType="ExpertSystemModel.Rule" Width="1.5" PointX="11.125" PointY="4.125" />
         <AssociationConnector Association="ExpertSystemModel.FactRule" ManuallyRouted="true" >
-          <ConnectorPoint PointX="9.5" PointY="8.047841796875" />
-          <ConnectorPoint PointX="11.455729166666666" PointY="8.047841796875" />
-          <ConnectorPoint PointX="11.622395833333334" PointY="8.047841796875" />
-          <ConnectorPoint PointX="12.00390625" PointY="8.047841796875" />
-          <ConnectorPoint PointX="12.00390625" PointY="6.297587890625" />
+          <ConnectorPoint PointX="9.5" PointY="8.35349759375" />
+          <ConnectorPoint PointX="11.875" PointY="8.35349759375" />
+          <ConnectorPoint PointX="11.875" PointY="6.297587890625" />
         </AssociationConnector>
         <EntityTypeShape EntityType="ExpertSystemModel.RuleFact" Width="1.5" PointX="9" PointY="5.875" IsExpanded="false" />
         <AssociationConnector Association="ExpertSystemModel.RuleRuleFact" />

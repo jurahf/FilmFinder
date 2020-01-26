@@ -246,6 +246,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Order" Type="int" Nullable="true" />
     <Property Name="Rule_Id" Type="int" Nullable="false" />
     <Property Name="Fact_Id" Type="int" Nullable="false" />
   </EntityType>
@@ -1191,6 +1192,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Rule" Relationship="ExpertSystemModel.RuleRuleFact" FromRole="RuleFact" ToRole="Rule" />
           <NavigationProperty Name="Fact" Relationship="ExpertSystemModel.FactRuleFact" FromRole="RuleFact" ToRole="Fact" />
+          <Property Name="Order" Type="Int32" Nullable="true" />
         </EntityType>
         <Association Name="RuleRuleFact">
           <End Type="ExpertSystemModel.Rule" Role="Rule" Multiplicity="1" />
@@ -1575,6 +1577,7 @@
       <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.RuleFact)">
         <MappingFragment StoreEntitySet="RuleFactSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Order" ColumnName="Order" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

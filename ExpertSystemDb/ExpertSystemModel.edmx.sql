@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 01/12/2020 12:32:09
--- Generated from EDMX file: D:\PROJECTS\CSharp\FilmFinder\EsService\ExpertSystemDb\ExpertSystemModel.edmx
+-- Date Created: 01/22/2020 20:07:06
+-- Generated from EDMX file: D:\PROJECTS\CSharp\FilmFinder\ExpertSystemDb\ExpertSystemModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -280,6 +280,7 @@ GO
 -- Creating table 'RuleFactSet'
 CREATE TABLE [dbo].[RuleFactSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
+    [Order] int  NULL,
     [Rule_Id] int  NOT NULL,
     [Fact_Id] int  NOT NULL
 );

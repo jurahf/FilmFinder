@@ -43,9 +43,12 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.buttonDown = new System.Windows.Forms.Button();
+            this.buttonUp = new System.Windows.Forms.Button();
             this.lstReasons = new ЭС.DragListBox();
             this.lstResult = new ЭС.DragListBox();
             this.lstRules = new ЭС.DragListBox();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -54,9 +57,10 @@
             // btnAddRule
             // 
             this.btnAddRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddRule.Location = new System.Drawing.Point(487, 12);
+            this.btnAddRule.Location = new System.Drawing.Point(858, 15);
+            this.btnAddRule.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddRule.Name = "btnAddRule";
-            this.btnAddRule.Size = new System.Drawing.Size(75, 23);
+            this.btnAddRule.Size = new System.Drawing.Size(100, 28);
             this.btnAddRule.TabIndex = 3;
             this.btnAddRule.Text = "Добавить";
             this.btnAddRule.UseVisualStyleBackColor = true;
@@ -66,9 +70,10 @@
             // 
             this.btnEditRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEditRule.Enabled = false;
-            this.btnEditRule.Location = new System.Drawing.Point(487, 41);
+            this.btnEditRule.Location = new System.Drawing.Point(858, 50);
+            this.btnEditRule.Margin = new System.Windows.Forms.Padding(4);
             this.btnEditRule.Name = "btnEditRule";
-            this.btnEditRule.Size = new System.Drawing.Size(75, 23);
+            this.btnEditRule.Size = new System.Drawing.Size(100, 28);
             this.btnEditRule.TabIndex = 4;
             this.btnEditRule.Text = "Изменить";
             this.btnEditRule.UseVisualStyleBackColor = true;
@@ -78,9 +83,10 @@
             // 
             this.btnDeleteRule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDeleteRule.Enabled = false;
-            this.btnDeleteRule.Location = new System.Drawing.Point(487, 70);
+            this.btnDeleteRule.Location = new System.Drawing.Point(858, 86);
+            this.btnDeleteRule.Margin = new System.Windows.Forms.Padding(4);
             this.btnDeleteRule.Name = "btnDeleteRule";
-            this.btnDeleteRule.Size = new System.Drawing.Size(75, 23);
+            this.btnDeleteRule.Size = new System.Drawing.Size(100, 28);
             this.btnDeleteRule.TabIndex = 5;
             this.btnDeleteRule.Text = "Удалить";
             this.btnDeleteRule.UseVisualStyleBackColor = true;
@@ -90,9 +96,10 @@
             // 
             this.btnAddReason.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddReason.Enabled = false;
-            this.btnAddReason.Location = new System.Drawing.Point(185, 26);
+            this.btnAddReason.Location = new System.Drawing.Point(352, 32);
+            this.btnAddReason.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddReason.Name = "btnAddReason";
-            this.btnAddReason.Size = new System.Drawing.Size(75, 23);
+            this.btnAddReason.Size = new System.Drawing.Size(100, 28);
             this.btnAddReason.TabIndex = 6;
             this.btnAddReason.Text = "Добавить";
             this.btnAddReason.UseVisualStyleBackColor = true;
@@ -102,9 +109,10 @@
             // 
             this.btnEditReason.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEditReason.Enabled = false;
-            this.btnEditReason.Location = new System.Drawing.Point(185, 55);
+            this.btnEditReason.Location = new System.Drawing.Point(352, 68);
+            this.btnEditReason.Margin = new System.Windows.Forms.Padding(4);
             this.btnEditReason.Name = "btnEditReason";
-            this.btnEditReason.Size = new System.Drawing.Size(75, 23);
+            this.btnEditReason.Size = new System.Drawing.Size(100, 28);
             this.btnEditReason.TabIndex = 7;
             this.btnEditReason.Text = "Изменить";
             this.btnEditReason.UseVisualStyleBackColor = true;
@@ -114,9 +122,10 @@
             // 
             this.btnDeleteReason.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDeleteReason.Enabled = false;
-            this.btnDeleteReason.Location = new System.Drawing.Point(185, 84);
+            this.btnDeleteReason.Location = new System.Drawing.Point(352, 103);
+            this.btnDeleteReason.Margin = new System.Windows.Forms.Padding(4);
             this.btnDeleteReason.Name = "btnDeleteReason";
-            this.btnDeleteReason.Size = new System.Drawing.Size(75, 23);
+            this.btnDeleteReason.Size = new System.Drawing.Size(100, 28);
             this.btnDeleteReason.TabIndex = 8;
             this.btnDeleteReason.Text = "Удалить";
             this.btnDeleteReason.UseVisualStyleBackColor = true;
@@ -126,9 +135,10 @@
             // 
             this.btnModifyResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnModifyResult.Enabled = false;
-            this.btnModifyResult.Location = new System.Drawing.Point(185, 26);
+            this.btnModifyResult.Location = new System.Drawing.Point(350, 32);
+            this.btnModifyResult.Margin = new System.Windows.Forms.Padding(4);
             this.btnModifyResult.Name = "btnModifyResult";
-            this.btnModifyResult.Size = new System.Drawing.Size(75, 23);
+            this.btnModifyResult.Size = new System.Drawing.Size(100, 28);
             this.btnModifyResult.TabIndex = 9;
             this.btnModifyResult.Text = "Установить";
             this.btnModifyResult.UseVisualStyleBackColor = true;
@@ -138,9 +148,10 @@
             // 
             this.btnDeleteResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDeleteResult.Enabled = false;
-            this.btnDeleteResult.Location = new System.Drawing.Point(185, 55);
+            this.btnDeleteResult.Location = new System.Drawing.Point(350, 68);
+            this.btnDeleteResult.Margin = new System.Windows.Forms.Padding(4);
             this.btnDeleteResult.Name = "btnDeleteResult";
-            this.btnDeleteResult.Size = new System.Drawing.Size(75, 23);
+            this.btnDeleteResult.Size = new System.Drawing.Size(100, 28);
             this.btnDeleteResult.TabIndex = 10;
             this.btnDeleteResult.Text = "Удалить";
             this.btnDeleteResult.UseVisualStyleBackColor = true;
@@ -150,9 +161,10 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(551, 355);
+            this.btnCancel.Location = new System.Drawing.Point(944, 573);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(99, 23);
+            this.btnCancel.Size = new System.Drawing.Size(132, 28);
             this.btnCancel.TabIndex = 11;
             this.btnCancel.Text = "Отменить все";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -161,9 +173,10 @@
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(470, 355);
+            this.btnOk.Location = new System.Drawing.Point(836, 573);
+            this.btnOk.Margin = new System.Windows.Forms.Padding(4);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
+            this.btnOk.Size = new System.Drawing.Size(100, 28);
             this.btnOk.TabIndex = 12;
             this.btnOk.Text = "Готово";
             this.btnOk.UseVisualStyleBackColor = true;
@@ -172,50 +185,57 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(20, 10);
+            this.label1.Location = new System.Drawing.Point(56, 11);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(37, 13);
+            this.label1.Size = new System.Drawing.Size(46, 17);
             this.label1.TabIndex = 13;
             this.label1.Text = "ЕСЛИ";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 10);
+            this.label2.Location = new System.Drawing.Point(21, 12);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(22, 13);
+            this.label2.Size = new System.Drawing.Size(28, 17);
             this.label2.TabIndex = 14;
             this.label2.Text = "ТО";
             // 
             // textBox1
             // 
             this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(480, 128);
+            this.textBox1.Location = new System.Drawing.Point(849, 158);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(4);
             this.textBox1.Multiline = true;
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(170, 83);
+            this.textBox1.Size = new System.Drawing.Size(225, 101);
             this.textBox1.TabIndex = 15;
             // 
             // label3
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(484, 112);
+            this.label3.Location = new System.Drawing.Point(854, 138);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(118, 13);
+            this.label3.Size = new System.Drawing.Size(154, 17);
             this.label3.TabIndex = 16;
             this.label3.Text = "Объяснение правила:";
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(12, 217);
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.Location = new System.Drawing.Point(16, 403);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.buttonDown);
+            this.splitContainer1.Panel1.Controls.Add(this.buttonUp);
             this.splitContainer1.Panel1.Controls.Add(this.btnEditReason);
             this.splitContainer1.Panel1.Controls.Add(this.btnAddReason);
             this.splitContainer1.Panel1.Controls.Add(this.lstReasons);
@@ -228,45 +248,72 @@
             this.splitContainer1.Panel2.Controls.Add(this.lstResult);
             this.splitContainer1.Panel2.Controls.Add(this.btnModifyResult);
             this.splitContainer1.Panel2.Controls.Add(this.label2);
-            this.splitContainer1.Size = new System.Drawing.Size(540, 132);
-            this.splitContainer1.SplitterDistance = 273;
+            this.splitContainer1.Size = new System.Drawing.Size(929, 162);
+            this.splitContainer1.SplitterDistance = 469;
+            this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 20;
+            // 
+            // buttonDown
+            // 
+            this.buttonDown.Location = new System.Drawing.Point(4, 68);
+            this.buttonDown.Name = "buttonDown";
+            this.buttonDown.Size = new System.Drawing.Size(34, 25);
+            this.buttonDown.TabIndex = 20;
+            this.buttonDown.Text = "\\/";
+            this.buttonDown.UseVisualStyleBackColor = true;
+            this.buttonDown.Click += new System.EventHandler(this.buttonDown_Click);
+            // 
+            // buttonUp
+            // 
+            this.buttonUp.Location = new System.Drawing.Point(4, 37);
+            this.buttonUp.Name = "buttonUp";
+            this.buttonUp.Size = new System.Drawing.Size(34, 25);
+            this.buttonUp.TabIndex = 19;
+            this.buttonUp.Text = "/\\";
+            this.buttonUp.UseVisualStyleBackColor = true;
+            this.buttonUp.Click += new System.EventHandler(this.buttonUp_Click);
             // 
             // lstReasons
             // 
-            this.lstReasons.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstReasons.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstReasons.FormattingEnabled = true;
             this.lstReasons.HorizontalScrollbar = true;
-            this.lstReasons.Location = new System.Drawing.Point(9, 26);
+            this.lstReasons.ItemHeight = 16;
+            this.lstReasons.Location = new System.Drawing.Point(45, 32);
+            this.lstReasons.Margin = new System.Windows.Forms.Padding(4);
             this.lstReasons.Name = "lstReasons";
-            this.lstReasons.Size = new System.Drawing.Size(170, 95);
+            this.lstReasons.Size = new System.Drawing.Size(297, 116);
             this.lstReasons.TabIndex = 18;
             this.lstReasons.AfterDrop += new ЭС.AfterDropEventHandler(this.lstReasons_AfterDrop);
             // 
             // lstResult
             // 
-            this.lstResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstResult.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstResult.FormattingEnabled = true;
             this.lstResult.HorizontalScrollbar = true;
-            this.lstResult.Location = new System.Drawing.Point(9, 26);
+            this.lstResult.ItemHeight = 16;
+            this.lstResult.Location = new System.Drawing.Point(12, 32);
+            this.lstResult.Margin = new System.Windows.Forms.Padding(4);
             this.lstResult.Name = "lstResult";
-            this.lstResult.Size = new System.Drawing.Size(170, 95);
+            this.lstResult.Size = new System.Drawing.Size(328, 116);
             this.lstResult.TabIndex = 19;
             // 
             // lstRules
             // 
-            this.lstRules.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lstRules.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lstRules.FormattingEnabled = true;
             this.lstRules.HorizontalScrollbar = true;
-            this.lstRules.Location = new System.Drawing.Point(12, 12);
+            this.lstRules.ItemHeight = 16;
+            this.lstRules.Location = new System.Drawing.Point(16, 15);
+            this.lstRules.Margin = new System.Windows.Forms.Padding(4);
             this.lstRules.Name = "lstRules";
-            this.lstRules.Size = new System.Drawing.Size(459, 199);
+            this.lstRules.Size = new System.Drawing.Size(820, 372);
             this.lstRules.TabIndex = 17;
             this.lstRules.AfterDrop += new ЭС.AfterDropEventHandler(this.lstRules_AfterDrop);
             this.lstRules.SelectedIndexChanged += new System.EventHandler(this.lstRules_SelectedIndexChanged);
@@ -275,10 +322,10 @@
             // 
             this.AcceptButton = this.btnOk;
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(662, 390);
+            this.ClientSize = new System.Drawing.Size(1092, 616);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.lstRules);
             this.Controls.Add(this.label3);
@@ -288,13 +335,15 @@
             this.Controls.Add(this.btnDeleteRule);
             this.Controls.Add(this.btnEditRule);
             this.Controls.Add(this.btnAddRule);
-            this.MinimumSize = new System.Drawing.Size(644, 428);
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.MinimumSize = new System.Drawing.Size(853, 516);
             this.Name = "frmRules";
             this.Text = "Правила";
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -321,5 +370,7 @@
         private DragListBox lstReasons;
         private DragListBox lstResult;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.Button buttonDown;
+        private System.Windows.Forms.Button buttonUp;
     }
 }

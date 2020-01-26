@@ -187,7 +187,7 @@ namespace Logic
             consult.CurrentRule = r;
 
             bool isTrue = true;
-            foreach (Fact fact in r.Conditions.Select(x => x.Fact))
+            foreach (Fact fact in r.Conditions.OrderBy(x => x.Order).Select(x => x.Fact))
             {
                 ConsultationFact provedFact = НайтиУжеПроверенныйФакт(consult.ProvedFacts, fact);
                 if (provedFact == null)

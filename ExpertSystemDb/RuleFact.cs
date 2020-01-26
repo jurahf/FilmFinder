@@ -15,6 +15,7 @@ namespace ExpertSystemDb
     public partial class RuleFact
     {
         public int Id { get; set; }
+        public Nullable<int> Order { get; set; }
     
         public virtual Rule Rule { get; set; }
         public virtual Fact Fact { get; set; }

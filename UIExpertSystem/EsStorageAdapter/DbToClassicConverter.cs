@@ -100,7 +100,7 @@ namespace EsStorageAdapter
             result.Worked = ClassicClasses.RuleWork.No;
             result.Result = FactConvert(fromDb.Result, variables, ref existedFacts);
             result.Reasons = new List<ClassicClasses.Fact>();
-            foreach (var ruleFact in fromDb.Conditions)
+            foreach (var ruleFact in fromDb.Conditions.OrderBy(x => x.Order))
             {
                 result.Reasons.Add(FactConvert(ruleFact.Fact, variables, ref existedFacts));
             }

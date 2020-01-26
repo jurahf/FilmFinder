@@ -296,7 +296,36 @@ namespace ЭС
             rules[getSelectedRuleName()].Reasons.Insert(e.FIndex, e.Data as Fact);
         }
 
+        private void buttonUp_Click(object sender, EventArgs e)
+        {
+            if (lstReasons.SelectedIndex > 0)
+            {
+                int startIndex = lstReasons.SelectedIndex;
+                Fact fact = (lstReasons.SelectedItem as ОтображениеФакта).Факт;
+                lstReasons.Items.RemoveAt(startIndex);
+                lstReasons.Items.Insert(startIndex - 1, new ОтображениеФакта(fact));
 
+                rules[getSelectedRuleName()].Reasons.RemoveAt(startIndex);
+                rules[getSelectedRuleName()].Reasons.Insert(startIndex - 1, fact);
 
+                lstReasons.SelectedIndex = startIndex - 1;
+            }
+        }
+
+        private void buttonDown_Click(object sender, EventArgs e)
+        {
+            if (lstReasons.SelectedIndex >= 0 && lstReasons.SelectedIndex < lstReasons.Items.Count - 1)
+            {
+                int startIndex = lstReasons.SelectedIndex;
+                Fact fact = (lstReasons.SelectedItem as ОтображениеФакта).Факт;
+                lstReasons.Items.RemoveAt(startIndex);
+                lstReasons.Items.Insert(startIndex + 1, new ОтображениеФакта(fact));
+
+                rules[getSelectedRuleName()].Reasons.RemoveAt(startIndex);
+                rules[getSelectedRuleName()].Reasons.Insert(startIndex + 1, fact);
+
+                lstReasons.SelectedIndex = startIndex + 1;
+            }
+        }
     }
 }

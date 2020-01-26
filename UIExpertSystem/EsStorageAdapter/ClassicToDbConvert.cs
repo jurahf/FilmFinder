@@ -97,10 +97,12 @@ namespace EsStorageAdapter
             result.Reasoning = classic.Reasoning;
             result.Order = order;
             result.Result = FactConvert(classic.Result, variables, ref existedFacts);
-            foreach (var condition in classic.Reasons)
+            for (int i = 0; i < classic.Reasons.Count; i++)
             {
+                var condition = classic.Reasons[i];
                 result.Conditions.Add(new RuleFact()
                 {
+                    Order = i + 1,  // вообще-то List не дает гарантии, что элементы будут в одном порядке всегда
                     Rule = result,
                     Fact = FactConvert(condition, variables, ref existedFacts)
                 });
