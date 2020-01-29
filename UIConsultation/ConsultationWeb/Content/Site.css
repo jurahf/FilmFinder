@@ -27,8 +27,26 @@ textarea {
     display: none !important;
 }
 
+.main_title {
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
 
 .main_title a {
     text-decoration: none;
     color: black;
+}
+
+.input-group-text {
+    border: none;
+}
+
+.jumbotron {
+    padding-bottom: 1rem;
+    padding-top: 2rem;
+}
+
+.margin-bottom-20 {
+    margin-bottom: 20px;
 }
