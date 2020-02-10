@@ -289,14 +289,14 @@ namespace Logic
             var lastGoal = PopGoal(consult);
 
             // надо записать ответ
-            List<Fact> фактыДляОзначивания = db.GetFromDatabase<Fact>(x => x.Variable.Name == answer.Variable); // TODO: тут могут попасть факты из других ЭС
+            List<Fact> фактыДляОзначивания = db.GetFromDatabase<Fact>(x => x.Variable.Name.ToLower() == answer.Variable.ToLower()); // TODO: тут могут попасть факты из других ЭС
             foreach (var f in фактыДляОзначивания)
             {
                 var cf = new ConsultationFact()
                 {
                     Consultation = consult,
                     Fact = f,
-                    Truly = f.DomainValue.Value == answer.Value ? FactTruly.IsTrue : FactTruly.IsFalse
+                    Truly = f.DomainValue.Value.ToLower() == answer.Value.ToLower() ? FactTruly.IsTrue : FactTruly.IsFalse
                 };
                 db.Insert(cf);
             }

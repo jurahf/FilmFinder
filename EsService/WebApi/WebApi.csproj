@@ -96,9 +96,20 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Classes\AdviceDto.cs" />
     <Compile Include="Classes\StartEsArgs.cs" />
+    <Compile Include="Classes\Vk\Commands\AnotherCommand.cs" />
+    <Compile Include="Classes\Vk\Commands\Command.cs" />
+    <Compile Include="Classes\Vk\Commands\CommandContainer.cs" />
+    <Compile Include="Classes\Vk\Commands\CommonLogic.cs" />
+    <Compile Include="Classes\Vk\Commands\SetAnswerAndNextCommand.cs" />
+    <Compile Include="Classes\Vk\Commands\StartCommand.cs" />
+    <Compile Include="Classes\Vk\Commands\StartConsultationCommand.cs" />
+    <Compile Include="Classes\Vk\Keyboard.cs" />
+    <Compile Include="Classes\Vk\VkApiIntegrator.cs" />
+    <Compile Include="Classes\Vk\VkMessage.cs" />
     <Compile Include="Controllers\FilmAdviceController.cs" />
     <Compile Include="Controllers\FilmExpertController.cs" />
     <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\VkBotController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -109,7 +120,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
-    <None Include="Properties\PublishProfiles\ImmortalVentureES - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
