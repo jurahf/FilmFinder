@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web.Http;
 using WebApi.Classes.Vk;
 using WebApi.Classes.Vk.Commands;
@@ -32,15 +33,37 @@ namespace WebApi.Controllers
             }
             else
             {
-                if (message.Type.ToLower() == VkMessageType.Message_new.ToString().ToLower())
-                {
-                    new CommandContainer().ParseAndDoCommand(message.Object);
-                }
+                Task.Factory.StartNew(() => DoWork(message));
 
-                var response = Request.CreateResponse(HttpStatusCode.OK);
-                response.Content = new StringContent("ok", Encoding.UTF8, "text/html");
-                return response;
+                return SendOk();
             }
         }
+
+        private void DoWork(VkMessage message)
+        {
+            if (message.Type.ToLower() == VkMessageType.Message_new.ToString().ToLower())
+            {
+                new CommandContainer().ParseAndDoCommand(message.Object);
+            }
+        }
+
+        private HttpResponseMessage SendOk()
+        {
+            var response = Request.CreateResponse(HttpStatusCode.OK);
+            response.Content = new StringContent("ok", Encoding.UTF8, "text/html");
+            return response;
+        }
+
+
+        //[HttpGet]
+        //[ActionName("TestPicture")]
+        //public string TestPicture(string url, int peerId)
+        //{
+        //    VkApiIntegrator vkApi = new VkApiIntegrator();
+        //    string picName = vkApi.PreparePictureAndGetName(url, peerId);
+        //    vkApi.SendMessage(peerId, "Test", null, picName);
+        //    return picName;
+        //}
+
     }
 }

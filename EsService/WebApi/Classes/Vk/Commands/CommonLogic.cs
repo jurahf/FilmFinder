@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Web;
 
@@ -10,9 +11,12 @@ namespace WebApi.Classes.Vk.Commands
     {
         public static void SendAboutFilm(FilmDto film, int adviceId, int peerId, VkApiIntegrator vkApi)
         {
+            string posterPic = vkApi.PreparePictureAndGetName(film.PosterUrl, peerId);
+            vkApi.SendMessage(peerId, "", null, posterPic);
+
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine($"{film.Name} ({film.Year})");
-            sb.AppendLine(film.Description);
+            sb.AppendLine($"{WebUtility.HtmlDecode(film.Name)} ({film.Year})");
+            sb.AppendLine(WebUtility.HtmlDecode(film.Description));
 
             Keyboard keyboard = new Keyboard()
             {

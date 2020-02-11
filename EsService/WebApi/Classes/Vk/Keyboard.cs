@@ -30,6 +30,10 @@ namespace WebApi.Classes.Vk
                 });
             }
 
+            keyboard.Buttons.Add(new List<Button>() {
+                new Button() { Color = ButtonColor.negative, Label = "Начать подбор заново", Payload = "Consultation" }
+            });
+
             return keyboard;
         }
 

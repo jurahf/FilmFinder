@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExpertSystemDb;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,9 @@ namespace Server.Controllers
             try
             {
                 /// TODO: Код для проверки 
+                DBWork db = new DBWork();
+                var film = db.GetFromDatabase<Film>(x => x.Id == 5).FirstOrDefault();
+                return WebUtility.HtmlDecode(film.Description);
 
                 return "все ок";
             }
