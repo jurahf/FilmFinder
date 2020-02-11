@@ -65,7 +65,9 @@ namespace WebApi.Classes.Vk.Commands
                     SendError(message.Peer_Id);
 
                 var dto = new AdviceDto(advice);
-                var film = dto.Films[0];
+                // TODO: это пока так, а вообще могут быть советы без фильмов, только категории, по которым фильмы еще надо получить
+                int index = new Random().Next(0, dto.Films.Count - 1);
+                var film = dto.Films[index];
 
                 CommonLogic.SendAboutFilm(film, advice.Id, message.Peer_Id, vkApi);
             }
