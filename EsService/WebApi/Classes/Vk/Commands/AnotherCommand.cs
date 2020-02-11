@@ -26,7 +26,7 @@ namespace WebApi.Classes.Vk.Commands
         public override void Do(VkPersonMessage message)
         {
             // TODO: обработка ошибок
-            string[] arr = message.Payload.Split('|');
+            string[] arr = message.TextOrPayload.Split('|');
             int adviceId = int.Parse(ClearMessage(arr[1]));
             int filmId = int.Parse(ClearMessage(arr[2]));
 

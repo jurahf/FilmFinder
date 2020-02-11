@@ -32,7 +32,7 @@ namespace WebApi.Classes.Vk.Commands
         public override void Do(VkPersonMessage message)
         {
             // TODO: неплохо бы от ошибок защититься
-            string[] arr = message.Payload.Split('|');
+            string[] arr = message.TextOrPayload.Split('|');
             string sessionId = ClearMessage(arr[1]);
             string variable = ClearMessage(arr[2]);
             string value = ClearMessage(arr[3]);
