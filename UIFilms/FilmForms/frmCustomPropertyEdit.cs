@@ -21,7 +21,6 @@ namespace FilmForms
             return new List<FieldForEditUI>()
             {
                 new FieldForEditUI(EditedObject, ReflectionHelper.Nameof<CustomProperty>(p => p.Name), "Название"),
-                new FieldForEditUI(EditedObject, ReflectionHelper.Nameof<CustomProperty>(p => p.Value), "Значение")
             };
         }
 

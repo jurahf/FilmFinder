@@ -384,13 +384,13 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Value" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <EntityType Name="FilmCustomPropertySet">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Percent" Type="int" Nullable="false" />
     <Property Name="Film_Id" Type="int" Nullable="false" />
     <Property Name="CustomProperty_Id" Type="int" Nullable="false" />
   </EntityType>
@@ -1431,7 +1431,6 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
-          <Property Name="Value" Type="String" Nullable="true" />
         </EntityType>
         <EntityType Name="FilmCustomProperty">
           <Key>
@@ -1440,6 +1439,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Film" Relationship="ExpertSystemModel.FilmFilmCustomProperty" FromRole="FilmCustomProperty" ToRole="Film" />
           <NavigationProperty Name="CustomProperty" Relationship="ExpertSystemModel.CustomPropertyFilmCustomProperty" FromRole="FilmCustomProperty" ToRole="CustomProperty" />
+          <Property Name="Percent" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FilmFilmCustomProperty">
           <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" >
@@ -1710,7 +1710,6 @@
         <MappingFragment StoreEntitySet="CustomPropertySet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Value" ColumnName="Value" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -1718,6 +1717,7 @@
       <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.FilmCustomProperty)">
         <MappingFragment StoreEntitySet="FilmCustomPropertySet">
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Percent" ColumnName="Percent" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

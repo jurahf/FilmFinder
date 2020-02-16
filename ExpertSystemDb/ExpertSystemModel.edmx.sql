@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 01/22/2020 20:07:06
+-- Date Created: 02/16/2020 14:42:57
 -- Generated from EDMX file: D:\PROJECTS\CSharp\FilmFinder\ExpertSystemDb\ExpertSystemModel.edmx
 -- --------------------------------------------------
 
@@ -417,14 +417,14 @@ GO
 -- Creating table 'CustomPropertySet'
 CREATE TABLE [dbo].[CustomPropertySet] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Name] nvarchar(max)  NOT NULL,
-    [Value] nvarchar(max)  NULL
+    [Name] nvarchar(max)  NOT NULL
 );
 GO
 
 -- Creating table 'FilmCustomPropertySet'
 CREATE TABLE [dbo].[FilmCustomPropertySet] (
     [Id] int IDENTITY(1,1) NOT NULL,
+    [Percent] int  NOT NULL,
     [Film_Id] int  NOT NULL,
     [CustomProperty_Id] int  NOT NULL
 );

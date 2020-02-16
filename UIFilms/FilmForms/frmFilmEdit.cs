@@ -72,7 +72,7 @@ namespace FilmForms
                     ListFields = new List<FieldForListUI> ()
                     {
                         new FieldForListUI( ReflectionHelper.Nameof<FilmCustomProperty>(s => s.CustomProperty.Name), "Название"),
-                        new FieldForListUI( ReflectionHelper.Nameof<FilmCustomProperty>(s => s.CustomProperty.Value), "Значение")
+                        new FieldForListUI( ReflectionHelper.Nameof<FilmCustomProperty>(s => s.Percent), "Значение")
                     }
                 },
 

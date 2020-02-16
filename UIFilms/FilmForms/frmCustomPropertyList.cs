@@ -23,7 +23,6 @@ namespace FilmForms
             new List<FieldForListUI>()
             {
                 new FieldForListUI(ReflectionHelper.Nameof<CustomProperty>(a => a.Name), "Название"),
-                new FieldForListUI(ReflectionHelper.Nameof<CustomProperty>(a => a.Value), "Значение")
             };
 
 

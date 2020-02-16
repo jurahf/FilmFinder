@@ -15,6 +15,7 @@ namespace ExpertSystemDb
     public partial class FilmCustomProperty
     {
         public int Id { get; set; }
+        public int Percent { get; set; }
     
         public virtual Film Film { get; set; }
         public virtual CustomProperty CustomProperty { get; set; }

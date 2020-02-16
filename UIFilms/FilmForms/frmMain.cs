@@ -139,5 +139,38 @@ namespace FilmForms
         {
             OpenForm(typeof(frmFillFilmFromUrl));
         }
+
+        private void выгрузитьСвойстваФильмовВExcelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var выгрузка = new ПользовательскиеСвойстваExcel();
+                выгрузка.ToExcel();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void загрузитьСвойстваФильмовИзExcelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openExcelDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    var загрузка = new ПользовательскиеСвойстваExcel();
+
+                    if (загрузка.FromExcel(openExcelDialog.FileName))
+                        MessageBox.Show("Свойства успешно загружены", "Загрузка", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+
     }
 }

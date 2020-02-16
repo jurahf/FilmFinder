@@ -41,7 +41,7 @@ namespace ExpertSystemDb
                 StringBuilder sb = new StringBuilder();
                 foreach (var cp in AdviceCustomPropertyPositive)
                 {
-                    sb.Append($"{cp.CustomProperty.Name}:{cp.CustomProperty.Value}; ");
+                    sb.Append($"{cp.CustomProperty.Name}; ");
                 }
 
                 return sb.ToString().Trim();
@@ -55,7 +55,7 @@ namespace ExpertSystemDb
                 StringBuilder sb = new StringBuilder();
                 foreach (var pr in AdviceCustomPropertyPositive)
                 {
-                    sb.Append($"{pr.CustomProperty.Name}: {pr.CustomProperty.Value}; ");
+                    sb.Append($"{pr.CustomProperty.Name}; ");
                 }
 
                 return sb.ToString().Trim();

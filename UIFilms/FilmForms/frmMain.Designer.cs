@@ -30,6 +30,11 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.файлToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.заполнитьФильмToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.выгрузитьСвойстваФильмовВExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.загрузитьСвойстваФильмовИзExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.выходToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сущностиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.справочникиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,7 +51,7 @@
             this.Название = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Год = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Описание = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.заполнитьФильмToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openExcelDialog = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -68,15 +73,50 @@
             // 
             this.файлToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.заполнитьФильмToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.выгрузитьСвойстваФильмовВExcelToolStripMenuItem,
+            this.загрузитьСвойстваФильмовИзExcelToolStripMenuItem,
+            this.toolStripSeparator1,
             this.выходToolStripMenuItem});
             this.файлToolStripMenuItem.Name = "файлToolStripMenuItem";
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(57, 24);
             this.файлToolStripMenuItem.Text = "Файл";
             // 
+            // заполнитьФильмToolStripMenuItem
+            // 
+            this.заполнитьФильмToolStripMenuItem.Name = "заполнитьФильмToolStripMenuItem";
+            this.заполнитьФильмToolStripMenuItem.Size = new System.Drawing.Size(343, 26);
+            this.заполнитьФильмToolStripMenuItem.Text = "Заполнить фильм";
+            this.заполнитьФильмToolStripMenuItem.Click += new System.EventHandler(this.заполнитьФильмToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(340, 6);
+            // 
+            // выгрузитьСвойстваФильмовВExcelToolStripMenuItem
+            // 
+            this.выгрузитьСвойстваФильмовВExcelToolStripMenuItem.Name = "выгрузитьСвойстваФильмовВExcelToolStripMenuItem";
+            this.выгрузитьСвойстваФильмовВExcelToolStripMenuItem.Size = new System.Drawing.Size(343, 26);
+            this.выгрузитьСвойстваФильмовВExcelToolStripMenuItem.Text = "Выгрузить свойства фильмов в Excel";
+            this.выгрузитьСвойстваФильмовВExcelToolStripMenuItem.Click += new System.EventHandler(this.выгрузитьСвойстваФильмовВExcelToolStripMenuItem_Click);
+            // 
+            // загрузитьСвойстваФильмовИзExcelToolStripMenuItem
+            // 
+            this.загрузитьСвойстваФильмовИзExcelToolStripMenuItem.Name = "загрузитьСвойстваФильмовИзExcelToolStripMenuItem";
+            this.загрузитьСвойстваФильмовИзExcelToolStripMenuItem.Size = new System.Drawing.Size(343, 26);
+            this.загрузитьСвойстваФильмовИзExcelToolStripMenuItem.Text = "Загрузить свойства фильмов из Excel";
+            this.загрузитьСвойстваФильмовИзExcelToolStripMenuItem.Click += new System.EventHandler(this.загрузитьСвойстваФильмовИзExcelToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(340, 6);
+            // 
             // выходToolStripMenuItem
             // 
             this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            this.выходToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(343, 26);
             this.выходToolStripMenuItem.Text = "Выход";
             this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
@@ -203,12 +243,9 @@
             this.Описание.Name = "Описание";
             this.Описание.ReadOnly = true;
             // 
-            // заполнитьФильмToolStripMenuItem
+            // openExcelDialog
             // 
-            this.заполнитьФильмToolStripMenuItem.Name = "заполнитьФильмToolStripMenuItem";
-            this.заполнитьФильмToolStripMenuItem.Size = new System.Drawing.Size(216, 26);
-            this.заполнитьФильмToolStripMenuItem.Text = "Заполнить фильм";
-            this.заполнитьФильмToolStripMenuItem.Click += new System.EventHandler(this.заполнитьФильмToolStripMenuItem_Click);
+            this.openExcelDialog.Filter = "Файлы Excel|*.xls;*.xlsx";
             // 
             // frmMain
             // 
@@ -249,6 +286,11 @@
         private System.Windows.Forms.ToolStripMenuItem связьСЭСToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem синхронизироватьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem заполнитьФильмToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem выгрузитьСвойстваФильмовВExcelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem загрузитьСвойстваФильмовИзExcelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.OpenFileDialog openExcelDialog;
     }
 }
 

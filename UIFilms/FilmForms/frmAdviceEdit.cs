@@ -44,7 +44,6 @@ namespace FilmForms
                     ListFields = new List<FieldForListUI> ()
                     {
                         new FieldForListUI(ReflectionHelper.Nameof<AdviceCustomProperty>(s => s.CustomProperty.Name), "Название"),
-                        new FieldForListUI(ReflectionHelper.Nameof<AdviceCustomProperty>(s => s.CustomProperty.Value), "Значение")
                     }
                 },
 
@@ -54,7 +53,6 @@ namespace FilmForms
                     ListFields = new List<FieldForListUI> ()
                     {
                         new FieldForListUI(ReflectionHelper.Nameof<AdviceCustomProperty>(s => s.CustomProperty.Name), "Название"),
-                        new FieldForListUI(ReflectionHelper.Nameof<AdviceCustomProperty>(s => s.CustomProperty.Value), "Значение")
                     }
                 },
 
