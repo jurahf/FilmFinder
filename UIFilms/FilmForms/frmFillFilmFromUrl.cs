@@ -1,4 +1,6 @@
-﻿using Logic;
+﻿using ExpertSystemDb;
+using Logic;
+using Logic.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,39 +50,73 @@ namespace FilmForms
 
         private void button2_Click(object sender, EventArgs e)
         {
+            listView1.Items.Clear();
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                try
+                foreach (var fileName in openFileDialog1.FileNames)
                 {
-                    string html;
-                    using (StreamReader sr = new StreamReader(openFileDialog1.FileName))
+                    try
                     {
-                        html = sr.ReadToEnd();
+                        var фильм = LoadFilm(fileName);
+                        if (фильм != null)
+                        {
+                            listView1.Items.Add(фильм.Name);
+                            listView1.Items[listView1.Items.Count - 1].BackColor = Color.LightGreen;
+                            listView1.Items[listView1.Items.Count - 1].Tag = фильм;
+                        }
+                        else
+                        {
+                            listView1.Items.Add($"НЕ ЗАГРУЗИЛСЯ: {fileName}");
+                            listView1.Items[listView1.Items.Count - 1].BackColor = Color.OrangeRed;
+                        }
                     }
-
-                    ЗагрузкаФильмаИзКинопоиска кинопоиск = new ЗагрузкаФильмаИзКинопоиска();
-                    var фильм = кинопоиск.ЗагрузитьИзСтроки(html);
-
-                    if (фильм != null)
+                    catch (FilmAlreadyExistsException)
                     {
-                        frmFilmEdit frm = new frmFilmEdit(фильм, true);
-                        frm.ShowDialog();
+                        listView1.Items.Add($"УЖЕ СУЩЕСТВУЕТ: {fileName}");
+                        listView1.Items[listView1.Items.Count - 1].BackColor = Color.OrangeRed;
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        MessageBox.Show("Фильм не загрузился");
+                        listView1.Items.Add($"ФАТАЛЬНАЯ ОШИБКА: {fileName} - {ex.Message}");
+                        listView1.Items[listView1.Items.Count - 1].BackColor = Color.OrangeRed;
                     }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"При загрузке произошла ошибка: {ex.Message}", "Ошибка", MessageBoxButtons.OK);
                 }
             }
         }
 
+        private Film LoadFilm(string fileName)
+        {
+            string html;
+            using (StreamReader sr = new StreamReader(fileName))
+            {
+                html = sr.ReadToEnd();
+            }
 
+            ЗагрузкаФильмаИзКинопоиска кинопоиск = new ЗагрузкаФильмаИзКинопоиска();
+            var фильм = кинопоиск.ЗагрузитьИзСтроки(html);
 
+            return фильм;
+        }
 
+        private void listView1_DoubleClick(object sender, EventArgs e)
+        {
+            try
+            {
+                if (listView1.SelectedItems.Count == 1)
+                {
+                    Film film = listView1.SelectedItems[0].Tag as Film;
 
+                    if (film != null)
+                    {
+                        frmFilmEdit frm = new frmFilmEdit(film, true);
+                        frm.ShowDialog();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
     }
 }

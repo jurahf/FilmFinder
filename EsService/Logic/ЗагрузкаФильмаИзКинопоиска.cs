@@ -1,4 +1,5 @@
 ﻿using ExpertSystemDb;
+using Logic.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -30,15 +31,32 @@ namespace Logic
 
             Film film = ParseHtml(html);
             film.Link = url;
+            CheckExists(film, true);
+            db.Insert(film);
+
             return film;
         }
 
         public Film ЗагрузитьИзСтроки(string html)
         {
             Film film = ParseHtml(html);
+
+            CheckExists(film, true);
+            db.Insert(film);
+
             return film;
         }
 
+
+        private bool CheckExists(Film film, bool throwException)
+        {
+            bool result = db.GetFromDatabase<Film>().Any(x => x.Name == film.Name && x.Year == film.Year);
+
+            if (result && throwException)
+                throw new FilmAlreadyExistsException();
+
+            return result;
+        }
 
         private string ReadHtml(string url)
         {
