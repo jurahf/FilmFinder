@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using VkBotLib;
 using WebApi.Classes.Vk;
 using WebApi.Classes.Vk.Commands;
 
@@ -13,6 +14,9 @@ namespace WebApi.Controllers
 {
     public class VkBotController : ApiController
     {
+        private const string vkToken = "89dbe5916cca655ab346340a0c1df410568552a6b3d248155ae6ba64a1d1d5b8a2fb662a98817937070c3";
+        private const string vkConfirmKey = "21572c26";
+
         public VkBotController()
         {
             // для https
@@ -28,7 +32,7 @@ namespace WebApi.Controllers
             if (message.Type.ToLower() == VkMessageType.Confirmation.ToString().ToLower())
             {
                 var response = Request.CreateResponse(HttpStatusCode.OK);
-                response.Content = new StringContent("21572c26", Encoding.UTF8, "text/html");
+                response.Content = new StringContent(vkConfirmKey, Encoding.UTF8, "text/html");
                 return response;
             }
             else
@@ -43,7 +47,7 @@ namespace WebApi.Controllers
         {
             if (message.Type.ToLower() == VkMessageType.Message_new.ToString().ToLower())
             {
-                new CommandContainer().ParseAndDoCommand(message.Object);
+                new CommandContainer(RegisterCommands()).ParseAndDoCommand(message.Object);
             }
         }
 
@@ -54,6 +58,21 @@ namespace WebApi.Controllers
             return response;
         }
 
+
+        private List<Command> RegisterCommands()
+        {
+            var vkApi = new VkApiIntegrator(vkToken);
+
+            var commandsList = new List<Command>()
+            {
+                new StartCommand(vkApi),
+                new StartConsultationCommand(vkApi),
+                new SetAnswerAndNextCommand(vkApi),
+                new AnotherCommand(vkApi)
+            };
+
+            return commandsList;
+        }
 
         //[HttpGet]
         //[ActionName("TestPicture")]

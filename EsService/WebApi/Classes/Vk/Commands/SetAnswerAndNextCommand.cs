@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using VkBotLib;
 
 namespace WebApi.Classes.Vk.Commands
 {
@@ -47,7 +48,7 @@ namespace WebApi.Classes.Vk.Commands
             if (result.Question != null)
             {
                 // следующий вопрос
-                Keyboard keyboard = Keyboard.CreateFromVariable(result.SessionId, result.Question);
+                Keyboard keyboard = KeyboardHelper.CreateFromVariable(result.SessionId, result.Question);
 
                 vkApi.SendMessage(message.Peer_Id, result.Question.Question, keyboard);
             }
@@ -64,10 +65,11 @@ namespace WebApi.Classes.Vk.Commands
                 if (advice == null)
                     SendError(message.Peer_Id);
 
-                var dto = new AdviceDto(advice);
-                // TODO: это пока так, а вообще могут быть советы без фильмов, только категории, по которым фильмы еще надо получить
-                int index = new Random().Next(0, dto.Films.Count - 1);
-                var film = dto.Films[index];
+                var filmList = new FilmAndAdviceLogic().FindFilmsByAdvice(advice);
+                var filmDtos = filmList.Select(x => new FilmDto(x)).ToList();
+
+                int index = new Random().Next(0, filmDtos.Count - 1);
+                var film = filmDtos[index];
 
                 CommonLogic.SendAboutFilm(film, advice.Id, message.Peer_Id, vkApi);
             }

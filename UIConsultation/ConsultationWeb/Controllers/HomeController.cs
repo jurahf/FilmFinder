@@ -55,6 +55,9 @@ namespace ConsultationWeb.Controllers
 
                     // пришел совет, а по нему надо получить фильмы
                     var advice = serviceFilm.GetAdviceDetails(dto.Result.Fact.Value); // это гуид совета
+
+                    // TODO: запросить список фильмов по этому совету (чтобы сработала нечеткая логика)
+
                     ViewData["Advice"] = advice;
 
                     return View("ResultFilms");

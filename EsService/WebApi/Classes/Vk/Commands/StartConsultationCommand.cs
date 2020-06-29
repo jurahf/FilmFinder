@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using VkBotLib;
 
 namespace WebApi.Classes.Vk.Commands
 {
@@ -36,7 +37,7 @@ namespace WebApi.Classes.Vk.Commands
             Session session = algorithm.CreateSessionAndGoConsult(esName);
             QuestionOrResultDto result = algorithm.GetNextQuestionOrResult(session.SessionId);
 
-            Keyboard keyboard = Keyboard.CreateFromVariable(result.SessionId, result.Question);
+            Keyboard keyboard = KeyboardHelper.CreateFromVariable(result.SessionId, result.Question);
 
             vkApi.SendMessage(message.Peer_Id, result.Question.Question, keyboard);
         }

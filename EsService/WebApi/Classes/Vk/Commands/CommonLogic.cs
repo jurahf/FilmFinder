@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
+using VkBotLib;
 
 namespace WebApi.Classes.Vk.Commands
 {

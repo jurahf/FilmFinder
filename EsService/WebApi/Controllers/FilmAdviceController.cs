@@ -1,4 +1,5 @@
 ﻿using ExpertSystemDb;
+using Logic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,23 +13,8 @@ namespace WebApi.Controllers
 
     public class FilmAdviceController : ApiController
     {
-        [HttpGet]
-        [ActionName("GetAdvicePreview")]
-        public AdvicePreviewDto GetAdvicePreview(string key)
-        {
-            Guid guid;
-            if (!Guid.TryParse(key, out guid))
-                return null;
 
-            IDataWork db = new DBWork(); // TODO: DI
-            Advice advice = db.GetFromDatabase<Advice>(x => x.Key == guid).FirstOrDefault();
-
-            if (advice == null)
-                return null;
-
-            return new AdvicePreviewDto(advice);
-        }
-
+        /// Возвращает совет и конкретно привязанные к нему фильмы (вызывается в FilmExpertService и HomeController)
         [HttpGet]
         [ActionName("GetAdviceDetails")]
         public AdviceDto GetAdviceDetails(string key)
@@ -59,6 +45,16 @@ namespace WebApi.Controllers
 
             return new FilmDto(film);
         }
+
+        [HttpGet]
+        [ActionName("FindFilmsByAdvice")]
+        public List<FilmDto> FindFilmsByAdvice(Guid adviceGuid)
+        {
+            var filmList = new FilmAndAdviceLogic().FindFilmsByAdviceGuid(adviceGuid);
+            return filmList.Select(x => new FilmDto(x)).ToList();
+        }
+
+
 
 
     }

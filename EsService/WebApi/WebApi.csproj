@@ -95,18 +95,13 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Classes\AdviceDto.cs" />
-    <Compile Include="Classes\CustomMultipartSender.cs" />
     <Compile Include="Classes\StartEsArgs.cs" />
     <Compile Include="Classes\Vk\Commands\AnotherCommand.cs" />
-    <Compile Include="Classes\Vk\Commands\Command.cs" />
-    <Compile Include="Classes\Vk\Commands\CommandContainer.cs" />
     <Compile Include="Classes\Vk\Commands\CommonLogic.cs" />
     <Compile Include="Classes\Vk\Commands\SetAnswerAndNextCommand.cs" />
     <Compile Include="Classes\Vk\Commands\StartCommand.cs" />
     <Compile Include="Classes\Vk\Commands\StartConsultationCommand.cs" />
-    <Compile Include="Classes\Vk\Keyboard.cs" />
-    <Compile Include="Classes\Vk\VkApiIntegrator.cs" />
-    <Compile Include="Classes\Vk\VkMessage.cs" />
+    <Compile Include="Classes\Vk\KeyboardHelper.cs" />
     <Compile Include="Controllers\FilmAdviceController.cs" />
     <Compile Include="Controllers\FilmExpertController.cs" />
     <Compile Include="Controllers\TestController.cs" />
@@ -131,6 +126,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\..\..\VkBotLib\VkBotLib\VkBotLib.csproj">
+      <Project>{22FEB85F-5291-4838-BE56-1B9849A2C8F9}</Project>
+      <Name>VkBotLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\ExpertSystemDb\ExpertSystemDb.csproj">
       <Project>{ff09e43e-5801-4847-bab1-c9865550ab6b}</Project>
       <Name>ExpertSystemDb</Name>
