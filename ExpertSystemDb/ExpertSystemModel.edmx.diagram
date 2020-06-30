@@ -68,12 +68,12 @@
         <AssociationConnector Association="ExpertSystemModel.CustomPropertyFilmCustomProperty" />
         <EntityTypeShape EntityType="ExpertSystemModel.Advice" Width="1.5" PointX="0.75" PointY="4.5" />
         <EntityTypeShape EntityType="ExpertSystemModel.AdviceCustomProperty" Width="2.75" PointX="3.375" PointY="4.625" IsExpanded="true" />
-        <AssociationConnector Association="ExpertSystemModel.CustomPropertyAdviceCustomPropertyPositive" />
+        <AssociationConnector Association="ExpertSystemModel.CustomPropertyAdviceCustomProperty" />
         <EntityTypeShape EntityType="ExpertSystemModel.AdviceFilm" Width="2.375" PointX="2.125" PointY="7.75" IsExpanded="true" />
         <AssociationConnector Association="ExpertSystemModel.AdviceAdviceFilm" />
         <EntityTypeShape EntityType="ExpertSystemModel.Film" Width="1.5" PointX="5.25" PointY="7.375" />
         <AssociationConnector Association="ExpertSystemModel.FilmFilmCustomProperty" />
-        <AssociationConnector Association="ExpertSystemModel.FilmAdviceFilmPositive" />
+        <AssociationConnector Association="ExpertSystemModel.FilmAdviceFilm" />
         <AssociationConnector Association="ExpertSystemModel.AdviceAdviceCustomProperty" />
       </Diagram>
     </edmx:Diagrams>

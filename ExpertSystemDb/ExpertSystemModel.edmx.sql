@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/29/2020 23:05:23
+-- Date Created: 06/30/2020 17:18:45
 -- Generated from EDMX file: D:\PROJECTS\CSharp\FilmFinder\ExpertSystemDb\ExpertSystemModel.edmx
 -- --------------------------------------------------
 
@@ -113,23 +113,17 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CustomPropertyFilmCustomProperty]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[FilmCustomPropertySet] DROP CONSTRAINT [FK_CustomPropertyFilmCustomProperty];
 GO
-IF OBJECT_ID(N'[dbo].[FK_CustomPropertyAdviceCustomPropertyPositive]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AdviceCustomPropertySet] DROP CONSTRAINT [FK_CustomPropertyAdviceCustomPropertyPositive];
-GO
-IF OBJECT_ID(N'[dbo].[FK_AdviceAdviceCustomPropertyPositive]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AdviceCustomPropertySet] DROP CONSTRAINT [FK_AdviceAdviceCustomPropertyPositive];
-GO
-IF OBJECT_ID(N'[dbo].[FK_AdviceAdviceFilmPositive]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AdviceFilmSet] DROP CONSTRAINT [FK_AdviceAdviceFilmPositive];
-GO
-IF OBJECT_ID(N'[dbo].[FK_FilmAdviceFilmPositive]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AdviceFilmSet] DROP CONSTRAINT [FK_FilmAdviceFilmPositive];
-GO
-IF OBJECT_ID(N'[dbo].[FK_AdviceAdviceCustomPropertyPositive1]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[AdviceCustomPropertySet] DROP CONSTRAINT [FK_AdviceAdviceCustomPropertyPositive1];
+IF OBJECT_ID(N'[dbo].[FK_CustomPropertyAdviceCustomProperty]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AdviceCustomPropertySet] DROP CONSTRAINT [FK_CustomPropertyAdviceCustomProperty];
 GO
 IF OBJECT_ID(N'[dbo].[FK_AdviceAdviceFilm]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AdviceFilmSet] DROP CONSTRAINT [FK_AdviceAdviceFilm];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FilmAdviceFilm]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AdviceFilmSet] DROP CONSTRAINT [FK_FilmAdviceFilm];
+GO
+IF OBJECT_ID(N'[dbo].[FK_AdviceAdviceCustomProperty]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[AdviceCustomPropertySet] DROP CONSTRAINT [FK_AdviceAdviceCustomProperty];
 GO
 
 -- --------------------------------------------------
@@ -1107,15 +1101,15 @@ GO
 
 -- Creating foreign key on [CustomProperty_Id] in table 'AdviceCustomPropertySet'
 ALTER TABLE [dbo].[AdviceCustomPropertySet]
-ADD CONSTRAINT [FK_CustomPropertyAdviceCustomPropertyPositive]
+ADD CONSTRAINT [FK_CustomPropertyAdviceCustomProperty]
     FOREIGN KEY ([CustomProperty_Id])
     REFERENCES [dbo].[CustomPropertySet]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_CustomPropertyAdviceCustomPropertyPositive'
-CREATE INDEX [IX_FK_CustomPropertyAdviceCustomPropertyPositive]
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustomPropertyAdviceCustomProperty'
+CREATE INDEX [IX_FK_CustomPropertyAdviceCustomProperty]
 ON [dbo].[AdviceCustomPropertySet]
     ([CustomProperty_Id]);
 GO
@@ -1137,15 +1131,15 @@ GO
 
 -- Creating foreign key on [Film_Id] in table 'AdviceFilmSet'
 ALTER TABLE [dbo].[AdviceFilmSet]
-ADD CONSTRAINT [FK_FilmAdviceFilmPositive]
+ADD CONSTRAINT [FK_FilmAdviceFilm]
     FOREIGN KEY ([Film_Id])
     REFERENCES [dbo].[FilmSet]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_FilmAdviceFilmPositive'
-CREATE INDEX [IX_FK_FilmAdviceFilmPositive]
+-- Creating non-clustered index for FOREIGN KEY 'FK_FilmAdviceFilm'
+CREATE INDEX [IX_FK_FilmAdviceFilm]
 ON [dbo].[AdviceFilmSet]
     ([Film_Id]);
 GO

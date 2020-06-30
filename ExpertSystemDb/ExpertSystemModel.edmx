@@ -161,17 +161,17 @@
       <End Role="CustomProperty" EntitySet="CustomPropertySet" />
       <End Role="FilmCustomProperty" EntitySet="FilmCustomPropertySet" />
     </AssociationSet>
-    <AssociationSet Name="CustomPropertyAdviceCustomPropertyPositive" Association="ExpertSystemModel.Store.CustomPropertyAdviceCustomPropertyPositive">
+    <AssociationSet Name="CustomPropertyAdviceCustomProperty" Association="ExpertSystemModel.Store.CustomPropertyAdviceCustomProperty">
       <End Role="CustomProperty" EntitySet="CustomPropertySet" />
-      <End Role="AdviceCustomPropertyPositive" EntitySet="AdviceCustomPropertySet" />
+      <End Role="AdviceCustomProperty" EntitySet="AdviceCustomPropertySet" />
     </AssociationSet>
     <AssociationSet Name="AdviceAdviceFilm" Association="ExpertSystemModel.Store.AdviceAdviceFilm">
       <End Role="Advice" EntitySet="AdviceSet" />
       <End Role="AdviceFilm" EntitySet="AdviceFilmSet" />
     </AssociationSet>
-    <AssociationSet Name="FilmAdviceFilmPositive" Association="ExpertSystemModel.Store.FilmAdviceFilmPositive">
+    <AssociationSet Name="FilmAdviceFilm" Association="ExpertSystemModel.Store.FilmAdviceFilm">
       <End Role="Film" EntitySet="FilmSet" />
-      <End Role="AdviceFilmPositive" EntitySet="AdviceFilmSet" />
+      <End Role="AdviceFilm" EntitySet="AdviceFilmSet" />
     </AssociationSet>
     <AssociationSet Name="AdviceAdviceCustomProperty" Association="ExpertSystemModel.Store.AdviceAdviceCustomProperty">
       <End Role="Advice" EntitySet="AdviceSet" />
@@ -807,14 +807,14 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="CustomPropertyAdviceCustomPropertyPositive">
+  <Association Name="CustomPropertyAdviceCustomProperty">
     <End Role="CustomProperty" Type="ExpertSystemModel.Store.CustomPropertySet" Multiplicity="1" />
-    <End Role="AdviceCustomPropertyPositive" Type="ExpertSystemModel.Store.AdviceCustomPropertySet" Multiplicity="*" />
+    <End Role="AdviceCustomProperty" Type="ExpertSystemModel.Store.AdviceCustomPropertySet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="CustomProperty">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="AdviceCustomPropertyPositive">
+      <Dependent Role="AdviceCustomProperty">
         <PropertyRef Name="CustomProperty_Id" />
       </Dependent>
     </ReferentialConstraint>
@@ -833,14 +833,14 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FilmAdviceFilmPositive">
+  <Association Name="FilmAdviceFilm">
     <End Role="Film" Type="ExpertSystemModel.Store.FilmSet" Multiplicity="1" />
-    <End Role="AdviceFilmPositive" Type="ExpertSystemModel.Store.AdviceFilmSet" Multiplicity="*" />
+    <End Role="AdviceFilm" Type="ExpertSystemModel.Store.AdviceFilmSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Film">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="AdviceFilmPositive">
+      <Dependent Role="AdviceFilm">
         <PropertyRef Name="Film_Id" />
       </Dependent>
     </ReferentialConstraint>
@@ -1017,17 +1017,17 @@
           <EntitySet Name="AdviceSet" EntityType="ExpertSystemModel.Advice" />
           <EntitySet Name="AdviceCustomPropertySet" EntityType="ExpertSystemModel.AdviceCustomProperty" />
           <EntitySet Name="AdviceFilmSet" EntityType="ExpertSystemModel.AdviceFilm" />
-          <AssociationSet Name="CustomPropertyAdviceCustomPropertyPositive" Association="ExpertSystemModel.CustomPropertyAdviceCustomPropertyPositive">
+          <AssociationSet Name="CustomPropertyAdviceCustomProperty" Association="ExpertSystemModel.CustomPropertyAdviceCustomProperty">
             <End Role="CustomProperty" EntitySet="CustomPropertySet" />
-            <End Role="AdviceCustomPropertyPositive" EntitySet="AdviceCustomPropertySet" />
+            <End Role="AdviceCustomProperty" EntitySet="AdviceCustomPropertySet" />
           </AssociationSet>
           <AssociationSet Name="AdviceAdviceFilm" Association="ExpertSystemModel.AdviceAdviceFilm">
             <End Role="Advice" EntitySet="AdviceSet" />
             <End Role="AdviceFilm" EntitySet="AdviceFilmSet" />
           </AssociationSet>
-          <AssociationSet Name="FilmAdviceFilmPositive" Association="ExpertSystemModel.FilmAdviceFilmPositive">
+          <AssociationSet Name="FilmAdviceFilm" Association="ExpertSystemModel.FilmAdviceFilm">
             <End Role="Film" EntitySet="FilmSet" />
-            <End Role="AdviceFilmPositive" EntitySet="AdviceFilmSet" />
+            <End Role="AdviceFilm" EntitySet="AdviceFilmSet" />
           </AssociationSet>
           <AssociationSet Name="AdviceAdviceCustomProperty" Association="ExpertSystemModel.AdviceAdviceCustomProperty">
             <End Role="Advice" EntitySet="AdviceSet" />
@@ -1420,7 +1420,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="CustomProperty" Relationship="ExpertSystemModel.CustomPropertyAdviceCustomPropertyPositive" FromRole="AdviceCustomPropertyPositive" ToRole="CustomProperty" />
+          <NavigationProperty Name="CustomProperty" Relationship="ExpertSystemModel.CustomPropertyAdviceCustomProperty" FromRole="AdviceCustomProperty" ToRole="CustomProperty" />
           <NavigationProperty Name="Advice" Relationship="ExpertSystemModel.AdviceAdviceCustomProperty" FromRole="AdviceCustomProperty" ToRole="Advice" />
           <Property Name="Value" Type="Int32" Nullable="false" />
         </EntityType>
@@ -1430,13 +1430,13 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Advice" Relationship="ExpertSystemModel.AdviceAdviceFilm" FromRole="AdviceFilm" ToRole="Advice" />
-          <NavigationProperty Name="Film" Relationship="ExpertSystemModel.FilmAdviceFilmPositive" FromRole="AdviceFilmPositive" ToRole="Film" />
+          <NavigationProperty Name="Film" Relationship="ExpertSystemModel.FilmAdviceFilm" FromRole="AdviceFilm" ToRole="Film" />
           <Property Name="Value" Type="Int32" Nullable="false" />
         </EntityType>
-        <Association Name="CustomPropertyAdviceCustomPropertyPositive">
+        <Association Name="CustomPropertyAdviceCustomProperty">
           <End Type="ExpertSystemModel.CustomProperty" Role="CustomProperty" Multiplicity="1" >
           </End>
-          <End Type="ExpertSystemModel.AdviceCustomProperty" Role="AdviceCustomPropertyPositive" Multiplicity="*" />
+          <End Type="ExpertSystemModel.AdviceCustomProperty" Role="AdviceCustomProperty" Multiplicity="*" />
         </Association>
         <Association Name="AdviceAdviceFilm">
           <End Type="ExpertSystemModel.Advice" Role="Advice" Multiplicity="0..1" >
@@ -1444,10 +1444,10 @@
           </End>
           <End Type="ExpertSystemModel.AdviceFilm" Role="AdviceFilm" Multiplicity="*" />
         </Association>
-        <Association Name="FilmAdviceFilmPositive">
+        <Association Name="FilmAdviceFilm">
           <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" >
           </End>
-          <End Type="ExpertSystemModel.AdviceFilm" Role="AdviceFilmPositive" Multiplicity="*" />
+          <End Type="ExpertSystemModel.AdviceFilm" Role="AdviceFilm" Multiplicity="*" />
         </Association>
         <Association Name="AdviceAdviceCustomProperty">
           <End Type="ExpertSystemModel.Advice" Role="Advice" Multiplicity="0..1" />
@@ -1944,11 +1944,11 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="CustomPropertyAdviceCustomPropertyPositive" TypeName="ExpertSystemModel.CustomPropertyAdviceCustomPropertyPositive" StoreEntitySet="AdviceCustomPropertySet">
+    <AssociationSetMapping Name="CustomPropertyAdviceCustomProperty" TypeName="ExpertSystemModel.CustomPropertyAdviceCustomProperty" StoreEntitySet="AdviceCustomPropertySet">
       <EndProperty Name="CustomProperty">
         <ScalarProperty Name="Id" ColumnName="CustomProperty_Id" />
       </EndProperty>
-      <EndProperty Name="AdviceCustomPropertyPositive">
+      <EndProperty Name="AdviceCustomProperty">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
@@ -1961,11 +1961,11 @@
       </EndProperty>
       <Condition ColumnName="Advice_Id" IsNull="false" />
     </AssociationSetMapping>
-    <AssociationSetMapping Name="FilmAdviceFilmPositive" TypeName="ExpertSystemModel.FilmAdviceFilmPositive" StoreEntitySet="AdviceFilmSet">
+    <AssociationSetMapping Name="FilmAdviceFilm" TypeName="ExpertSystemModel.FilmAdviceFilm" StoreEntitySet="AdviceFilmSet">
       <EndProperty Name="Film">
         <ScalarProperty Name="Id" ColumnName="Film_Id" />
       </EndProperty>
-      <EndProperty Name="AdviceFilmPositive">
+      <EndProperty Name="AdviceFilm">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>

@@ -75,9 +75,13 @@ namespace Logic
                 {
                     Name = ИмяСпецДомена,
                 };
+
+                es.AllDomains.Add(domain);
             }
 
-            es.AllDomains.Add(domain);
+            // не удалятся, потому что они могут быть в правилах
+            //db.DeleteObject(domain.DomainValue.ToList());
+            //domain.DomainValue.Clear();
 
             foreach (var key in advices.Select(x => x.Key))
             {
