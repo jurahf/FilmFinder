@@ -18,12 +18,8 @@ namespace ExpertSystemDb
         public System.Guid Key { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AdviceCustomProperty> AdviceCustomPropertyPositive { get; set; }
+        public virtual ICollection<AdviceFilm> AdviceFilm { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AdviceFilm> AdviceFilmPositive { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AdviceCustomProperty> AdviceCustomPropertyNegative { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AdviceFilm> AdviceFilmNegative { get; set; }
+        public virtual ICollection<AdviceCustomProperty> AdviceCustomProperty { get; set; }
     }
 }

@@ -71,7 +71,7 @@ namespace Logic
                             db.GetFromDatabase<FilmCustomProperty>(x => x.Film.Id == film.Id && x.CustomProperty.Id == prop.Id).FirstOrDefault();
 
                         if (filmProp != null)
-                            sheet.Cells[rowIndex, columnIndex].Value = filmProp.Percent;
+                            sheet.Cells[rowIndex, columnIndex].Value = filmProp.Value;
                     }
                 }
 
@@ -169,7 +169,7 @@ namespace Logic
                             {
                                 Film = usedFilms.First(x => x.Id == filmId),
                                 CustomProperty = prop,
-                                Percent = propValue.Value
+                                Value = propValue.Value
                             };
 
                             db.Insert(filmProp);

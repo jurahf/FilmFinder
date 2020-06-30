@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="f23bf90e3017431f9400d916234fad27" Name="EsCore" ZoomLevel="98" >
+      <Diagram DiagramId="f23bf90e3017431f9400d916234fad27" Name="EsCore" ZoomLevel="73" >
         <EntityTypeShape EntityType="ExpertSystemModel.ExpertSystem" Width="1.5" PointX="4.625" PointY="1.875" />
         <EntityTypeShape EntityType="ExpertSystemModel.Domain" Width="1.5" PointX="1.625" PointY="4" />
         <AssociationConnector Association="ExpertSystemModel.ExpertSystemDomain" />
@@ -64,19 +64,17 @@
         </Diagram>
       <Diagram DiagramId="64adbc5f3e6d4404be39023a82d47116" Name="FilmAdvise" >
         <EntityTypeShape EntityType="ExpertSystemModel.CustomProperty" Width="1.5" PointX="7.25" PointY="4.75" />
-        <EntityTypeShape EntityType="ExpertSystemModel.FilmCustomProperty" Width="1.5" PointX="7.5" PointY="8.5" />
+        <EntityTypeShape EntityType="ExpertSystemModel.FilmCustomProperty" Width="2.375" PointX="7.5" PointY="8.5" />
         <AssociationConnector Association="ExpertSystemModel.CustomPropertyFilmCustomProperty" />
         <EntityTypeShape EntityType="ExpertSystemModel.Advice" Width="1.5" PointX="0.75" PointY="4.5" />
         <EntityTypeShape EntityType="ExpertSystemModel.AdviceCustomProperty" Width="2.75" PointX="3.375" PointY="4.625" IsExpanded="true" />
         <AssociationConnector Association="ExpertSystemModel.CustomPropertyAdviceCustomPropertyPositive" />
-        <AssociationConnector Association="ExpertSystemModel.AdviceAdviceCustomPropertyPositive" />
         <EntityTypeShape EntityType="ExpertSystemModel.AdviceFilm" Width="2.375" PointX="2.125" PointY="7.75" IsExpanded="true" />
-        <AssociationConnector Association="ExpertSystemModel.AdviceAdviceFilmPositive" />
+        <AssociationConnector Association="ExpertSystemModel.AdviceAdviceFilm" />
         <EntityTypeShape EntityType="ExpertSystemModel.Film" Width="1.5" PointX="5.25" PointY="7.375" />
         <AssociationConnector Association="ExpertSystemModel.FilmFilmCustomProperty" />
         <AssociationConnector Association="ExpertSystemModel.FilmAdviceFilmPositive" />
-        <AssociationConnector Association="ExpertSystemModel.AdviceAdviceCustomPropertyPositive1" />
-        <AssociationConnector Association="ExpertSystemModel.AdviceAdviceFilm" />
+        <AssociationConnector Association="ExpertSystemModel.AdviceAdviceCustomProperty" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

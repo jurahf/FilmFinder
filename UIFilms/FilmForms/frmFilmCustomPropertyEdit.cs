@@ -21,7 +21,7 @@ namespace FilmForms
             return new List<FieldForEditUI>()
             {
                 new FieldForEditUI(EditedObject, ReflectionHelper.Nameof<FilmCustomProperty>(s => s.CustomProperty), ReflectionHelper.Nameof<FilmCustomProperty>(s => s.CustomProperty.Name), "Название", new Dictionary<Type, Type>() { { typeof(CustomProperty), typeof(frmCustomPropertyList) } }),
-                new FieldForEditUI(EditedObject, ReflectionHelper.Nameof<FilmCustomProperty>(s => s.Percent), "Значение")
+                new FieldForEditUI(EditedObject, ReflectionHelper.Nameof<FilmCustomProperty>(s => s.Value), "Степень соответствия")
             };
         }
 

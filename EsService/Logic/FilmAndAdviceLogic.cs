@@ -38,20 +38,75 @@ namespace Logic
 
         public List<Film> FindFilmsByAdvice(Advice advice)
         {
-            //advice.AdviceCustomPropertyPositive.Select(x => x.
-            throw new NotImplementedException();
+            // TODO: сначала сделать бэкап базы v1.0
 
-            // составляем вектор по пользовательским свойствам этого совета
-            // ищем все связи с фильмами этих пользоватеских советов
-            // по ним тоже составляем вектора
-            // из каждого вектора фильма вычитаем вектор совета
-            // элементы полученных разностей берем по модулю и складываем
-            // сортируем в порядке возрастания
-            // берем топ фильмов
+            // набор свойств совета и их значения - это вектор
+            // ищем все связи с фильмами этих пользоватеских советов - сначала просто все фильмы
+            List<Film> films = new List<Film>();
+            foreach (var prop in advice.AdviceCustomProperty)
+            {
+                films = films.Union(
+                    db.GetFromDatabase<FilmCustomProperty>(x => x.CustomProperty.Id == prop.CustomProperty.Id)
+                    .Select(x => x.Film))
+                    .ToList();
+            }
 
-            // привязанные положительные фильмы добавляем в выходной поток
-            // привязанные негативные фильмы убираем из полученного списка
+            // оставляем только фильмы с теми же знаками в значениях свойств (вычисляем нужную "четверть" на координатной оси)
+            List<Film> filteredFilms = new List<Film>(films);
+            foreach (AdviceCustomProperty adviceProp in advice.AdviceCustomProperty)
+            {
+                foreach (var film in films)
+                {
+                    FilmCustomProperty filmProp = film.FilmCustomProperty
+                        .FirstOrDefault(x => x.CustomProperty.Id == adviceProp.CustomProperty.Id);
+
+                    if (filmProp.Value * adviceProp.Value < 0) // если == 0, то пофиг, пусть будет
+                        filteredFilms = filteredFilms.Where(x => x.Id != film.Id).ToList();
+                }
+            }
+
+            // значения свойств в фильмах - тоже вектора
+            // считаем расстояния между вектором совета и каждым вектором фильма
+            // но здесь уже надо учитывать все координаты, а не только те, которые были в коллекции
+            List<CustomProperty> allProps = db.GetFromDatabase<CustomProperty>();
+            List<FilmRelevance> result = new List<FilmRelevance>();
+            foreach (var film in filteredFilms)
+            {
+                double distance = 0;
+                foreach (var prop in allProps)
+                {
+                    double adviceCoord = advice.AdviceCustomProperty
+                        .FirstOrDefault(x => x.CustomProperty.Id == prop.Id)
+                        ?.Value ?? 0;
+                    double filmCoord = film.FilmCustomProperty
+                        .FirstOrDefault(x => x.CustomProperty.Id == prop.Id)
+                        ?.Value ?? 0;
+
+                    distance += Math.Pow(adviceCoord - filmCoord, 2);
+                }
+
+                result.Add(new FilmRelevance() { Film = film, Distance = distance });
+            }
+
+            // берем топ
+            // TODO: отдавать все, а уже клиент пусть решает, топ ему надо или не топ
+            return result.OrderBy(x => x.Distance)
+                .Take(5)
+                .Select(x => x.Film)
+                .ToList();
         }
 
+
+
     }
+
+
+    public class FilmRelevance
+    {
+        public Film Film { get; set; }
+        public double Distance { get; set; }
+    }
+
+
+
 }

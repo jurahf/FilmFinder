@@ -15,9 +15,9 @@ namespace ExpertSystemDb
     public partial class AdviceFilm
     {
         public int Id { get; set; }
+        public int Value { get; set; }
     
-        public virtual Advice AdvicePositive { get; set; }
+        public virtual Advice Advice { get; set; }
         public virtual Film Film { get; set; }
-        public virtual Advice AdviceNegative { get; set; }
     }
 }

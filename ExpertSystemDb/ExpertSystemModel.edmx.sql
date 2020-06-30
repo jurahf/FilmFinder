@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 02/16/2020 14:42:57
+-- Date Created: 06/29/2020 23:05:23
 -- Generated from EDMX file: D:\PROJECTS\CSharp\FilmFinder\ExpertSystemDb\ExpertSystemModel.edmx
 -- --------------------------------------------------
 
@@ -424,7 +424,7 @@ GO
 -- Creating table 'FilmCustomPropertySet'
 CREATE TABLE [dbo].[FilmCustomPropertySet] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Percent] int  NOT NULL,
+    [Value] int  NOT NULL,
     [Film_Id] int  NOT NULL,
     [CustomProperty_Id] int  NOT NULL
 );
@@ -440,18 +440,18 @@ GO
 -- Creating table 'AdviceCustomPropertySet'
 CREATE TABLE [dbo].[AdviceCustomPropertySet] (
     [Id] int IDENTITY(1,1) NOT NULL,
+    [Value] int  NOT NULL,
     [CustomProperty_Id] int  NOT NULL,
-    [AdvicePositive_Id] int  NULL,
-    [AdviceNegative_Id] int  NULL
+    [Advice_Id] int  NULL
 );
 GO
 
 -- Creating table 'AdviceFilmSet'
 CREATE TABLE [dbo].[AdviceFilmSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [AdvicePositive_Id] int  NULL,
-    [Film_Id] int  NOT NULL,
-    [AdviceNegative_Id] int  NULL
+    [Value] int  NOT NULL,
+    [Advice_Id] int  NULL,
+    [Film_Id] int  NOT NULL
 );
 GO
 
@@ -1120,34 +1120,19 @@ ON [dbo].[AdviceCustomPropertySet]
     ([CustomProperty_Id]);
 GO
 
--- Creating foreign key on [AdvicePositive_Id] in table 'AdviceCustomPropertySet'
-ALTER TABLE [dbo].[AdviceCustomPropertySet]
-ADD CONSTRAINT [FK_AdviceAdviceCustomPropertyPositive]
-    FOREIGN KEY ([AdvicePositive_Id])
-    REFERENCES [dbo].[AdviceSet]
-        ([Id])
-    ON DELETE CASCADE ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_AdviceAdviceCustomPropertyPositive'
-CREATE INDEX [IX_FK_AdviceAdviceCustomPropertyPositive]
-ON [dbo].[AdviceCustomPropertySet]
-    ([AdvicePositive_Id]);
-GO
-
--- Creating foreign key on [AdvicePositive_Id] in table 'AdviceFilmSet'
+-- Creating foreign key on [Advice_Id] in table 'AdviceFilmSet'
 ALTER TABLE [dbo].[AdviceFilmSet]
-ADD CONSTRAINT [FK_AdviceAdviceFilmPositive]
-    FOREIGN KEY ([AdvicePositive_Id])
+ADD CONSTRAINT [FK_AdviceAdviceFilm]
+    FOREIGN KEY ([Advice_Id])
     REFERENCES [dbo].[AdviceSet]
         ([Id])
     ON DELETE CASCADE ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_AdviceAdviceFilmPositive'
-CREATE INDEX [IX_FK_AdviceAdviceFilmPositive]
+-- Creating non-clustered index for FOREIGN KEY 'FK_AdviceAdviceFilm'
+CREATE INDEX [IX_FK_AdviceAdviceFilm]
 ON [dbo].[AdviceFilmSet]
-    ([AdvicePositive_Id]);
+    ([Advice_Id]);
 GO
 
 -- Creating foreign key on [Film_Id] in table 'AdviceFilmSet'
@@ -1165,34 +1150,19 @@ ON [dbo].[AdviceFilmSet]
     ([Film_Id]);
 GO
 
--- Creating foreign key on [AdviceNegative_Id] in table 'AdviceCustomPropertySet'
+-- Creating foreign key on [Advice_Id] in table 'AdviceCustomPropertySet'
 ALTER TABLE [dbo].[AdviceCustomPropertySet]
-ADD CONSTRAINT [FK_AdviceAdviceCustomPropertyPositive1]
-    FOREIGN KEY ([AdviceNegative_Id])
+ADD CONSTRAINT [FK_AdviceAdviceCustomProperty]
+    FOREIGN KEY ([Advice_Id])
     REFERENCES [dbo].[AdviceSet]
         ([Id])
-    ON DELETE CASCADE ON UPDATE NO ACTION;
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
--- Creating non-clustered index for FOREIGN KEY 'FK_AdviceAdviceCustomPropertyPositive1'
-CREATE INDEX [IX_FK_AdviceAdviceCustomPropertyPositive1]
+-- Creating non-clustered index for FOREIGN KEY 'FK_AdviceAdviceCustomProperty'
+CREATE INDEX [IX_FK_AdviceAdviceCustomProperty]
 ON [dbo].[AdviceCustomPropertySet]
-    ([AdviceNegative_Id]);
-GO
-
--- Creating foreign key on [AdviceNegative_Id] in table 'AdviceFilmSet'
-ALTER TABLE [dbo].[AdviceFilmSet]
-ADD CONSTRAINT [FK_AdviceAdviceFilm]
-    FOREIGN KEY ([AdviceNegative_Id])
-    REFERENCES [dbo].[AdviceSet]
-        ([Id])
-    ON DELETE CASCADE ON UPDATE NO ACTION;
-GO
-
--- Creating non-clustered index for FOREIGN KEY 'FK_AdviceAdviceFilm'
-CREATE INDEX [IX_FK_AdviceAdviceFilm]
-ON [dbo].[AdviceFilmSet]
-    ([AdviceNegative_Id]);
+    ([Advice_Id]);
 GO
 
 -- --------------------------------------------------

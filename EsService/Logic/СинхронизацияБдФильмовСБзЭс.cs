@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Logic
 {
+    /// <summary>
+    /// Для отправки GUID советов в специальный домен в ЭС, чтобы потом можно было указать его в качестве результата консультации
+    /// </summary>
     public class СинхронизацияБдФильмовСБзЭс
     {
         private IDataWork db;

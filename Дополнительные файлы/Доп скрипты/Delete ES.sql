@@ -1,9 +1,43 @@
-declare @es_id int = 9;
+declare @es_id int = 11; -- номер ЭС, которую нужно оставить (удалятся все, которые меньше)
 
 delete from GoalStackSet
 where Variable_Id in 
 (select id from VariableSet
 where ExpertSystemVariable_Variable_Id < @es_id)
+
+delete from ConsultationRuleSet
+where Rule_Id in 
+(select id from RuleSet
+where Result_Id in
+(select id from FactSet
+where Variable_Id in
+(select id from VariableSet
+where ExpertSystemVariable_Variable_Id < @es_id)))
+
+
+delete from ConsultationSet
+where CurrentRule_Id in 
+(select id from RuleSet
+where Result_Id in
+(select id from FactSet
+where Variable_Id in
+(select id from VariableSet
+where ExpertSystemVariable_Variable_Id < @es_id)))
+
+
+delete from RuleSet
+where Result_Id in
+(select id from FactSet
+where Variable_Id in
+(select id from VariableSet
+where ExpertSystemVariable_Variable_Id < @es_id))
+
+
+delete from FactSet
+where Variable_Id in
+(select id from VariableSet
+where ExpertSystemVariable_Variable_Id < @es_id)
+
 
 delete from VariableSet
 where ExpertSystemVariable_Variable_Id < @es_id

@@ -15,9 +15,9 @@ namespace ExpertSystemDb
     public partial class AdviceCustomProperty
     {
         public int Id { get; set; }
+        public int Value { get; set; }
     
         public virtual CustomProperty CustomProperty { get; set; }
-        public virtual Advice AdvicePositive { get; set; }
-        public virtual Advice AdviceNegative { get; set; }
+        public virtual Advice Advice { get; set; }
     }
 }

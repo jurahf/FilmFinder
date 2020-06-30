@@ -13,8 +13,8 @@ namespace WebApi.Classes
         public AdvicePreviewDto(Advice advice)
         {
             Films = new List<FilmPreviewDto>();
-
-            foreach (var filmAdvice in advice.AdviceFilmPositive)
+            // TODO: добавить Value
+            foreach (var filmAdvice in advice.AdviceFilm)
             {
                 Films.Add(new FilmPreviewDto(filmAdvice.Film));
             }
@@ -43,11 +43,12 @@ namespace WebApi.Classes
         public List<FilmDto> Films { get; set; }
         // TODO: custom property
 
+        // TODO: добавить Value
         public AdviceDto(Advice advice)
         {
             Films = new List<FilmDto>();
 
-            foreach (var filmAdvice in advice.AdviceFilmPositive)
+            foreach (var filmAdvice in advice.AdviceFilm)
             {
                 Films.Add(new FilmDto(filmAdvice.Film));
             }

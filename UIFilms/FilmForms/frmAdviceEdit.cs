@@ -20,39 +20,23 @@ namespace FilmForms
         {
             return new List<FieldForEditUI>()
             {
-                new FieldForEditUI(EditedObject, ReflectionHelper.Nameof<Advice>(p => p.AdviceFilmPositive), "Включить фильмы", new Dictionary<Type, Type>() { { typeof(AdviceFilm), typeof(frmAdviceFilmEdit) } })
+                new FieldForEditUI(EditedObject, ReflectionHelper.Nameof<Advice>(p => p.AdviceFilm), "Включить фильмы", new Dictionary<Type, Type>() { { typeof(AdviceFilm), typeof(frmAdviceFilmEdit) } })
                 {
-                    Master = new MasterDefinition(EditedObject, ReflectionHelper.Nameof<AdviceFilm>(s => s.AdvicePositive)),
+                    Master = new MasterDefinition(EditedObject, ReflectionHelper.Nameof<AdviceFilm>(s => s.Advice)),
                     ListFields = new List<FieldForListUI> ()
                     {
-                        new FieldForListUI( ReflectionHelper.Nameof<AdviceFilm>(s => s.Film.Name), "Название")
+                        new FieldForListUI(ReflectionHelper.Nameof<AdviceFilm>(s => s.Film.Name), "Название"),
+                        new FieldForListUI(ReflectionHelper.Nameof<AdviceFilm>(s => s.Value), "Степень соответствия")
                     }
                 },
 
-                new FieldForEditUI(EditedObject, ReflectionHelper.Nameof<Advice>(p => p.AdviceFilmNegative), "Исключить фильмы", new Dictionary<Type, Type>() { { typeof(AdviceFilm), typeof(frmAdviceFilmEdit) } })
+                new FieldForEditUI(EditedObject, ReflectionHelper.Nameof<Advice>(p => p.AdviceCustomProperty), "Включить свойства", new Dictionary<Type, Type>() { { typeof(AdviceCustomProperty), typeof(frmAdviceCustomPropertyEdit) } })
                 {
-                    Master = new MasterDefinition(EditedObject, ReflectionHelper.Nameof<AdviceFilm>(s => s.AdviceNegative)),
-                    ListFields = new List<FieldForListUI> ()
-                    {
-                        new FieldForListUI( ReflectionHelper.Nameof<AdviceFilm>(s => s.Film.Name), "Название")
-                    }
-                },
-
-                new FieldForEditUI(EditedObject, ReflectionHelper.Nameof<Advice>(p => p.AdviceCustomPropertyPositive), "Включить свойства", new Dictionary<Type, Type>() { { typeof(AdviceCustomProperty), typeof(frmAdviceCustomPropertyEdit) } })
-                {
-                    Master = new MasterDefinition(EditedObject, ReflectionHelper.Nameof<AdviceCustomProperty>(s => s.AdvicePositive)),
+                    Master = new MasterDefinition(EditedObject, ReflectionHelper.Nameof<AdviceCustomProperty>(s => s.Advice)),
                     ListFields = new List<FieldForListUI> ()
                     {
                         new FieldForListUI(ReflectionHelper.Nameof<AdviceCustomProperty>(s => s.CustomProperty.Name), "Название"),
-                    }
-                },
-
-                new FieldForEditUI(EditedObject, ReflectionHelper.Nameof<Advice>(p => p.AdviceCustomPropertyNegative), "Исключить свойства", new Dictionary<Type, Type>() { { typeof(AdviceCustomProperty), typeof(frmAdviceCustomPropertyEdit) } })
-                {
-                    Master = new MasterDefinition(EditedObject, ReflectionHelper.Nameof<AdviceCustomProperty>(s => s.AdviceNegative)),
-                    ListFields = new List<FieldForListUI> ()
-                    {
-                        new FieldForListUI(ReflectionHelper.Nameof<AdviceCustomProperty>(s => s.CustomProperty.Name), "Название"),
+                        new FieldForListUI(ReflectionHelper.Nameof<AdviceCustomProperty>(s => s.Value), "Степень соответствия")
                     }
                 },
 

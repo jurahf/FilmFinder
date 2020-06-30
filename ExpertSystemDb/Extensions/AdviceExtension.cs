@@ -12,10 +12,8 @@ namespace ExpertSystemDb
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Advice()
         {
-            this.AdviceCustomPropertyPositive = new HashSet<AdviceCustomProperty>();
-            this.AdviceFilmPositive = new HashSet<AdviceFilm>();
-            this.AdviceCustomPropertyNegative = new HashSet<AdviceCustomProperty>();
-            this.AdviceFilmNegative = new HashSet<AdviceFilm>();
+            this.AdviceCustomProperty = new HashSet<AdviceCustomProperty>();
+            this.AdviceFilm = new HashSet<AdviceFilm>();
 
             this.Key = Guid.NewGuid();
         }
@@ -25,7 +23,7 @@ namespace ExpertSystemDb
             get
             {
                 StringBuilder sb = new StringBuilder();
-                foreach (var film in AdviceFilmPositive)
+                foreach (var film in AdviceFilm)
                 {
                     sb.Append($"{film.Film.Name}; ");
                 }
@@ -39,7 +37,7 @@ namespace ExpertSystemDb
             get
             {
                 StringBuilder sb = new StringBuilder();
-                foreach (var cp in AdviceCustomPropertyPositive)
+                foreach (var cp in AdviceCustomProperty)
                 {
                     sb.Append($"{cp.CustomProperty.Name}; ");
                 }
@@ -53,7 +51,7 @@ namespace ExpertSystemDb
             get
             {
                 StringBuilder sb = new StringBuilder();
-                foreach (var pr in AdviceCustomPropertyPositive)
+                foreach (var pr in AdviceCustomProperty.Where(x => x.Value > 0))
                 {
                     sb.Append($"{pr.CustomProperty.Name}; ");
                 }
