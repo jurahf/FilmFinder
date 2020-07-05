@@ -38,8 +38,6 @@ namespace Logic
 
         public List<Film> FindFilmsByAdvice(Advice advice)
         {
-            // TODO: сначала сделать бэкап базы v1.0
-
             // набор свойств совета и их значения - это вектор
             // ищем все связи с фильмами этих пользоватеских советов - сначала просто все фильмы
             List<Film> films = new List<Film>();

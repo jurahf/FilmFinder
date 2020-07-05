@@ -42,16 +42,15 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.buttonDown = new System.Windows.Forms.Button();
             this.buttonUp = new System.Windows.Forms.Button();
             this.lstReasons = new ЭС.DragListBox();
             this.lstResult = new ЭС.DragListBox();
             this.lstRules = new ЭС.DragListBox();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnAddRule
@@ -96,7 +95,7 @@
             // 
             this.btnAddReason.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAddReason.Enabled = false;
-            this.btnAddReason.Location = new System.Drawing.Point(352, 32);
+            this.btnAddReason.Location = new System.Drawing.Point(355, 32);
             this.btnAddReason.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddReason.Name = "btnAddReason";
             this.btnAddReason.Size = new System.Drawing.Size(100, 28);
@@ -109,7 +108,7 @@
             // 
             this.btnEditReason.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnEditReason.Enabled = false;
-            this.btnEditReason.Location = new System.Drawing.Point(352, 68);
+            this.btnEditReason.Location = new System.Drawing.Point(355, 68);
             this.btnEditReason.Margin = new System.Windows.Forms.Padding(4);
             this.btnEditReason.Name = "btnEditReason";
             this.btnEditReason.Size = new System.Drawing.Size(100, 28);
@@ -122,7 +121,7 @@
             // 
             this.btnDeleteReason.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDeleteReason.Enabled = false;
-            this.btnDeleteReason.Location = new System.Drawing.Point(352, 103);
+            this.btnDeleteReason.Location = new System.Drawing.Point(355, 103);
             this.btnDeleteReason.Margin = new System.Windows.Forms.Padding(4);
             this.btnDeleteReason.Name = "btnDeleteReason";
             this.btnDeleteReason.Size = new System.Drawing.Size(100, 28);
@@ -135,7 +134,7 @@
             // 
             this.btnModifyResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnModifyResult.Enabled = false;
-            this.btnModifyResult.Location = new System.Drawing.Point(350, 32);
+            this.btnModifyResult.Location = new System.Drawing.Point(342, 31);
             this.btnModifyResult.Margin = new System.Windows.Forms.Padding(4);
             this.btnModifyResult.Name = "btnModifyResult";
             this.btnModifyResult.Size = new System.Drawing.Size(100, 28);
@@ -148,7 +147,7 @@
             // 
             this.btnDeleteResult.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDeleteResult.Enabled = false;
-            this.btnDeleteResult.Location = new System.Drawing.Point(350, 68);
+            this.btnDeleteResult.Location = new System.Drawing.Point(342, 67);
             this.btnDeleteResult.Margin = new System.Windows.Forms.Padding(4);
             this.btnDeleteResult.Name = "btnDeleteResult";
             this.btnDeleteResult.Size = new System.Drawing.Size(100, 28);
@@ -185,7 +184,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(56, 11);
+            this.label1.Location = new System.Drawing.Point(59, 11);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(46, 17);
@@ -195,7 +194,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(21, 12);
+            this.label2.Location = new System.Drawing.Point(31, 10);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(28, 17);
@@ -224,38 +223,9 @@
             this.label3.TabIndex = 16;
             this.label3.Text = "Объяснение правила:";
             // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(16, 403);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
-            this.splitContainer1.Name = "splitContainer1";
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.buttonDown);
-            this.splitContainer1.Panel1.Controls.Add(this.buttonUp);
-            this.splitContainer1.Panel1.Controls.Add(this.btnEditReason);
-            this.splitContainer1.Panel1.Controls.Add(this.btnAddReason);
-            this.splitContainer1.Panel1.Controls.Add(this.lstReasons);
-            this.splitContainer1.Panel1.Controls.Add(this.btnDeleteReason);
-            this.splitContainer1.Panel1.Controls.Add(this.label1);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.btnDeleteResult);
-            this.splitContainer1.Panel2.Controls.Add(this.lstResult);
-            this.splitContainer1.Panel2.Controls.Add(this.btnModifyResult);
-            this.splitContainer1.Panel2.Controls.Add(this.label2);
-            this.splitContainer1.Size = new System.Drawing.Size(929, 162);
-            this.splitContainer1.SplitterDistance = 469;
-            this.splitContainer1.SplitterWidth = 5;
-            this.splitContainer1.TabIndex = 20;
-            // 
             // buttonDown
             // 
-            this.buttonDown.Location = new System.Drawing.Point(4, 68);
+            this.buttonDown.Location = new System.Drawing.Point(7, 68);
             this.buttonDown.Name = "buttonDown";
             this.buttonDown.Size = new System.Drawing.Size(34, 25);
             this.buttonDown.TabIndex = 20;
@@ -265,7 +235,7 @@
             // 
             // buttonUp
             // 
-            this.buttonUp.Location = new System.Drawing.Point(4, 37);
+            this.buttonUp.Location = new System.Drawing.Point(7, 37);
             this.buttonUp.Name = "buttonUp";
             this.buttonUp.Size = new System.Drawing.Size(34, 25);
             this.buttonUp.TabIndex = 19;
@@ -281,10 +251,10 @@
             this.lstReasons.FormattingEnabled = true;
             this.lstReasons.HorizontalScrollbar = true;
             this.lstReasons.ItemHeight = 16;
-            this.lstReasons.Location = new System.Drawing.Point(45, 32);
+            this.lstReasons.Location = new System.Drawing.Point(48, 32);
             this.lstReasons.Margin = new System.Windows.Forms.Padding(4);
             this.lstReasons.Name = "lstReasons";
-            this.lstReasons.Size = new System.Drawing.Size(297, 116);
+            this.lstReasons.Size = new System.Drawing.Size(297, 100);
             this.lstReasons.TabIndex = 18;
             this.lstReasons.AfterDrop += new ЭС.AfterDropEventHandler(this.lstReasons_AfterDrop);
             // 
@@ -296,10 +266,10 @@
             this.lstResult.FormattingEnabled = true;
             this.lstResult.HorizontalScrollbar = true;
             this.lstResult.ItemHeight = 16;
-            this.lstResult.Location = new System.Drawing.Point(12, 32);
+            this.lstResult.Location = new System.Drawing.Point(21, 31);
             this.lstResult.Margin = new System.Windows.Forms.Padding(4);
             this.lstResult.Name = "lstResult";
-            this.lstResult.Size = new System.Drawing.Size(328, 116);
+            this.lstResult.Size = new System.Drawing.Size(311, 100);
             this.lstResult.TabIndex = 19;
             // 
             // lstRules
@@ -318,6 +288,35 @@
             this.lstRules.AfterDrop += new ЭС.AfterDropEventHandler(this.lstRules_AfterDrop);
             this.lstRules.SelectedIndexChanged += new System.EventHandler(this.lstRules_SelectedIndexChanged);
             // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel1.Controls.Add(this.buttonDown);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.buttonUp);
+            this.panel1.Controls.Add(this.btnDeleteReason);
+            this.panel1.Controls.Add(this.btnEditReason);
+            this.panel1.Controls.Add(this.lstReasons);
+            this.panel1.Controls.Add(this.btnAddReason);
+            this.panel1.Location = new System.Drawing.Point(16, 407);
+            this.panel1.MinimumSize = new System.Drawing.Size(470, 154);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(470, 154);
+            this.panel1.TabIndex = 21;
+            // 
+            // panel2
+            // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel2.Controls.Add(this.btnDeleteResult);
+            this.panel2.Controls.Add(this.lstResult);
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Controls.Add(this.btnModifyResult);
+            this.panel2.Location = new System.Drawing.Point(492, 407);
+            this.panel2.MinimumSize = new System.Drawing.Size(456, 154);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(456, 154);
+            this.panel2.TabIndex = 22;
+            // 
             // frmRules
             // 
             this.AcceptButton = this.btnOk;
@@ -326,7 +325,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(1092, 616);
-            this.Controls.Add(this.splitContainer1);
+            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.lstRules);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox1);
@@ -339,12 +339,10 @@
             this.MinimumSize = new System.Drawing.Size(853, 516);
             this.Name = "frmRules";
             this.Text = "Правила";
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel1.PerformLayout();
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -369,8 +367,9 @@
         private DragListBox lstRules;
         private DragListBox lstReasons;
         private DragListBox lstResult;
-        private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button buttonDown;
         private System.Windows.Forms.Button buttonUp;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
     }
 }
