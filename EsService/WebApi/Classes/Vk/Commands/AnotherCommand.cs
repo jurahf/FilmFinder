@@ -1,4 +1,5 @@
 ﻿using ExpertSystemDb;
+using Logic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,13 +34,16 @@ namespace WebApi.Classes.Vk.Commands
 
             // надо найти следующий в том же совете
             var advice = db.GetFromDatabase<Advice>(x => x.Id == adviceId).FirstOrDefault();
-            var dto = new AdviceDto(advice);
-            int index = dto.Films.FindIndex(x => x.Id == filmId);
+            if (advice == null)
+                return;
+
+            List<Film> filmList = new FilmAndAdviceLogic().FindFilmsByAdvice(advice);
+            int index = filmList.FindIndex(x => x.Id == filmId);
             index++;
-            if (index >= dto.Films.Count)
+            if (index >= filmList.Count)
                 index = 0;
 
-            CommonLogic.SendAboutFilm(dto.Films[index], adviceId, message.Peer_Id, vkApi);
+            CommonLogic.SendAboutFilm(new FilmDto(filmList[index]), adviceId, message.Peer_Id, vkApi);
         }
     }
 }

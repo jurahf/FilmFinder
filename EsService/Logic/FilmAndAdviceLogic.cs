@@ -58,7 +58,7 @@ namespace Logic
                     FilmCustomProperty filmProp = film.FilmCustomProperty
                         .FirstOrDefault(x => x.CustomProperty.Id == adviceProp.CustomProperty.Id);
 
-                    if (filmProp.Value * adviceProp.Value < 0) // если == 0, то пофиг, пусть будет
+                    if (filmProp == null || filmProp.Value * adviceProp.Value < 0) // если == 0, то пофиг, пусть будет
                         filteredFilms = filteredFilms.Where(x => x.Id != film.Id).ToList();
                 }
             }

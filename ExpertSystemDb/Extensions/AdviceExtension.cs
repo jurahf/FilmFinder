@@ -51,9 +51,10 @@ namespace ExpertSystemDb
             get
             {
                 StringBuilder sb = new StringBuilder();
-                foreach (var pr in AdviceCustomProperty.Where(x => x.Value > 0))
+                foreach (var pr in AdviceCustomProperty)
                 {
-                    sb.Append($"{pr.CustomProperty.Name} ({pr.Value}); ");
+                    string no = pr.Value < 0 ? "НЕ " : "";
+                    sb.Append($"{no}{pr.CustomProperty.Name} ({pr.Value}); ");
                 }
 
                 return sb.ToString().Trim();

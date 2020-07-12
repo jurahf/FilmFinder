@@ -12,8 +12,15 @@ namespace WebApi.Classes.Vk.Commands
     {
         public static void SendAboutFilm(FilmDto film, int adviceId, int peerId, VkApiIntegrator vkApi)
         {
-            string posterPic = vkApi.PreparePictureAndGetName(film.PosterUrl, peerId);
-            vkApi.SendMessage(peerId, "", null, posterPic);
+            try
+            {
+                string posterPic = vkApi.PreparePictureAndGetName(film.PosterUrl, peerId);
+                vkApi.SendMessage(peerId, "", null, posterPic);
+            }
+            catch (Exception ex)
+            {
+                // TODO: постер по-умолчанию, лог
+            }
 
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($"{WebUtility.HtmlDecode(film.Name)} ({film.Year})");

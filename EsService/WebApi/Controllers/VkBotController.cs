@@ -15,7 +15,7 @@ namespace WebApi.Controllers
     public class VkBotController : ApiController
     {
         private const string vkToken = "89dbe5916cca655ab346340a0c1df410568552a6b3d248155ae6ba64a1d1d5b8a2fb662a98817937070c3";
-        private const string vkConfirmKey = "21572c26";
+        private const string vkConfirmKey = "7ec2f45d";
 
         public VkBotController()
         {
