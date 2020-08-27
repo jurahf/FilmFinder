@@ -10,7 +10,7 @@ namespace WebApi.Classes.Vk.Commands
 {
     public class CommonLogic
     {
-        public static void SendAboutFilm(FilmDto film, int adviceId, int peerId, VkApiIntegrator vkApi)
+        public static void SendAboutFilm(string sessionId, FilmDto film, int adviceId, int peerId, VkApiIntegrator vkApi)
         {
             try
             {
@@ -32,7 +32,8 @@ namespace WebApi.Classes.Vk.Commands
                 Buttons = new List<List<Button>>()
                     {
                         new List<Button>() { new Button() { Color = ButtonColor.positive, Label = "Подобрать еще один фильм!", Payload = "Consultation" } },
-                        new List<Button>() { new Button() { Color = ButtonColor.secondary, Label = "Другой такой же", Payload = $"Another|{adviceId}|{film.Id}" } }
+                        new List<Button>() { new Button() { Color = ButtonColor.secondary, Label = "Другой по тем же параметрам", Payload = $"Another|{sessionId}|{adviceId}|{film.Id}" } },
+                        //new List<Button>() { new Button() { Color = ButtonColor.secondary, Label = "Оставить отзыв",  Payload = $"Feedback|{sessionId}|{adviceId}|{film.Id}" } }
                     }
             };
 

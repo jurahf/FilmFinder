@@ -71,7 +71,7 @@ namespace WebApi.Classes.Vk.Commands
                 int index = new Random().Next(0, filmDtos.Count - 1);
                 var film = filmDtos[index];
 
-                CommonLogic.SendAboutFilm(film, advice.Id, message.Peer_Id, vkApi);
+                CommonLogic.SendAboutFilm(sessionId, film, advice.Id, message.Peer_Id, vkApi);
             }
         }
 

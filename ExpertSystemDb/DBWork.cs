@@ -186,5 +186,56 @@ namespace ExpertSystemDb
         }
 
 
+
+        public void AddWithoutSave<T>(T obj) where T : class
+        {
+            try
+            {
+                // объект мог сохраниться с другими объектами, поэтому добавлять его не всегда надо
+                if (GetFromDatabase<T>().FirstOrDefault(x => GetId(x) == GetId(obj)) == null) // костыль и долго, но зато ошибок с двойным сохранением точно не будет
+                {
+                    Database.Set<T>().Add(obj);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public void AddWithoutSave<T>(List<T> objList) where T : class
+        {
+            try
+            {
+                Database.Set<T>().AddRange(objList); // рискуем
+
+                //List<T> toAdd = new List<T>();
+
+                //foreach (var obj in objList)
+                //{
+                //    // объект мог сохраниться с другими объектами, поэтому добавлять его не всегда надо
+                //    if (GetFromDatabase<T>().FirstOrDefault(x => GetId(x) == GetId(obj)) == null) // костыль и долго, но зато ошибок с двойным сохранением точно не будет
+                //    {
+                //        toAdd.Add(obj);
+                //    }
+                //}
+
+                //if (toAdd.Any())
+                //    Database.Set<T>().AddRange(toAdd);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+
+        public void Save()
+        {
+            Database.SaveChanges();
+        }
+
+
+
     }
 }

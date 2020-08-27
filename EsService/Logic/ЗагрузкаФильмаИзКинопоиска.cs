@@ -92,11 +92,11 @@ namespace Logic
             Film result = new Film();
 
             // постер
-            Regex poster = new Regex("<a class=\"popupBigImage\"(.*?)<img(.*?)src=\"(?<link>.*?)\"(.*?)/>", RegexOptions.Singleline);
+            Regex poster = new Regex("<img(.*?)film-poster(.*?)src=\"(?<link>.*?)\"(.*?)/>", RegexOptions.Singleline);
             result.Poster = poster.Match(html).Groups["link"].Value;
 
             // название
-            Regex name = new Regex("<h1 class=\"moviename-big\"(.*?)>(.*?)>(?<text>.*?)<(.*?)</h1>", RegexOptions.Singleline);
+            Regex name = new Regex("<span class=\"styles_title__2l0HH\"(.*?)>(.*?)>(?<text>.*?)<(.*?)</span>", RegexOptions.Singleline);
             result.Name = name.Match(html).Groups["text"].Value;
 
             // основная информация

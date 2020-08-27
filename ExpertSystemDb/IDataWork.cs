@@ -23,5 +23,11 @@ namespace ExpertSystemDb
 
         void DeleteObject<T>(T obj) where T : class;
         void DeleteObject<T>(List<T> objList) where T : class;
+
+
+        void AddWithoutSave<T>(T obj) where T : class;
+        void AddWithoutSave<T>(List<T> objList) where T : class;
+
+        void Save();
     }
 }

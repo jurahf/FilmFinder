@@ -31,6 +31,7 @@ namespace WebApi.Classes.Vk.Commands
             string[] arr = message.TextOrPayload.Split('|');
             int adviceId = int.Parse(ClearMessage(arr[1]));
             int filmId = int.Parse(ClearMessage(arr[2]));
+            string sessionId = ClearMessage(arr[3]);
 
             // надо найти следующий в том же совете
             var advice = db.GetFromDatabase<Advice>(x => x.Id == adviceId).FirstOrDefault();
@@ -43,7 +44,7 @@ namespace WebApi.Classes.Vk.Commands
             if (index >= filmList.Count)
                 index = 0;
 
-            CommonLogic.SendAboutFilm(new FilmDto(filmList[index]), adviceId, message.Peer_Id, vkApi);
+            CommonLogic.SendAboutFilm(sessionId, new FilmDto(filmList[index]), adviceId, message.Peer_Id, vkApi);
         }
     }
 }

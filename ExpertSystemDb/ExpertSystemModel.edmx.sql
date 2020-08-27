@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 06/30/2020 17:18:45
+-- Date Created: 07/23/2020 13:28:57
 -- Generated from EDMX file: D:\PROJECTS\CSharp\FilmFinder\ExpertSystemDb\ExpertSystemModel.edmx
 -- --------------------------------------------------
 
@@ -210,6 +210,9 @@ IF OBJECT_ID(N'[dbo].[AdviceCustomPropertySet]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[AdviceFilmSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[AdviceFilmSet];
+GO
+IF OBJECT_ID(N'[dbo].[IMDbLoadingSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[IMDbLoadingSet];
 GO
 
 -- --------------------------------------------------
@@ -449,6 +452,31 @@ CREATE TABLE [dbo].[AdviceFilmSet] (
 );
 GO
 
+-- Creating table 'IMDbLoadingSet'
+CREATE TABLE [dbo].[IMDbLoadingSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [DataSetID] nvarchar(max)  NOT NULL,
+    [IMDbId] nvarchar(max)  NULL,
+    [EnglishTitle] nvarchar(max)  NULL,
+    [Year] nvarchar(max)  NULL,
+    [EnglishGenries] nvarchar(max)  NULL,
+    [EnglishDescription] nvarchar(max)  NULL,
+    [Poster] nvarchar(max)  NULL,
+    [EnglishActors] nvarchar(max)  NULL,
+    [EnglishCountries] nvarchar(max)  NULL,
+    [EnglishProducers] nvarchar(max)  NULL,
+    [Rating] nvarchar(max)  NULL,
+    [EnglishTags] nvarchar(max)  NULL,
+    [RussianTitle] nvarchar(max)  NULL,
+    [RussianGenries] nvarchar(max)  NULL,
+    [RussianDescription] nvarchar(max)  NULL,
+    [RussianActors] nvarchar(max)  NULL,
+    [RussianCountries] nvarchar(max)  NULL,
+    [RussianProducers] nvarchar(max)  NULL,
+    [RussianTags] nvarchar(max)  NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -612,6 +640,12 @@ GO
 -- Creating primary key on [Id] in table 'AdviceFilmSet'
 ALTER TABLE [dbo].[AdviceFilmSet]
 ADD CONSTRAINT [PK_AdviceFilmSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'IMDbLoadingSet'
+ALTER TABLE [dbo].[IMDbLoadingSet]
+ADD CONSTRAINT [PK_IMDbLoadingSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 

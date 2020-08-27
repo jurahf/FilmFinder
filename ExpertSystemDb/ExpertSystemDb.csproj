@@ -136,6 +136,9 @@
       <DependentUpon>ExpertSystemModel.tt</DependentUpon>
     </Compile>
     <Compile Include="IDataWork.cs" />
+    <Compile Include="IMDbLoading.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Producer.cs">
       <DependentUpon>ExpertSystemModel.tt</DependentUpon>
     </Compile>

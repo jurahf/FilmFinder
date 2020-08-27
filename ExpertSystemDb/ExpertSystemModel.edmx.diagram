@@ -76,6 +76,9 @@
         <AssociationConnector Association="ExpertSystemModel.FilmAdviceFilm" />
         <AssociationConnector Association="ExpertSystemModel.AdviceAdviceCustomProperty" />
       </Diagram>
+      <Diagram DiagramId="f6bcf1929e9540d783e4a6c9fcb27683" Name="IMDbLoading" >
+        <EntityTypeShape EntityType="ExpertSystemModel.IMDbLoading" Width="2.125" PointX="2" PointY="0.5" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

@@ -33,6 +33,7 @@
     <EntitySet Name="AdviceSet" EntityType="ExpertSystemModel.Store.AdviceSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AdviceCustomPropertySet" EntityType="ExpertSystemModel.Store.AdviceCustomPropertySet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AdviceFilmSet" EntityType="ExpertSystemModel.Store.AdviceFilmSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="IMDbLoadingSet" EntityType="ExpertSystemModel.Store.IMDbLoadingSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="ExpertSystemDomain" Association="ExpertSystemModel.Store.ExpertSystemDomain">
       <End Role="ExpertSystem" EntitySet="ExpertSystemSet" />
       <End Role="Domain" EntitySet="DomainSet" />
@@ -410,6 +411,31 @@
     <Property Name="Value" Type="int" Nullable="false" />
     <Property Name="Advice_Id" Type="int" Nullable="true" />
     <Property Name="Film_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IMDbLoadingSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DataSetID" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IMDbId" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="EnglishTitle" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Year" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="EnglishGenries" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="EnglishDescription" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Poster" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="EnglishActors" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="EnglishCountries" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="EnglishProducers" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Rating" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="EnglishTags" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="RussianTitle" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="RussianGenries" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="RussianDescription" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="RussianActors" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="RussianCountries" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="RussianProducers" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="RussianTags" Type="nvarchar(max)" Nullable="true" />
   </EntityType>
   <Association Name="ExpertSystemDomain">
     <End Role="ExpertSystem" Type="ExpertSystemModel.Store.ExpertSystemSet" Multiplicity="1" />
@@ -1033,6 +1059,7 @@
             <End Role="Advice" EntitySet="AdviceSet" />
             <End Role="AdviceCustomProperty" EntitySet="AdviceCustomPropertySet" />
           </AssociationSet>
+          <EntitySet Name="IMDbLoadingSet" EntityType="ExpertSystemModel.IMDbLoading" />
         </EntityContainer>
         <EntityType Name="ExpertSystem">
           <Key>
@@ -1453,6 +1480,31 @@
           <End Type="ExpertSystemModel.Advice" Role="Advice" Multiplicity="0..1" />
           <End Type="ExpertSystemModel.AdviceCustomProperty" Role="AdviceCustomProperty" Multiplicity="*" />
         </Association>
+        <EntityType Name="IMDbLoading">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DataSetID" Type="String" Nullable="false" />
+          <Property Name="IMDbId" Type="String" Nullable="true" />
+          <Property Name="EnglishTitle" Type="String" Nullable="true" />
+          <Property Name="Year" Type="String" Nullable="true" />
+          <Property Name="EnglishGenries" Type="String" Nullable="true" />
+          <Property Name="EnglishDescription" Type="String" Nullable="true" />
+          <Property Name="Poster" Type="String" Nullable="true" />
+          <Property Name="EnglishActors" Type="String" Nullable="true" />
+          <Property Name="EnglishCountries" Type="String" Nullable="true" />
+          <Property Name="EnglishProducers" Type="String" Nullable="true" />
+          <Property Name="Rating" Type="String" Nullable="true" />
+          <Property Name="EnglishTags" Type="String" Nullable="true" />
+          <Property Name="RussianTitle" Type="String" Nullable="true" />
+          <Property Name="RussianGenries" Type="String" Nullable="true" />
+          <Property Name="RussianDescription" Type="String" Nullable="true" />
+          <Property Name="RussianActors" Type="String" Nullable="true" />
+          <Property Name="RussianCountries" Type="String" Nullable="true" />
+          <Property Name="RussianProducers" Type="String" Nullable="true" />
+          <Property Name="RussianTags" Type="String" Nullable="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1680,6 +1732,32 @@
         <MappingFragment StoreEntitySet="AdviceFilmSet">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Value" ColumnName="Value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMDbLoadingSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.IMDbLoading)">
+        <MappingFragment StoreEntitySet="IMDbLoadingSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DataSetID" ColumnName="DataSetID" />
+          <ScalarProperty Name="IMDbId" ColumnName="IMDbId" />
+          <ScalarProperty Name="EnglishTitle" ColumnName="EnglishTitle" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="EnglishGenries" ColumnName="EnglishGenries" />
+          <ScalarProperty Name="EnglishDescription" ColumnName="EnglishDescription" />
+          <ScalarProperty Name="Poster" ColumnName="Poster" />
+          <ScalarProperty Name="EnglishActors" ColumnName="EnglishActors" />
+          <ScalarProperty Name="EnglishCountries" ColumnName="EnglishCountries" />
+          <ScalarProperty Name="EnglishProducers" ColumnName="EnglishProducers" />
+          <ScalarProperty Name="Rating" ColumnName="Rating" />
+          <ScalarProperty Name="EnglishTags" ColumnName="EnglishTags" />
+          <ScalarProperty Name="RussianTitle" ColumnName="RussianTitle" />
+          <ScalarProperty Name="RussianGenries" ColumnName="RussianGenries" />
+          <ScalarProperty Name="RussianDescription" ColumnName="RussianDescription" />
+          <ScalarProperty Name="RussianActors" ColumnName="RussianActors" />
+          <ScalarProperty Name="RussianCountries" ColumnName="RussianCountries" />
+          <ScalarProperty Name="RussianProducers" ColumnName="RussianProducers" />
+          <ScalarProperty Name="RussianTags" ColumnName="RussianTags" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
