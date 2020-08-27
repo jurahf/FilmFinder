@@ -88,15 +88,79 @@ namespace Logic
 
             // берем топ
             // TODO: отдавать все, а уже клиент пусть решает, топ ему надо или не топ
+            var list = result.OrderBy(x => x.Distance)
+                .ThenByDescending(x => x.Film.Rating ?? 0)
+                .ToList();
             return result.OrderBy(x => x.Distance)
-                .Take(5)
+                .ThenByDescending(x => x.Film.Rating ?? 0)
+                .Take(100)
+                .TakeRandom(5)
                 .Select(x => x.Film)
                 .ToList();
         }
 
-
-
     }
+
+
+    public static class Extensions
+    {
+        public static IEnumerable<T> TakeRandom<T>(this IOrderedEnumerable<T> enumerable, int count)
+        {
+            if (enumerable.Count() <= count)
+            {
+                foreach (var res in enumerable)
+                    yield return res;
+            }
+
+            List<T> result = new List<T>();
+            List<int> selectedIndexes = new List<int>();
+
+            Random random = new Random();
+
+            while (selectedIndexes.Count < count)
+            {
+                int index = -1;
+                do
+                {
+                    index = random.Next(0, enumerable.Count() - 1);
+                } while (selectedIndexes.Contains(index));
+
+                selectedIndexes.Add(index);
+            }
+
+            foreach (var index in selectedIndexes)
+                yield return enumerable.ElementAt(index);
+        }
+
+        public static IEnumerable<T> TakeRandom<T>(this IEnumerable<T> enumerable, int count)
+        {
+            if (enumerable.Count() <= count)
+            {
+                foreach (var res in enumerable)
+                    yield return res;
+            }
+
+            List<T> result = new List<T>();
+            List<int> selectedIndexes = new List<int>();
+
+            Random random = new Random();
+
+            while (selectedIndexes.Count < count)
+            {
+                int index = -1;
+                do
+                {
+                    index = random.Next(0, enumerable.Count() - 1);
+                } while (selectedIndexes.Contains(index));
+
+                selectedIndexes.Add(index);
+            }
+
+            foreach (var index in selectedIndexes)
+                yield return enumerable.ElementAt(index);
+        }
+    }
+
 
 
     public class FilmRelevance

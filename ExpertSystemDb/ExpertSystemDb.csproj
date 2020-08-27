@@ -93,6 +93,7 @@
     <Compile Include="DomainValue.cs">
       <DependentUpon>ExpertSystemModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="DTOs\AdviceDto.cs" />
     <Compile Include="DTOs\VariableValue.cs" />
     <Compile Include="DTOs\QuestionOrResult.cs" />
     <Compile Include="ExpertSystem.cs">

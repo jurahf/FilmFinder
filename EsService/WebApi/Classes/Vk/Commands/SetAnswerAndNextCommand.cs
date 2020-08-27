@@ -58,12 +58,18 @@ namespace WebApi.Classes.Vk.Commands
                 string key = result.Result.Fact.Value;
                 Guid guid;
                 if (!Guid.TryParse(key, out guid))
+                {
                     SendError(message.Peer_Id);
+                    return;
+                }
 
                 Advice advice = db.GetFromDatabase<Advice>(x => x.Key == guid).FirstOrDefault();
 
                 if (advice == null)
+                {
                     SendError(message.Peer_Id);
+                    return;
+                }
 
                 var filmList = new FilmAndAdviceLogic().FindFilmsByAdvice(advice);
                 var filmDtos = filmList.Select(x => new FilmDto(x)).ToList();

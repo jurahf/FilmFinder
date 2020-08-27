@@ -94,7 +94,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Classes\AdviceDto.cs" />
     <Compile Include="Classes\StartEsArgs.cs" />
     <Compile Include="Classes\Vk\Commands\AnotherCommand.cs" />
     <Compile Include="Classes\Vk\Commands\CommonLogic.cs" />

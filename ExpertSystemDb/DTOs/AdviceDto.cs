@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace WebApi.Classes
+namespace ExpertSystemDb.DTOs
 {
     public class AdvicePreviewDto
     {
@@ -55,12 +55,24 @@ namespace WebApi.Classes
         }
     }
 
+    public class CustomPropertyDto
+    {
+        public string Name { get; set; }
+        public int Percent { get; set; }
+
+        public CustomPropertyDto(FilmCustomProperty cp)
+        {
+            Name = cp.CustomProperty.Name;
+            Percent = cp.Value;
+        }
+    }
+
     public class FilmDto
     {
         public List<ActorDto> Actors { get; set; }
         public List<CountryDto> Countries { get; set; }
         public string Description { get; set; }
-        //film.FilmCustomProperty
+        public List<CustomPropertyDto> CustomProperties { get; set;}
         public List<GenreDto> Genries { get; set; }
         public int Id { get; set; }
         public string KinopoiskId { get; set; }
@@ -83,7 +95,7 @@ namespace WebApi.Classes
             this.Rating = film.Rating ?? 0;
             this.Slogan = film.Slogan;
             this.PosterUrl = film.Poster;
-            //film.FilmCustomProperty
+
             this.Producers = new List<ProducerDto>();
             foreach (var prodFilm in film.ProducerFilm)
             {
@@ -103,6 +115,12 @@ namespace WebApi.Classes
             foreach (var genreFilm in film.GenreFilm)
             {
                 this.Genries.Add(new GenreDto(genreFilm.Genre));
+            }
+
+            this.CustomProperties = new List<CustomPropertyDto>();
+            foreach (var cp in film.FilmCustomProperty)
+            {
+                this.CustomProperties.Add(new CustomPropertyDto(cp));
             }
         }
     }

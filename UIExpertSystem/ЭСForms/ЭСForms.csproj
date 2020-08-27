@@ -92,6 +92,12 @@
     <Compile Include="frmAddVar.Designer.cs">
       <DependentUpon>frmAddVar.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmConsultation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmConsultation.Designer.cs">
+      <DependentUpon>frmConsultation.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmDomains.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -181,6 +187,9 @@
     <EmbeddedResource Include="frmAddVar.resx">
       <DependentUpon>frmAddVar.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmConsultation.resx">
+      <DependentUpon>frmConsultation.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmDomains.resx">
       <DependentUpon>frmDomains.cs</DependentUpon>
     </EmbeddedResource>
@@ -238,6 +247,10 @@
     <None Include="Resources\Worked.jpg" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ExpertSystemDb\ExpertSystemDb.csproj">
+      <Project>{FF09E43E-5801-4847-BAB1-C9865550AB6B}</Project>
+      <Name>ExpertSystemDb</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ClassicClasses\ClassicClasses.csproj">
       <Project>{8ecb4e69-0f1d-41f6-b283-ab736a02b233}</Project>
       <Name>ClassicClasses</Name>

@@ -1,4 +1,5 @@
 ﻿using ExpertSystemDb;
+using ExpertSystemDb.DTOs;
 using Logic;
 using System;
 using System.Collections.Generic;

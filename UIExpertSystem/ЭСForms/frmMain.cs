@@ -212,7 +212,8 @@ namespace ЭС
 
         private void пускToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Функция перемещена");
+            frmConsultation frm = new frmConsultation();
+            frm.Show();
         }
 
         private void объяснениеToolStripMenuItem_Click(object sender, EventArgs e)
