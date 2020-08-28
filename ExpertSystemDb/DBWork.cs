@@ -9,20 +9,23 @@ namespace ExpertSystemDb
     public class DBWork : IDataWork
     {
         private const string idFieldName = "Id";
-        private static ExpertSystemModelContainer database = null;
+        private ExpertSystemModelContainer database = null;
 
-        private static ExpertSystemModelContainer Database
+        private ExpertSystemModelContainer Database
         {
             get
             {
-                if (database == null)
-                {
-                    database = new ExpertSystemModelContainer();
-                }
-
                 return database;
             }
         }
+
+
+        public DBWork()
+        {
+            database = new ExpertSystemModelContainer();
+        }
+             
+
 
         private int GetId<T>(T obj) where T : class
         {
@@ -191,11 +194,7 @@ namespace ExpertSystemDb
         {
             try
             {
-                // объект мог сохраниться с другими объектами, поэтому добавлять его не всегда надо
-                if (GetFromDatabase<T>().FirstOrDefault(x => GetId(x) == GetId(obj)) == null) // костыль и долго, но зато ошибок с двойным сохранением точно не будет
-                {
-                    Database.Set<T>().Add(obj);
-                }
+                Database.Set<T>().Add(obj);
             }
             catch (Exception ex)
             {
@@ -208,20 +207,6 @@ namespace ExpertSystemDb
             try
             {
                 Database.Set<T>().AddRange(objList); // рискуем
-
-                //List<T> toAdd = new List<T>();
-
-                //foreach (var obj in objList)
-                //{
-                //    // объект мог сохраниться с другими объектами, поэтому добавлять его не всегда надо
-                //    if (GetFromDatabase<T>().FirstOrDefault(x => GetId(x) == GetId(obj)) == null) // костыль и долго, но зато ошибок с двойным сохранением точно не будет
-                //    {
-                //        toAdd.Add(obj);
-                //    }
-                //}
-
-                //if (toAdd.Any())
-                //    Database.Set<T>().AddRange(toAdd);
             }
             catch (Exception ex)
             {

@@ -25,7 +25,13 @@ namespace WebApi.Classes.Vk.Commands
 
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($"{WebUtility.HtmlDecode(film.Name)} ({film.Year})");
-            sb.AppendLine(WebUtility.HtmlDecode(film.Description));
+            sb.AppendLine();
+            sb.AppendLine("Осторожно, возможен машинный перевод!"); // а надо сказать, что это машинный перевод?
+            sb.AppendLine();
+            sb.AppendLine(WebUtility.HtmlDecode($"{film.Description}"));
+            sb.AppendLine();
+            sb.Append("Основываясь на мнении пользователей, этот фильм: ");
+            sb.AppendLine(string.Join(", ", film.CustomProperties.OrderByDescending(x => x.Percent).Select(x => $"на {x.Percent}% {x.Name}")));
 
             Keyboard keyboard = new Keyboard()
             {

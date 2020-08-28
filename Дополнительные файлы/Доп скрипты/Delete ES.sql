@@ -1,4 +1,4 @@
-declare @es_id int = 11; -- номер ЭС, которую нужно оставить (удалятся все, которые меньше)
+declare @es_id int = 16; -- номер ЭС, которую нужно оставить (удалятся все, которые меньше)
 
 delete from GoalStackSet
 where Variable_Id in 

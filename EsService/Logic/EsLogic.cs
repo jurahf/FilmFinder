@@ -99,9 +99,10 @@ namespace Logic
                     {
                         if (r.Result != null && r.Result.Variable == tempGoal)
                         {
-                            RuleQuestionOrResult workedRule = DoRule(consult, r);
+                            RuleQuestionOrResult workedRule = DoRule(consult, r); // тут создаются сущности, но не сохраняются
                             if (workedRule.Question != null)
                             {
+                                db.Save();
                                 return new FactQuestionOrResult() { Question = workedRule.Question };
                             }
 
@@ -110,12 +111,14 @@ namespace Logic
                                 if (tempGoal.Type == VariableType.QuerriableDetective) // TODO: вообще-то это надо только когда все выводимые правила не сработали
                                 {
                                     // теперь запросим
+                                    db.Save();
                                     return new FactQuestionOrResult() { Question = tempGoal };
                                 }
                                 continue;
                             }
                             else
                             {
+                                db.Save();
                                 PopGoal(consult);
                                 return new FactQuestionOrResult() { Result = CreateConsultationFact(consult, r.Result, FactTruly.IsTrue) };
                             }
@@ -128,9 +131,10 @@ namespace Logic
                 {
                     Consultation = consult,
                     Truly = FactTruly.Unknown,
-                    Fact = new Fact() { Variable = tempGoal }       // ничего не сохраняем - так прокатит?
+                    Fact = new Fact() { Variable = tempGoal }
                 };
                 PopGoal(consult);
+                // db.Save(); // TODO: сейчас сохранение происходит в PopGoal
                 return new FactQuestionOrResult() { Result = cf };
             }
         }
@@ -179,6 +183,7 @@ namespace Logic
 
         /// <summary>
         /// Применение одного правила
+        /// !!! ВНИМАНИЕ! Добавляет сущности, но не сохраняет их
         /// </summary>
         /// <param name="r">Это правило</param>
         public RuleQuestionOrResult DoRule(Consultation consult, Rule r)
@@ -236,7 +241,7 @@ namespace Logic
                     Consultation = consult
                 };
                 // proved.Add(r.Result); // это уже вроде делается в GoConsult?
-                db.Insert(resultRule);
+                db.AddWithoutSave(resultRule);
 
                 return new RuleQuestionOrResult()
                 {
@@ -251,7 +256,7 @@ namespace Logic
                     Work = RuleWork.UnSignify, // не означилось
                     Consultation = consult
                 };
-                db.Insert(resultRule);
+                db.AddWithoutSave(resultRule);
 
                 return new RuleQuestionOrResult()
                 {
@@ -289,7 +294,10 @@ namespace Logic
             var lastGoal = PopGoal(consult);
 
             // надо записать ответ
-            List<Fact> фактыДляОзначивания = db.GetFromDatabase<Fact>(x => x.Variable.Name.ToLower() == answer.Variable.ToLower()); // TODO: тут могут попасть факты из других ЭС
+            // TODO: тут могут попасть факты из других ЭС
+            List<Fact> фактыДляОзначивания = db.GetFromDatabase<Fact>(x => x.Variable.Name.ToLower() == answer.Variable.ToLower())
+                .ToList();
+            List<ConsultationFact> forInsert = new List<ConsultationFact>();
             foreach (var f in фактыДляОзначивания)
             {
                 var cf = new ConsultationFact()
@@ -298,8 +306,12 @@ namespace Logic
                     Fact = f,
                     Truly = f.DomainValue.Value.ToLower() == answer.Value.ToLower() ? FactTruly.IsTrue : FactTruly.IsFalse
                 };
-                db.Insert(cf);
+
+                forInsert.Add(cf);
             }
+
+            db.AddWithoutSave(forInsert);
+            db.Save();
 
 
             if (consult.GoalStack == null || currentRule == null) // текущего правила может не быть только если главная цель была запрашиваемая

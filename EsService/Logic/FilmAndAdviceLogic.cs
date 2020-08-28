@@ -43,10 +43,13 @@ namespace Logic
             List<Film> films = new List<Film>();
             foreach (var prop in advice.AdviceCustomProperty)
             {
-                films = films.Union(
-                    db.GetFromDatabase<FilmCustomProperty>(x => x.CustomProperty.Id == prop.CustomProperty.Id)
-                    .Select(x => x.Film))
-                    .ToList();
+                if (prop.Value >= 0)
+                {
+                    films = films.Union(
+                        db.GetFromDatabase<FilmCustomProperty>(x => x.CustomProperty.Id == prop.CustomProperty.Id)
+                        .Select(x => x.Film))
+                        .ToList();
+                }
             }
 
             // оставляем только фильмы с теми же знаками в значениях свойств (вычисляем нужную "четверть" на координатной оси)
@@ -58,7 +61,7 @@ namespace Logic
                     FilmCustomProperty filmProp = film.FilmCustomProperty
                         .FirstOrDefault(x => x.CustomProperty.Id == adviceProp.CustomProperty.Id);
 
-                    if (filmProp == null || filmProp.Value * adviceProp.Value < 0) // если == 0, то пофиг, пусть будет
+                    if (filmProp != null && filmProp.Value * adviceProp.Value < 0) // если == 0, то пофиг, пусть будет
                         filteredFilms = filteredFilms.Where(x => x.Id != film.Id).ToList();
                 }
             }
@@ -88,9 +91,6 @@ namespace Logic
 
             // берем топ
             // TODO: отдавать все, а уже клиент пусть решает, топ ему надо или не топ
-            var list = result.OrderBy(x => x.Distance)
-                .ThenByDescending(x => x.Film.Rating ?? 0)
-                .ToList();
             return result.OrderBy(x => x.Distance)
                 .ThenByDescending(x => x.Film.Rating ?? 0)
                 .Take(100)

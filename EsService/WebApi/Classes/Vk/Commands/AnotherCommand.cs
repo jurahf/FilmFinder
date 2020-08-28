@@ -30,22 +30,20 @@ namespace WebApi.Classes.Vk.Commands
         {
             // TODO: обработка ошибок
             string[] arr = message.TextOrPayload.Split('|');
-            int adviceId = int.Parse(ClearMessage(arr[1]));
-            int filmId = int.Parse(ClearMessage(arr[2]));
-            string sessionId = ClearMessage(arr[3]);
+            string sessionId = ClearMessage(arr[1]);
+            int adviceId = int.Parse(ClearMessage(arr[2]));
+            int filmId = int.Parse(ClearMessage(arr[3]));
 
             // надо найти следующий в том же совете
             var advice = db.GetFromDatabase<Advice>(x => x.Id == adviceId).FirstOrDefault();
             if (advice == null)
                 return;
 
-            List<Film> filmList = new FilmAndAdviceLogic().FindFilmsByAdvice(advice);
-            int index = filmList.FindIndex(x => x.Id == filmId);
-            index++;
-            if (index >= filmList.Count)
-                index = 0;
+            vkApi.SendMessage(message.Peer_Id, "Сейчас поищу...", keyboard: null);
 
-            CommonLogic.SendAboutFilm(sessionId, new FilmDto(filmList[index]), adviceId, message.Peer_Id, vkApi);
+            List<Film> filmList = new FilmAndAdviceLogic().FindFilmsByAdvice(advice);
+
+            CommonLogic.SendAboutFilm(sessionId, new FilmDto(filmList.First()), adviceId, message.Peer_Id, vkApi);
         }
     }
 }

@@ -71,6 +71,8 @@ namespace WebApi.Classes.Vk.Commands
                     return;
                 }
 
+                vkApi.SendMessage(message.Peer_Id, "Сейчас что-нибудь подберу...", keyboard: null);
+
                 var filmList = new FilmAndAdviceLogic().FindFilmsByAdvice(advice);
                 var filmDtos = filmList.Select(x => new FilmDto(x)).ToList();
 
