@@ -1,4 +1,5 @@
 ﻿using ExpertSystemDb;
+using ExpertSystemDb.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,8 @@ namespace Logic
 {
     public class FilmAndAdviceLogic
     {
-        IDataWork db;
+        public const string GenreAndTagResultVariableName = "ФильтрПоЖанрамИТэгамДляСессии";
+        private readonly IDataWork db;
 
         public FilmAndAdviceLogic()
         {
@@ -26,7 +28,7 @@ namespace Logic
             return $"{advice.FilmsStr}{advice.CustomPropertiesStr}";
         }
 
-        public List<Film> FindFilmsByAdviceGuid(Guid guid)
+        private List<Film> FindFilmsByAdviceGuid(Guid guid)
         {
             Advice advice = db.GetFromDatabase<Advice>(x => x.Key == guid).FirstOrDefault();
 
@@ -36,7 +38,7 @@ namespace Logic
             return FindFilmsByAdvice(advice);
         }
 
-        public List<Film> FindFilmsByAdvice(Advice advice)
+        private List<Film> FindFilmsByAdvice(Advice advice)
         {
             // набор свойств совета и их значения - это вектор
             // ищем все связи с фильмами этих пользоватеских советов - сначала просто все фильмы
@@ -90,14 +92,78 @@ namespace Logic
             }
 
             // берем топ
-            // TODO: отдавать все, а уже клиент пусть решает, топ ему надо или не топ
+            int percent25 = Math.Max((int)(result.Count * 0.25), 5);
             return result.OrderBy(x => x.Distance)
                 .ThenByDescending(x => x.Film.Rating ?? 0)
-                .Take(100)
+                .Take(percent25)
                 .TakeRandom(5)
                 .Select(x => x.Film)
                 .ToList();
         }
+
+        
+        private List<Film> FindFilmsByFilters(PreprocessQuestions filters)
+        {
+            // filters.GenreForFilter
+            List<Film> filmsList = db.GetFromDatabase<Film>();
+
+            foreach (var g in filters.GenreForFilter)
+            {
+                filmsList = filmsList.Where(x => x.GenreFilm.Select(y => y.Genre.Id).Contains(g.Genre.Id))
+                    .ToList();
+            }
+
+            return filmsList;
+
+            // TODO: filters.CustomPropertyForFilter - тут так же, как с советом, но пока не используется
+        }
+
+
+        public FilmDto FindFilmByConsultResult(ConsultResultDto result)
+        {
+            List<Film> filmList = new List<Film>();
+
+            if (result.Fact.VarName == GenreAndTagResultVariableName)
+            {
+                // результат из фильтров жанров и тэгов
+                Session session = db.GetFromDatabase<Session>(x => x.SessionId == result.Fact.Value).FirstOrDefault();
+
+                if (session?.PreprocessQuestions == null)
+                    throw new ArgumentException("Не найдена сессия пользователя");
+
+                filmList = FindFilmsByFilters(session.PreprocessQuestions);
+            }
+            else
+            {
+                // результат из ЭС
+                string key = result.Fact.Value;
+                Guid guid;
+                if (!Guid.TryParse(key, out guid))
+                    throw new Exception("Не найден guid результата");
+
+                Advice advice = db.GetFromDatabase<Advice>(x => x.Key == guid).FirstOrDefault();
+
+                if (advice == null)
+                    throw new Exception("Не найден результат");
+
+                filmList = FindFilmsByAdvice(advice);
+            }
+
+            if (filmList.Any())
+            {
+                var filmDtos = filmList.Select(x => new FilmDto(x)).ToList();
+
+                int index = new Random().Next(0, filmDtos.Count - 1);
+                FilmDto film = filmDtos[index];
+
+                return film;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
 
     }
 

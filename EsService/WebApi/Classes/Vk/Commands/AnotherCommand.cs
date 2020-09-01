@@ -31,8 +31,11 @@ namespace WebApi.Classes.Vk.Commands
             // TODO: обработка ошибок
             string[] arr = message.TextOrPayload.Split('|');
             string sessionId = ClearMessage(arr[1]);
-            int adviceId = int.Parse(ClearMessage(arr[2]));
-            int filmId = int.Parse(ClearMessage(arr[3]));
+            int filmId = int.Parse(ClearMessage(arr[2]));
+
+            //Session session;
+            //Consultation c;
+            //c.ProvedFacts.Select(x => x.Truly == FactTruly.IsTrue && x.Fact.Variable == c.ExpertSystem.Target);
 
             // надо найти следующий в том же совете
             var advice = db.GetFromDatabase<Advice>(x => x.Id == adviceId).FirstOrDefault();
@@ -43,7 +46,7 @@ namespace WebApi.Classes.Vk.Commands
 
             List<Film> filmList = new FilmAndAdviceLogic().FindFilmsByAdvice(advice);
 
-            CommonLogic.SendAboutFilm(sessionId, new FilmDto(filmList.First()), adviceId, message.Peer_Id, vkApi);
+            CommonLogic.SendAboutFilm(sessionId, new FilmDto(filmList.First()), message.Peer_Id, vkApi);
         }
     }
 }

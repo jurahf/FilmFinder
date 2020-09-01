@@ -18,5 +18,7 @@ namespace ExpertSystemDb
         public string SessionId { get; set; }
         public System.DateTime CreateDate { get; set; }
         public Nullable<System.DateTime> LastActivityDate { get; set; }
+    
+        public virtual PreprocessQuestions PreprocessQuestions { get; set; }
     }
 }

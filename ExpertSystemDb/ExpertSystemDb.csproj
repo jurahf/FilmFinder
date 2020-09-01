@@ -86,6 +86,9 @@
     <Compile Include="CustomProperty.cs">
       <DependentUpon>ExpertSystemModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="CustomPropertyForFilter.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DBWork.cs" />
     <Compile Include="Domain.cs">
       <DependentUpon>ExpertSystemModel.tt</DependentUpon>
@@ -127,10 +130,16 @@
     <Compile Include="FilmCustomProperty.cs">
       <DependentUpon>ExpertSystemModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="FilterType.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Genre.cs">
       <DependentUpon>ExpertSystemModel.tt</DependentUpon>
     </Compile>
     <Compile Include="GenreFilm.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GenreForFilter.cs">
       <DependentUpon>ExpertSystemModel.tt</DependentUpon>
     </Compile>
     <Compile Include="GoalStack.cs">
@@ -138,6 +147,9 @@
     </Compile>
     <Compile Include="IDataWork.cs" />
     <Compile Include="IMDbLoading.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PreprocessQuestions.cs">
       <DependentUpon>ExpertSystemModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Producer.cs">

@@ -13,7 +13,7 @@ namespace Logic
     /// </summary>
     public class EsAlgorithm
     {
-        private DBWork db;
+        protected DBWork db;
         private SessionLogic sessionLogic;
         private EsLogic esLogic;
 
@@ -25,21 +25,15 @@ namespace Logic
         }
 
 
-        public Session CreateSessionAndGoConsult(string esName)
+        public virtual Session CreateSessionAndGoConsult(string esName)
         {
-            Session session = sessionLogic.CreateNewSession();
-            ExpertSystem es = db.GetFromDatabase<ExpertSystem>(x => x.Name == esName).FirstOrDefault();
-            if (es == null)
-                throw new ArgumentOutOfRangeException($"Не найдено экспертной системы с именем {esName}");
-
-            esLogic.CreateConsult(session, es);
+            Session session = CreateSession();
+            GoConsult(esName, session);
 
             return session;
         }
 
-
-
-        public QuestionOrResultDto GetNextQuestionOrResult(string sessionId)
+        public virtual QuestionOrResultDto GetNextQuestionOrResult(string sessionId)
         {
             Consultation consult = FindConsultation(sessionId);
             Session session = consult.Session;
@@ -50,7 +44,7 @@ namespace Logic
             return CreateQuestionOrResultDto(sessionId, consult, qor);
         }
 
-        public QuestionOrResultDto SetAnswerAndGetNextQuestionOrResult(string sessionId, VariableValue answer)
+        public virtual QuestionOrResultDto SetAnswerAndGetNextQuestionOrResult(string sessionId, VariableValue answer)
         {
             Consultation consult = FindConsultation(sessionId);
             Session session = consult.Session;
@@ -60,7 +54,23 @@ namespace Logic
 
             return CreateQuestionOrResultDto(sessionId, consult, qor);
         }
-        
+
+
+        protected Session CreateSession()
+        {
+            return sessionLogic.CreateNewSession();
+        }
+
+        protected void GoConsult(string esName, Session session)
+        {
+            ExpertSystem es = db.GetFromDatabase<ExpertSystem>(x => x.Name == esName).FirstOrDefault();
+            if (es == null)
+                throw new ArgumentOutOfRangeException($"Не найдено экспертной системы с именем {esName}");
+
+            esLogic.CreateConsult(session, es);
+        }
+
+
         private Consultation FindConsultation(string sessionId)
         {
             return db.GetFromDatabase<Consultation>(x => x.Session.SessionId == sessionId).First();
@@ -84,5 +94,8 @@ namespace Logic
                 };
             }
         }
+
+
+
     }
 }

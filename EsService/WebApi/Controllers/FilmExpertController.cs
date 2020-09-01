@@ -21,7 +21,7 @@ namespace WebApi.Controllers
         {
             // TODO: DI
             db = new DBWork();
-            algorithm = new EsAlgorithm(db);
+            algorithm = new EsAlgorithmForFilms(db);
         }
 
         /// <summary>

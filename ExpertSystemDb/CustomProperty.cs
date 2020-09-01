@@ -14,7 +14,16 @@ namespace ExpertSystemDb
     
     public partial class CustomProperty
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public CustomProperty()
+        {
+            this.CustomPropertyForFilter = new HashSet<CustomPropertyForFilter>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CustomPropertyForFilter> CustomPropertyForFilter { get; set; }
     }
 }

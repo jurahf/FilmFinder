@@ -53,5 +53,8 @@ namespace ExpertSystemDb
         public virtual DbSet<AdviceCustomProperty> AdviceCustomPropertySet { get; set; }
         public virtual DbSet<AdviceFilm> AdviceFilmSet { get; set; }
         public virtual DbSet<IMDbLoading> IMDbLoadingSet { get; set; }
+        public virtual DbSet<PreprocessQuestions> PreprocessQuestionsSet { get; set; }
+        public virtual DbSet<GenreForFilter> GenreForFilterSet { get; set; }
+        public virtual DbSet<CustomPropertyForFilter> CustomPropertyForFilterSet { get; set; }
     }
 }

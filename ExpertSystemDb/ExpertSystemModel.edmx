@@ -34,6 +34,9 @@
     <EntitySet Name="AdviceCustomPropertySet" EntityType="ExpertSystemModel.Store.AdviceCustomPropertySet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="AdviceFilmSet" EntityType="ExpertSystemModel.Store.AdviceFilmSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="IMDbLoadingSet" EntityType="ExpertSystemModel.Store.IMDbLoadingSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PreprocessQuestionsSet" EntityType="ExpertSystemModel.Store.PreprocessQuestionsSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="GenreForFilterSet" EntityType="ExpertSystemModel.Store.GenreForFilterSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CustomPropertyForFilterSet" EntityType="ExpertSystemModel.Store.CustomPropertyForFilterSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="ExpertSystemDomain" Association="ExpertSystemModel.Store.ExpertSystemDomain">
       <End Role="ExpertSystem" EntitySet="ExpertSystemSet" />
       <End Role="Domain" EntitySet="DomainSet" />
@@ -177,6 +180,26 @@
     <AssociationSet Name="AdviceAdviceCustomProperty" Association="ExpertSystemModel.Store.AdviceAdviceCustomProperty">
       <End Role="Advice" EntitySet="AdviceSet" />
       <End Role="AdviceCustomProperty" EntitySet="AdviceCustomPropertySet" />
+    </AssociationSet>
+    <AssociationSet Name="PreprocessQuestionsSession" Association="ExpertSystemModel.Store.PreprocessQuestionsSession">
+      <End Role="PreprocessQuestions" EntitySet="PreprocessQuestionsSet" />
+      <End Role="Session" EntitySet="SessionSet" />
+    </AssociationSet>
+    <AssociationSet Name="PreprocessQuestionsGenreForFilter" Association="ExpertSystemModel.Store.PreprocessQuestionsGenreForFilter">
+      <End Role="PreprocessQuestions" EntitySet="PreprocessQuestionsSet" />
+      <End Role="GenreForFilter" EntitySet="GenreForFilterSet" />
+    </AssociationSet>
+    <AssociationSet Name="GenreGenreForFilter" Association="ExpertSystemModel.Store.GenreGenreForFilter">
+      <End Role="Genre" EntitySet="GenreSet" />
+      <End Role="GenreForFilter" EntitySet="GenreForFilterSet" />
+    </AssociationSet>
+    <AssociationSet Name="PreprocessQuestionsCustomPropertyForFilter" Association="ExpertSystemModel.Store.PreprocessQuestionsCustomPropertyForFilter">
+      <End Role="PreprocessQuestions" EntitySet="PreprocessQuestionsSet" />
+      <End Role="CustomPropertyForFilter" EntitySet="CustomPropertyForFilterSet" />
+    </AssociationSet>
+    <AssociationSet Name="CustomPropertyCustomPropertyForFilter" Association="ExpertSystemModel.Store.CustomPropertyCustomPropertyForFilter">
+      <End Role="CustomProperty" EntitySet="CustomPropertySet" />
+      <End Role="CustomPropertyForFilter" EntitySet="CustomPropertyForFilterSet" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="ExpertSystemSet">
@@ -436,6 +459,31 @@
     <Property Name="RussianCountries" Type="nvarchar(max)" Nullable="true" />
     <Property Name="RussianProducers" Type="nvarchar(max)" Nullable="true" />
     <Property Name="RussianTags" Type="nvarchar(max)" Nullable="true" />
+  </EntityType>
+  <EntityType Name="PreprocessQuestionsSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IKnowThatIWant" Type="bit" Nullable="true" />
+    <Property Name="ActiveFilterType" Type="int" Nullable="false" />
+    <Property Name="Session_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="GenreForFilterSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PreprocessQuestions_Id" Type="int" Nullable="false" />
+    <Property Name="Genre_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CustomPropertyForFilterSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PreprocessQuestions_Id" Type="int" Nullable="false" />
+    <Property Name="CustomProperty_Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="ExpertSystemDomain">
     <End Role="ExpertSystem" Type="ExpertSystemModel.Store.ExpertSystemSet" Multiplicity="1" />
@@ -883,6 +931,74 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="PreprocessQuestionsSession">
+    <End Role="PreprocessQuestions" Type="ExpertSystemModel.Store.PreprocessQuestionsSet" Multiplicity="*" />
+    <End Role="Session" Type="ExpertSystemModel.Store.SessionSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Session">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PreprocessQuestions">
+        <PropertyRef Name="Session_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PreprocessQuestionsGenreForFilter">
+    <End Role="PreprocessQuestions" Type="ExpertSystemModel.Store.PreprocessQuestionsSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="GenreForFilter" Type="ExpertSystemModel.Store.GenreForFilterSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PreprocessQuestions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GenreForFilter">
+        <PropertyRef Name="PreprocessQuestions_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GenreGenreForFilter">
+    <End Role="Genre" Type="ExpertSystemModel.Store.GenreSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="GenreForFilter" Type="ExpertSystemModel.Store.GenreForFilterSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Genre">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="GenreForFilter">
+        <PropertyRef Name="Genre_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PreprocessQuestionsCustomPropertyForFilter">
+    <End Role="PreprocessQuestions" Type="ExpertSystemModel.Store.PreprocessQuestionsSet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CustomPropertyForFilter" Type="ExpertSystemModel.Store.CustomPropertyForFilterSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PreprocessQuestions">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustomPropertyForFilter">
+        <PropertyRef Name="PreprocessQuestions_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CustomPropertyCustomPropertyForFilter">
+    <End Role="CustomProperty" Type="ExpertSystemModel.Store.CustomPropertySet" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="CustomPropertyForFilter" Type="ExpertSystemModel.Store.CustomPropertyForFilterSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CustomProperty">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CustomPropertyForFilter">
+        <PropertyRef Name="CustomProperty_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -1060,6 +1176,29 @@
             <End Role="AdviceCustomProperty" EntitySet="AdviceCustomPropertySet" />
           </AssociationSet>
           <EntitySet Name="IMDbLoadingSet" EntityType="ExpertSystemModel.IMDbLoading" />
+          <EntitySet Name="PreprocessQuestionsSet" EntityType="ExpertSystemModel.PreprocessQuestions" />
+          <AssociationSet Name="PreprocessQuestionsSession" Association="ExpertSystemModel.PreprocessQuestionsSession">
+            <End Role="PreprocessQuestions" EntitySet="PreprocessQuestionsSet" />
+            <End Role="Session" EntitySet="SessionSet" />
+          </AssociationSet>
+          <EntitySet Name="GenreForFilterSet" EntityType="ExpertSystemModel.GenreForFilter" />
+          <AssociationSet Name="PreprocessQuestionsGenreForFilter" Association="ExpertSystemModel.PreprocessQuestionsGenreForFilter">
+            <End Role="PreprocessQuestions" EntitySet="PreprocessQuestionsSet" />
+            <End Role="GenreForFilter" EntitySet="GenreForFilterSet" />
+          </AssociationSet>
+          <AssociationSet Name="GenreGenreForFilter" Association="ExpertSystemModel.GenreGenreForFilter">
+            <End Role="Genre" EntitySet="GenreSet" />
+            <End Role="GenreForFilter" EntitySet="GenreForFilterSet" />
+          </AssociationSet>
+          <EntitySet Name="CustomPropertyForFilterSet" EntityType="ExpertSystemModel.CustomPropertyForFilter" />
+          <AssociationSet Name="PreprocessQuestionsCustomPropertyForFilter" Association="ExpertSystemModel.PreprocessQuestionsCustomPropertyForFilter">
+            <End Role="PreprocessQuestions" EntitySet="PreprocessQuestionsSet" />
+            <End Role="CustomPropertyForFilter" EntitySet="CustomPropertyForFilterSet" />
+          </AssociationSet>
+          <AssociationSet Name="CustomPropertyCustomPropertyForFilter" Association="ExpertSystemModel.CustomPropertyCustomPropertyForFilter">
+            <End Role="CustomProperty" EntitySet="CustomPropertySet" />
+            <End Role="CustomPropertyForFilter" EntitySet="CustomPropertyForFilterSet" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ExpertSystem">
           <Key>
@@ -1207,6 +1346,7 @@
           <Property Name="SessionId" Type="String" Nullable="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" />
           <Property Name="LastActivityDate" Type="DateTime" Nullable="true" />
+          <NavigationProperty Name="PreprocessQuestions" Relationship="ExpertSystemModel.PreprocessQuestionsSession" FromRole="Session" ToRole="PreprocessQuestions" />
         </EntityType>
         <Association Name="SessionConsultation">
           <End Type="ExpertSystemModel.Session" Role="Session" Multiplicity="1" />
@@ -1357,6 +1497,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="GenreForFilter" Relationship="ExpertSystemModel.GenreGenreForFilter" FromRole="Genre" ToRole="GenreForFilter" />
         </EntityType>
         <Association Name="FilmCountryFilm">
           <End Type="ExpertSystemModel.Film" Role="Film" Multiplicity="1" >
@@ -1412,6 +1553,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" Nullable="false" />
+          <NavigationProperty Name="CustomPropertyForFilter" Relationship="ExpertSystemModel.CustomPropertyCustomPropertyForFilter" FromRole="CustomProperty" ToRole="CustomPropertyForFilter" />
         </EntityType>
         <EntityType Name="FilmCustomProperty">
           <Key>
@@ -1505,6 +1647,65 @@
           <Property Name="RussianProducers" Type="String" Nullable="true" />
           <Property Name="RussianTags" Type="String" Nullable="true" />
         </EntityType>
+        <EntityType Name="PreprocessQuestions">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Session" Relationship="ExpertSystemModel.PreprocessQuestionsSession" FromRole="PreprocessQuestions" ToRole="Session" />
+          <Property Name="IKnowThatIWant" Type="Boolean" Nullable="true" />
+          <Property Name="ActiveFilterType" Type="ExpertSystemModel.FilterType" Nullable="false" />
+          <NavigationProperty Name="GenreForFilter" Relationship="ExpertSystemModel.PreprocessQuestionsGenreForFilter" FromRole="PreprocessQuestions" ToRole="GenreForFilter" />
+          <NavigationProperty Name="CustomPropertyForFilter" Relationship="ExpertSystemModel.PreprocessQuestionsCustomPropertyForFilter" FromRole="PreprocessQuestions" ToRole="CustomPropertyForFilter" />
+        </EntityType>
+        <Association Name="PreprocessQuestionsSession">
+          <End Type="ExpertSystemModel.PreprocessQuestions" Role="PreprocessQuestions" Multiplicity="0..1" />
+          <End Type="ExpertSystemModel.Session" Role="Session" Multiplicity="1" />
+        </Association>
+        <EnumType Name="FilterType">
+          <Member Name="Genre" />
+          <Member Name="CustomProperty" />
+        </EnumType>
+        <EntityType Name="GenreForFilter">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="PreprocessQuestions" Relationship="ExpertSystemModel.PreprocessQuestionsGenreForFilter" FromRole="GenreForFilter" ToRole="PreprocessQuestions" />
+          <NavigationProperty Name="Genre" Relationship="ExpertSystemModel.GenreGenreForFilter" FromRole="GenreForFilter" ToRole="Genre" />
+        </EntityType>
+        <Association Name="PreprocessQuestionsGenreForFilter">
+          <End Type="ExpertSystemModel.PreprocessQuestions" Role="PreprocessQuestions" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ExpertSystemModel.GenreForFilter" Role="GenreForFilter" Multiplicity="*" />
+        </Association>
+        <Association Name="GenreGenreForFilter">
+          <End Type="ExpertSystemModel.Genre" Role="Genre" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ExpertSystemModel.GenreForFilter" Role="GenreForFilter" Multiplicity="*" />
+        </Association>
+        <EntityType Name="CustomPropertyForFilter">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="PreprocessQuestions" Relationship="ExpertSystemModel.PreprocessQuestionsCustomPropertyForFilter" FromRole="CustomPropertyForFilter" ToRole="PreprocessQuestions" />
+          <NavigationProperty Name="CustomProperty" Relationship="ExpertSystemModel.CustomPropertyCustomPropertyForFilter" FromRole="CustomPropertyForFilter" ToRole="CustomProperty" />
+        </EntityType>
+        <Association Name="PreprocessQuestionsCustomPropertyForFilter">
+          <End Type="ExpertSystemModel.PreprocessQuestions" Role="PreprocessQuestions" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ExpertSystemModel.CustomPropertyForFilter" Role="CustomPropertyForFilter" Multiplicity="*" />
+        </Association>
+        <Association Name="CustomPropertyCustomPropertyForFilter">
+          <End Type="ExpertSystemModel.CustomProperty" Role="CustomProperty" Multiplicity="1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="ExpertSystemModel.CustomPropertyForFilter" Role="CustomPropertyForFilter" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1758,6 +1959,29 @@
           <ScalarProperty Name="RussianCountries" ColumnName="RussianCountries" />
           <ScalarProperty Name="RussianProducers" ColumnName="RussianProducers" />
           <ScalarProperty Name="RussianTags" ColumnName="RussianTags" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PreprocessQuestionsSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.PreprocessQuestions)">
+        <MappingFragment StoreEntitySet="PreprocessQuestionsSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="IKnowThatIWant" ColumnName="IKnowThatIWant" />
+          <ScalarProperty Name="ActiveFilterType" ColumnName="ActiveFilterType" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="GenreForFilterSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.GenreForFilter)">
+        <MappingFragment StoreEntitySet="GenreForFilterSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustomPropertyForFilterSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.CustomPropertyForFilter)">
+        <MappingFragment StoreEntitySet="CustomPropertyForFilterSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -2055,6 +2279,46 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
       <Condition ColumnName="Advice_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="PreprocessQuestionsSession" TypeName="ExpertSystemModel.PreprocessQuestionsSession" StoreEntitySet="PreprocessQuestionsSet">
+      <EndProperty Name="Session">
+        <ScalarProperty Name="Id" ColumnName="Session_Id" />
+      </EndProperty>
+      <EndProperty Name="PreprocessQuestions">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="PreprocessQuestionsGenreForFilter" TypeName="ExpertSystemModel.PreprocessQuestionsGenreForFilter" StoreEntitySet="GenreForFilterSet">
+      <EndProperty Name="PreprocessQuestions">
+        <ScalarProperty Name="Id" ColumnName="PreprocessQuestions_Id" />
+      </EndProperty>
+      <EndProperty Name="GenreForFilter">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="GenreGenreForFilter" TypeName="ExpertSystemModel.GenreGenreForFilter" StoreEntitySet="GenreForFilterSet">
+      <EndProperty Name="Genre">
+        <ScalarProperty Name="Id" ColumnName="Genre_Id" />
+      </EndProperty>
+      <EndProperty Name="GenreForFilter">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="PreprocessQuestionsCustomPropertyForFilter" TypeName="ExpertSystemModel.PreprocessQuestionsCustomPropertyForFilter" StoreEntitySet="CustomPropertyForFilterSet">
+      <EndProperty Name="PreprocessQuestions">
+        <ScalarProperty Name="Id" ColumnName="PreprocessQuestions_Id" />
+      </EndProperty>
+      <EndProperty Name="CustomPropertyForFilter">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CustomPropertyCustomPropertyForFilter" TypeName="ExpertSystemModel.CustomPropertyCustomPropertyForFilter" StoreEntitySet="CustomPropertyForFilterSet">
+      <EndProperty Name="CustomProperty">
+        <ScalarProperty Name="Id" ColumnName="CustomProperty_Id" />
+      </EndProperty>
+      <EndProperty Name="CustomPropertyForFilter">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>

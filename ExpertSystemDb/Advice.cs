@@ -14,6 +14,13 @@ namespace ExpertSystemDb
     
     public partial class Advice
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Advice()
+        {
+            this.AdviceFilm = new HashSet<AdviceFilm>();
+            this.AdviceCustomProperty = new HashSet<AdviceCustomProperty>();
+        }
+    
         public int Id { get; set; }
         public System.Guid Key { get; set; }
     

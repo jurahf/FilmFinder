@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EsAlgorithm.cs" />
+    <Compile Include="EsAlgorithmForFilms.cs" />
     <Compile Include="EsLogic.cs" />
     <Compile Include="Exceptions\FilmAlreadyExistsException.cs" />
     <Compile Include="FilmAndAdviceLogic.cs" />

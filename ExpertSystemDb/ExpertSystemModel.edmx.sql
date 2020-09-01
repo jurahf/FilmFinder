@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 07/23/2020 13:28:57
+-- Date Created: 09/01/2020 16:01:32
 -- Generated from EDMX file: D:\PROJECTS\CSharp\FilmFinder\ExpertSystemDb\ExpertSystemModel.edmx
 -- --------------------------------------------------
 
@@ -477,6 +477,31 @@ CREATE TABLE [dbo].[IMDbLoadingSet] (
 );
 GO
 
+-- Creating table 'PreprocessQuestionsSet'
+CREATE TABLE [dbo].[PreprocessQuestionsSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [IKnowThatIWant] bit  NULL,
+    [ActiveFilterType] int  NOT NULL,
+    [Session_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'GenreForFilterSet'
+CREATE TABLE [dbo].[GenreForFilterSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [PreprocessQuestions_Id] int  NOT NULL,
+    [Genre_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'CustomPropertyForFilterSet'
+CREATE TABLE [dbo].[CustomPropertyForFilterSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [PreprocessQuestions_Id] int  NOT NULL,
+    [CustomProperty_Id] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -646,6 +671,24 @@ GO
 -- Creating primary key on [Id] in table 'IMDbLoadingSet'
 ALTER TABLE [dbo].[IMDbLoadingSet]
 ADD CONSTRAINT [PK_IMDbLoadingSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'PreprocessQuestionsSet'
+ALTER TABLE [dbo].[PreprocessQuestionsSet]
+ADD CONSTRAINT [PK_PreprocessQuestionsSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'GenreForFilterSet'
+ALTER TABLE [dbo].[GenreForFilterSet]
+ADD CONSTRAINT [PK_GenreForFilterSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CustomPropertyForFilterSet'
+ALTER TABLE [dbo].[CustomPropertyForFilterSet]
+ADD CONSTRAINT [PK_CustomPropertyForFilterSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -1191,6 +1234,81 @@ GO
 CREATE INDEX [IX_FK_AdviceAdviceCustomProperty]
 ON [dbo].[AdviceCustomPropertySet]
     ([Advice_Id]);
+GO
+
+-- Creating foreign key on [Session_Id] in table 'PreprocessQuestionsSet'
+ALTER TABLE [dbo].[PreprocessQuestionsSet]
+ADD CONSTRAINT [FK_PreprocessQuestionsSession]
+    FOREIGN KEY ([Session_Id])
+    REFERENCES [dbo].[SessionSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PreprocessQuestionsSession'
+CREATE INDEX [IX_FK_PreprocessQuestionsSession]
+ON [dbo].[PreprocessQuestionsSet]
+    ([Session_Id]);
+GO
+
+-- Creating foreign key on [PreprocessQuestions_Id] in table 'GenreForFilterSet'
+ALTER TABLE [dbo].[GenreForFilterSet]
+ADD CONSTRAINT [FK_PreprocessQuestionsGenreForFilter]
+    FOREIGN KEY ([PreprocessQuestions_Id])
+    REFERENCES [dbo].[PreprocessQuestionsSet]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PreprocessQuestionsGenreForFilter'
+CREATE INDEX [IX_FK_PreprocessQuestionsGenreForFilter]
+ON [dbo].[GenreForFilterSet]
+    ([PreprocessQuestions_Id]);
+GO
+
+-- Creating foreign key on [Genre_Id] in table 'GenreForFilterSet'
+ALTER TABLE [dbo].[GenreForFilterSet]
+ADD CONSTRAINT [FK_GenreGenreForFilter]
+    FOREIGN KEY ([Genre_Id])
+    REFERENCES [dbo].[GenreSet]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_GenreGenreForFilter'
+CREATE INDEX [IX_FK_GenreGenreForFilter]
+ON [dbo].[GenreForFilterSet]
+    ([Genre_Id]);
+GO
+
+-- Creating foreign key on [PreprocessQuestions_Id] in table 'CustomPropertyForFilterSet'
+ALTER TABLE [dbo].[CustomPropertyForFilterSet]
+ADD CONSTRAINT [FK_PreprocessQuestionsCustomPropertyForFilter]
+    FOREIGN KEY ([PreprocessQuestions_Id])
+    REFERENCES [dbo].[PreprocessQuestionsSet]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PreprocessQuestionsCustomPropertyForFilter'
+CREATE INDEX [IX_FK_PreprocessQuestionsCustomPropertyForFilter]
+ON [dbo].[CustomPropertyForFilterSet]
+    ([PreprocessQuestions_Id]);
+GO
+
+-- Creating foreign key on [CustomProperty_Id] in table 'CustomPropertyForFilterSet'
+ALTER TABLE [dbo].[CustomPropertyForFilterSet]
+ADD CONSTRAINT [FK_CustomPropertyCustomPropertyForFilter]
+    FOREIGN KEY ([CustomProperty_Id])
+    REFERENCES [dbo].[CustomPropertySet]
+        ([Id])
+    ON DELETE CASCADE ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CustomPropertyCustomPropertyForFilter'
+CREATE INDEX [IX_FK_CustomPropertyCustomPropertyForFilter]
+ON [dbo].[CustomPropertyForFilterSet]
+    ([CustomProperty_Id]);
 GO
 
 -- --------------------------------------------------

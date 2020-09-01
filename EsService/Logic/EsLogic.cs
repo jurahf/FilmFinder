@@ -338,6 +338,7 @@ namespace Logic
 
                 if (resultFact != null)
                 {
+                    // TODO: сохранить результат консультации
                     return new FactQuestionOrResult() { Result = resultFact };
                 }
                 else

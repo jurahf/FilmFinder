@@ -79,6 +79,19 @@
       <Diagram DiagramId="f6bcf1929e9540d783e4a6c9fcb27683" Name="IMDbLoading" >
         <EntityTypeShape EntityType="ExpertSystemModel.IMDbLoading" Width="2.125" PointX="2" PointY="0.5" />
       </Diagram>
+      <Diagram DiagramId="3302fd9cae5345e9b8112ad41ae4dd05" Name="FilmFiltering" >
+        <EntityTypeShape EntityType="ExpertSystemModel.PreprocessQuestions" Width="2.25" PointX="1.625" PointY="1.875" />
+        <EntityTypeShape EntityType="ExpertSystemModel.Session" Width="1.5" PointX="1.625" PointY="0.5" IsExpanded="false" />
+        <EntityTypeShape EntityType="ExpertSystemModel.Genre" Width="1.625" PointX="5.125" PointY="4.5" IsExpanded="false" />
+        <EntityTypeShape EntityType="ExpertSystemModel.CustomProperty" Width="1.625" PointX="5.125" PointY="5.625" IsExpanded="false" />
+        <AssociationConnector Association="ExpertSystemModel.PreprocessQuestionsSession" />
+        <EntityTypeShape EntityType="ExpertSystemModel.GenreForFilter" Width="1.5" PointX="5.125" PointY="2" />
+        <AssociationConnector Association="ExpertSystemModel.PreprocessQuestionsGenreForFilter" />
+        <AssociationConnector Association="ExpertSystemModel.GenreGenreForFilter" />
+        <EntityTypeShape EntityType="ExpertSystemModel.CustomPropertyForFilter" Width="1.5" PointX="1.625" PointY="4.875" />
+        <AssociationConnector Association="ExpertSystemModel.PreprocessQuestionsCustomPropertyForFilter" />
+        <AssociationConnector Association="ExpertSystemModel.CustomPropertyCustomPropertyForFilter" />
+      </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
 </edmx:Edmx>

@@ -32,7 +32,7 @@ namespace ЭС
         private void frmConsultation_Load(object sender, EventArgs e)
         {
             db = new DBWork();
-            algorithm = new EsAlgorithm(db);
+            algorithm = new EsAlgorithmForFilms(db);
             session = algorithm.CreateSessionAndGoConsult(esName);
             QuestionOrResultDto result = algorithm.GetNextQuestionOrResult(session.SessionId);
             ShowQuestion(result.Question);

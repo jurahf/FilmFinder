@@ -38,6 +38,10 @@ namespace ExpertSystemDb.DTOs
         public FactDto Fact { get; set; }
         public List<RuleDto> Explain { get; set; }
 
+        public ConsultResultDto()
+        {
+        }
+
         public ConsultResultDto(Fact fact, List<ConsultationRule> rules)
         {
             Fact = new FactDto(fact);
@@ -50,6 +54,10 @@ namespace ExpertSystemDb.DTOs
     {
         public string VarName { get; set; }
         public string Value { get; set; }
+
+        public FactDto()
+        {
+        }
 
         public FactDto(Fact fact)
         {
@@ -77,6 +85,10 @@ namespace ExpertSystemDb.DTOs
         public string Name { get; set; }
         public string Question { get; set; }
         public List<string> Domain { get; set; }
+
+        public VariableDto()
+        {
+        }
 
         public VariableDto(Variable variable)
         {

@@ -20,7 +20,7 @@ namespace WebApi.Classes.Vk.Commands
             : base(vkApi)
         {
             db = new DBWork();
-            algorithm = new EsAlgorithm(db);
+            algorithm = new EsAlgorithmForFilms(db);
         }
 
         public override string Description => "Начинает новую сессию консультации с ботом";

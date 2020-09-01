@@ -20,7 +20,7 @@ namespace WebApi.Classes.Vk.Commands
             : base(vkApi)
         {
             db = new DBWork();
-            algorithm = new EsAlgorithm(db);
+            algorithm = new EsAlgorithmForFilms(db);
         }
 
         public override string Description => "Ответ на вопрос и переход к следующему вопросу, либо концу консультации";
@@ -55,31 +55,36 @@ namespace WebApi.Classes.Vk.Commands
             else
             {
                 // готов ответ, получим подробности
-                string key = result.Result.Fact.Value;
-                Guid guid;
-                if (!Guid.TryParse(key, out guid))
-                {
-                    SendError(message.Peer_Id);
-                    return;
-                }
-
-                Advice advice = db.GetFromDatabase<Advice>(x => x.Key == guid).FirstOrDefault();
-
-                if (advice == null)
-                {
-                    SendError(message.Peer_Id);
-                    return;
-                }
-
                 vkApi.SendMessage(message.Peer_Id, "Сейчас что-нибудь подберу...", keyboard: null);
 
-                var filmList = new FilmAndAdviceLogic().FindFilmsByAdvice(advice);
-                var filmDtos = filmList.Select(x => new FilmDto(x)).ToList();
+                FilmDto film = null;
+                try
+                {
+                    film = new FilmAndAdviceLogic().FindFilmByConsultResult(result.Result);
+                }
+                catch (Exception ex)
+                {
+                    SendError(message.Peer_Id);
+                    return;
+                }
 
-                int index = new Random().Next(0, filmDtos.Count - 1);
-                var film = filmDtos[index];
+                if (film == null)
+                {
+                    Keyboard keyboard = new Keyboard()
+                    {
+                        OneTime = false,
+                        Buttons = new List<List<Button>>()
+                        {
+                            new List<Button>() { new Button() { Color = ButtonColor.positive, Label = "Попробовать еще раз", Payload = "Consultation" } }
+                        }
+                    };
 
-                CommonLogic.SendAboutFilm(sessionId, film, advice.Id, message.Peer_Id, vkApi);
+                    vkApi.SendMessage(message.Peer_Id, "К сожалению, по данным параметрам ничего не найдено", keyboard);
+                }
+                else
+                {
+                    CommonLogic.SendAboutFilm(sessionId, film, message.Peer_Id, vkApi);
+                }
             }
         }
 
