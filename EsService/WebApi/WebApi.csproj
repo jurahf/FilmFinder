@@ -101,8 +101,6 @@
     <Compile Include="Classes\Vk\Commands\StartCommand.cs" />
     <Compile Include="Classes\Vk\Commands\StartConsultationCommand.cs" />
     <Compile Include="Classes\Vk\KeyboardHelper.cs" />
-    <Compile Include="Controllers\FilmAdviceController.cs" />
-    <Compile Include="Controllers\FilmExpertController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\VkBotController.cs" />
     <Compile Include="Global.asax.cs">

@@ -12,14 +12,12 @@ namespace ExpertSystemDb
     using System;
     using System.Collections.Generic;
     
-    public partial class Advice
+    public partial class FinalSolution
     {
         public int Id { get; set; }
-        public System.Guid Key { get; set; }
+        public string VariableName { get; set; }
+        public string Value { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AdviceFilm> AdviceFilm { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AdviceCustomProperty> AdviceCustomProperty { get; set; }
+        public virtual Consultation Consultation { get; set; }
     }
 }

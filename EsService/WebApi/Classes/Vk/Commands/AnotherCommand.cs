@@ -33,20 +33,23 @@ namespace WebApi.Classes.Vk.Commands
             string sessionId = ClearMessage(arr[1]);
             int filmId = int.Parse(ClearMessage(arr[2]));
 
-            //Session session;
-            //Consultation c;
-            //c.ProvedFacts.Select(x => x.Truly == FactTruly.IsTrue && x.Fact.Variable == c.ExpertSystem.Target);
-
-            // надо найти следующий в том же совете
-            var advice = db.GetFromDatabase<Advice>(x => x.Id == adviceId).FirstOrDefault();
-            if (advice == null)
-                return;
+            Consultation consult = db.GetFromDatabase<Consultation>(x => x.Session.SessionId == sessionId).FirstOrDefault();
+            if (consult?.FinalSolution == null)
+                throw new ArgumentException("Не найдены результаты консультации");
 
             vkApi.SendMessage(message.Peer_Id, "Сейчас поищу...", keyboard: null);
 
-            List<Film> filmList = new FilmAndAdviceLogic().FindFilmsByAdvice(advice);
 
-            CommonLogic.SendAboutFilm(sessionId, new FilmDto(filmList.First()), message.Peer_Id, vkApi);
+            var film = new FilmAndAdviceLogic().FindFilmByConsultResult(new ConsultResultDto()
+            {
+                Fact = new FactDto()
+                {
+                    VarName = consult.FinalSolution.VariableName,
+                    Value = consult.FinalSolution.Value
+                }
+            });
+
+            CommonLogic.SendAboutFilm(sessionId, film, message.Peer_Id, vkApi);
         }
     }
 }

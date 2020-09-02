@@ -120,7 +120,7 @@ namespace Logic
                             {
                                 db.Save();
                                 PopGoal(consult);
-                                return new FactQuestionOrResult() { Result = CreateConsultationFact(consult, r.Result, FactTruly.IsTrue) };
+                                return CreateConsultResult(CreateConsultationFact(consult, r.Result, FactTruly.IsTrue));
                             }
                         }
                     }
@@ -135,7 +135,7 @@ namespace Logic
                 };
                 PopGoal(consult);
                 // db.Save(); // TODO: сейчас сохранение происходит в PopGoal
-                return new FactQuestionOrResult() { Result = cf };
+                return CreateConsultResult(cf);
             }
         }
 
@@ -161,24 +161,6 @@ namespace Logic
         }
 
 
-
-
-        private FactQuestionOrResult GetProvedFact(Consultation consult, Variable tempGoal)
-        {
-            ConsultationFact provedFact = consult.ProvedFacts
-                .Where(x => x.Fact.Variable.Name == tempGoal.Name
-                    && x.Truly == FactTruly.IsTrue)
-                .FirstOrDefault();
-            if (provedFact == null)
-            {
-                provedFact = consult.ProvedFacts
-                .Where(x => x.Fact.Variable.Name == tempGoal.Name
-                    && x.Truly == FactTruly.Unknown)
-                .FirstOrDefault();
-            }
-
-            return new FactQuestionOrResult() { Result = provedFact };
-        }
 
 
         /// <summary>
@@ -338,8 +320,7 @@ namespace Logic
 
                 if (resultFact != null)
                 {
-                    // TODO: сохранить результат консультации
-                    return new FactQuestionOrResult() { Result = resultFact };
+                    return CreateConsultResult(resultFact);
                 }
                 else
                 {
@@ -363,6 +344,43 @@ namespace Logic
             {
                 return DoConsult(consult); // ищем следующую цель из стека (текущие означенные уже запрашиваться не будут)
             }
+        }
+
+
+        private FactQuestionOrResult GetProvedFact(Consultation consult, Variable tempGoal)
+        {
+            ConsultationFact provedFact = consult.ProvedFacts
+                .Where(x => x.Fact.Variable.Name == tempGoal.Name
+                    && x.Truly == FactTruly.IsTrue)
+                .FirstOrDefault();
+            if (provedFact == null)
+            {
+                provedFact = consult.ProvedFacts
+                .Where(x => x.Fact.Variable.Name == tempGoal.Name
+                    && x.Truly == FactTruly.Unknown)
+                .FirstOrDefault();
+            }
+
+            return CreateConsultResult(provedFact);
+        }
+
+
+        private FactQuestionOrResult CreateConsultResult(ConsultationFact resultFact)
+        {
+            Consultation consult = resultFact.Consultation;
+            if (consult.FinalSolution == null)
+            {
+                FinalSolution fs = new FinalSolution()
+                {
+                    Consultation = consult,
+                    VariableName = resultFact.Fact.Variable.Name,
+                    Value = resultFact.Fact.DomainValue.Value
+                };
+
+                db.Insert(fs);
+            }
+
+            return new FactQuestionOrResult() { Result = resultFact };
         }
 
 

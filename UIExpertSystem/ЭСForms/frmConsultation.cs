@@ -67,28 +67,25 @@ namespace ЭС
             else
             {
                 // готов ответ, получим подробности
-                string key = result.Result.Fact.Value;
-                Guid guid;
-                if (!Guid.TryParse(key, out guid))
+                FilmDto film = null;
+
+                try
                 {
-                    MessageBox.Show("Не удалось найти ответ по GUID", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    film = new FilmAndAdviceLogic().FindFilmByConsultResult(result.Result);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
-                Advice advice = db.GetFromDatabase<Advice>(x => x.Key == guid).FirstOrDefault();
-
-                if (advice == null)
+                if (film == null)
                 {
-                    MessageBox.Show("Не удалось найти совет", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
+                    MessageBox.Show("По заданным параметрам ничего не найдено", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
-
-                var filmList = new FilmAndAdviceLogic().FindFilmsByAdvice(advice);
-                var filmDtos = filmList.Select(x => new FilmDto(x)).ToList();
-
-                int index = new Random().Next(0, filmDtos.Count - 1);
-                var film = filmDtos[index];
-                ShowResult(film);
+                else
+                {
+                    ShowResult(film);
+                }
             }
         }
 

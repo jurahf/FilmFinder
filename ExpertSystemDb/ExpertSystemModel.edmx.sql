@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, 2012 and Azure
 -- --------------------------------------------------
--- Date Created: 09/01/2020 16:01:32
+-- Date Created: 09/02/2020 11:55:24
 -- Generated from EDMX file: D:\PROJECTS\CSharp\FilmFinder\ExpertSystemDb\ExpertSystemModel.edmx
 -- --------------------------------------------------
 
@@ -125,6 +125,24 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_AdviceAdviceCustomProperty]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[AdviceCustomPropertySet] DROP CONSTRAINT [FK_AdviceAdviceCustomProperty];
 GO
+IF OBJECT_ID(N'[dbo].[FK_PreprocessQuestionsSession]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PreprocessQuestionsSet] DROP CONSTRAINT [FK_PreprocessQuestionsSession];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PreprocessQuestionsGenreForFilter]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[GenreForFilterSet] DROP CONSTRAINT [FK_PreprocessQuestionsGenreForFilter];
+GO
+IF OBJECT_ID(N'[dbo].[FK_GenreGenreForFilter]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[GenreForFilterSet] DROP CONSTRAINT [FK_GenreGenreForFilter];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PreprocessQuestionsCustomPropertyForFilter]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustomPropertyForFilterSet] DROP CONSTRAINT [FK_PreprocessQuestionsCustomPropertyForFilter];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CustomPropertyCustomPropertyForFilter]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[CustomPropertyForFilterSet] DROP CONSTRAINT [FK_CustomPropertyCustomPropertyForFilter];
+GO
+IF OBJECT_ID(N'[dbo].[FK_FinalSolutionConsultation]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[FinalSolutionSet] DROP CONSTRAINT [FK_FinalSolutionConsultation];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -214,6 +232,18 @@ GO
 IF OBJECT_ID(N'[dbo].[IMDbLoadingSet]', 'U') IS NOT NULL
     DROP TABLE [dbo].[IMDbLoadingSet];
 GO
+IF OBJECT_ID(N'[dbo].[PreprocessQuestionsSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PreprocessQuestionsSet];
+GO
+IF OBJECT_ID(N'[dbo].[GenreForFilterSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[GenreForFilterSet];
+GO
+IF OBJECT_ID(N'[dbo].[CustomPropertyForFilterSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CustomPropertyForFilterSet];
+GO
+IF OBJECT_ID(N'[dbo].[FinalSolutionSet]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[FinalSolutionSet];
+GO
 
 -- --------------------------------------------------
 -- Creating all tables
@@ -286,6 +316,7 @@ GO
 -- Creating table 'ConsultationSet'
 CREATE TABLE [dbo].[ConsultationSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
+    [Session_Id] int  NOT NULL,
     [ExpertSystem_Id] int  NOT NULL,
     [CurrentRule_Id] int  NULL,
     [GoalStack_Id] int  NULL
@@ -297,8 +328,7 @@ CREATE TABLE [dbo].[SessionSet] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [SessionId] nvarchar(max)  NOT NULL,
     [CreateDate] datetime  NOT NULL,
-    [LastActivityDate] datetime  NULL,
-    [SessionConsultation_Session_Id] int  NOT NULL
+    [LastActivityDate] datetime  NULL
 );
 GO
 
@@ -502,6 +532,15 @@ CREATE TABLE [dbo].[CustomPropertyForFilterSet] (
 );
 GO
 
+-- Creating table 'FinalSolutionSet'
+CREATE TABLE [dbo].[FinalSolutionSet] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [VariableName] nvarchar(max)  NOT NULL,
+    [Value] nvarchar(max)  NOT NULL,
+    [Consultation_Id] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -692,6 +731,12 @@ ADD CONSTRAINT [PK_CustomPropertyForFilterSet]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
+-- Creating primary key on [Id] in table 'FinalSolutionSet'
+ALTER TABLE [dbo].[FinalSolutionSet]
+ADD CONSTRAINT [PK_FinalSolutionSet]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
 -- --------------------------------------------------
 -- Creating all FOREIGN KEY constraints
 -- --------------------------------------------------
@@ -861,19 +906,19 @@ ON [dbo].[RuleSet]
     ([ExpertSystemRule_Rule_Id]);
 GO
 
--- Creating foreign key on [SessionConsultation_Session_Id] in table 'SessionSet'
-ALTER TABLE [dbo].[SessionSet]
+-- Creating foreign key on [Session_Id] in table 'ConsultationSet'
+ALTER TABLE [dbo].[ConsultationSet]
 ADD CONSTRAINT [FK_SessionConsultation]
-    FOREIGN KEY ([SessionConsultation_Session_Id])
-    REFERENCES [dbo].[ConsultationSet]
+    FOREIGN KEY ([Session_Id])
+    REFERENCES [dbo].[SessionSet]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
 
 -- Creating non-clustered index for FOREIGN KEY 'FK_SessionConsultation'
 CREATE INDEX [IX_FK_SessionConsultation]
-ON [dbo].[SessionSet]
-    ([SessionConsultation_Session_Id]);
+ON [dbo].[ConsultationSet]
+    ([Session_Id]);
 GO
 
 -- Creating foreign key on [ExpertSystem_Id] in table 'ConsultationSet'
@@ -1309,6 +1354,21 @@ GO
 CREATE INDEX [IX_FK_CustomPropertyCustomPropertyForFilter]
 ON [dbo].[CustomPropertyForFilterSet]
     ([CustomProperty_Id]);
+GO
+
+-- Creating foreign key on [Consultation_Id] in table 'FinalSolutionSet'
+ALTER TABLE [dbo].[FinalSolutionSet]
+ADD CONSTRAINT [FK_FinalSolutionConsultation]
+    FOREIGN KEY ([Consultation_Id])
+    REFERENCES [dbo].[ConsultationSet]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_FinalSolutionConsultation'
+CREATE INDEX [IX_FK_FinalSolutionConsultation]
+ON [dbo].[FinalSolutionSet]
+    ([Consultation_Id]);
 GO
 
 -- --------------------------------------------------

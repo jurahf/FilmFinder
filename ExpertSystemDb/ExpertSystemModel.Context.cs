@@ -56,5 +56,6 @@ namespace ExpertSystemDb
         public virtual DbSet<PreprocessQuestions> PreprocessQuestionsSet { get; set; }
         public virtual DbSet<GenreForFilter> GenreForFilterSet { get; set; }
         public virtual DbSet<CustomPropertyForFilter> CustomPropertyForFilterSet { get; set; }
+        public virtual DbSet<FinalSolution> FinalSolutionSet { get; set; }
     }
 }

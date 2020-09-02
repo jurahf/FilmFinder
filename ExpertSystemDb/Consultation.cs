@@ -31,5 +31,6 @@ namespace ExpertSystemDb
         public virtual ICollection<ConsultationRule> WorkedRules { get; set; }
         public virtual Rule CurrentRule { get; set; }
         public virtual GoalStack GoalStack { get; set; }
+        public virtual FinalSolution FinalSolution { get; set; }
     }
 }

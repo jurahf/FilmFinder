@@ -133,6 +133,9 @@
     <Compile Include="FilterType.cs">
       <DependentUpon>ExpertSystemModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="FinalSolution.cs">
+      <DependentUpon>ExpertSystemModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Genre.cs">
       <DependentUpon>ExpertSystemModel.tt</DependentUpon>
     </Compile>

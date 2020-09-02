@@ -113,7 +113,11 @@ namespace Logic
                     .ToList();
             }
 
-            return filmsList;
+            int percent25 = Math.Max((int)(filmsList.Count * 0.25), 5);
+            return filmsList.OrderByDescending(x => x.Rating ?? 0)
+                .Take(percent25)
+                .TakeRandom(5)
+                .ToList();
 
             // TODO: filters.CustomPropertyForFilter - тут так же, как с советом, но пока не используется
         }
@@ -204,6 +208,7 @@ namespace Logic
             {
                 foreach (var res in enumerable)
                     yield return res;
+                yield break;
             }
 
             List<T> result = new List<T>();
@@ -216,7 +221,7 @@ namespace Logic
                 int index = -1;
                 do
                 {
-                    index = random.Next(0, enumerable.Count() - 1);
+                    index = random.Next(0, enumerable.Count());
                 } while (selectedIndexes.Contains(index));
 
                 selectedIndexes.Add(index);

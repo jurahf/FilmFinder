@@ -209,7 +209,25 @@ namespace Logic
 
         private QuestionOrResultDto СоздатьОтветПоЖанрамИТэгам(Session session)
         {
-            // TODO: сохранить результат консультации
+            // сохранить результат консультации
+            Consultation consult = db.GetFromDatabase<Consultation>(x => x.Session.SessionId == session.SessionId).FirstOrDefault();
+            if (consult == null)
+            {
+                consult = new Consultation()
+                {
+                    Session = session,
+                    ExpertSystem = db.GetFromDatabase<ExpertSystem>(x => x.Name == esName).First()
+                };
+                db.Insert(consult);
+            }
+
+            FinalSolution final = new FinalSolution()
+            {
+                Consultation = consult,
+                VariableName = FilmAndAdviceLogic.GenreAndTagResultVariableName,
+                Value = session.SessionId
+            };
+            db.Insert(final);
 
             return new QuestionOrResultDto(session.SessionId)
             {

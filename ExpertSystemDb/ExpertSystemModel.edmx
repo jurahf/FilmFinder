@@ -37,6 +37,7 @@
     <EntitySet Name="PreprocessQuestionsSet" EntityType="ExpertSystemModel.Store.PreprocessQuestionsSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="GenreForFilterSet" EntityType="ExpertSystemModel.Store.GenreForFilterSet" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CustomPropertyForFilterSet" EntityType="ExpertSystemModel.Store.CustomPropertyForFilterSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="FinalSolutionSet" EntityType="ExpertSystemModel.Store.FinalSolutionSet" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="ExpertSystemDomain" Association="ExpertSystemModel.Store.ExpertSystemDomain">
       <End Role="ExpertSystem" EntitySet="ExpertSystemSet" />
       <End Role="Domain" EntitySet="DomainSet" />
@@ -201,6 +202,10 @@
       <End Role="CustomProperty" EntitySet="CustomPropertySet" />
       <End Role="CustomPropertyForFilter" EntitySet="CustomPropertyForFilterSet" />
     </AssociationSet>
+    <AssociationSet Name="FinalSolutionConsultation" Association="ExpertSystemModel.Store.FinalSolutionConsultation">
+      <End Role="FinalSolution" EntitySet="FinalSolutionSet" />
+      <End Role="Consultation" EntitySet="ConsultationSet" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="ExpertSystemSet">
     <Key>
@@ -271,6 +276,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Session_Id" Type="int" Nullable="false" />
     <Property Name="ExpertSystem_Id" Type="int" Nullable="false" />
     <Property Name="CurrentRule_Id" Type="int" Nullable="true" />
     <Property Name="GoalStack_Id" Type="int" Nullable="true" />
@@ -283,7 +289,6 @@
     <Property Name="SessionId" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CreateDate" Type="datetime" Nullable="false" />
     <Property Name="LastActivityDate" Type="datetime" Nullable="true" />
-    <Property Name="SessionConsultation_Session_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ConsultationFactSet">
     <Key>
@@ -485,6 +490,15 @@
     <Property Name="PreprocessQuestions_Id" Type="int" Nullable="false" />
     <Property Name="CustomProperty_Id" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="FinalSolutionSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="VariableName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Value" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Consultation_Id" Type="int" Nullable="false" />
+  </EntityType>
   <Association Name="ExpertSystemDomain">
     <End Role="ExpertSystem" Type="ExpertSystemModel.Store.ExpertSystemSet" Multiplicity="1" />
     <End Role="Domain" Type="ExpertSystemModel.Store.DomainSet" Multiplicity="*" />
@@ -620,14 +634,14 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="SessionConsultation">
-    <End Role="Session" Type="ExpertSystemModel.Store.SessionSet" Multiplicity="*" />
-    <End Role="Consultation" Type="ExpertSystemModel.Store.ConsultationSet" Multiplicity="1" />
+    <End Role="Session" Type="ExpertSystemModel.Store.SessionSet" Multiplicity="1" />
+    <End Role="Consultation" Type="ExpertSystemModel.Store.ConsultationSet" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Consultation">
+      <Principal Role="Session">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Session">
-        <PropertyRef Name="SessionConsultation_Session_Id" />
+      <Dependent Role="Consultation">
+        <PropertyRef Name="Session_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -999,6 +1013,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FinalSolutionConsultation">
+    <End Role="FinalSolution" Type="ExpertSystemModel.Store.FinalSolutionSet" Multiplicity="*" />
+    <End Role="Consultation" Type="ExpertSystemModel.Store.ConsultationSet" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Consultation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="FinalSolution">
+        <PropertyRef Name="Consultation_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -1199,6 +1225,11 @@
             <End Role="CustomProperty" EntitySet="CustomPropertySet" />
             <End Role="CustomPropertyForFilter" EntitySet="CustomPropertyForFilterSet" />
           </AssociationSet>
+          <EntitySet Name="FinalSolutionSet" EntityType="ExpertSystemModel.FinalSolution" />
+          <AssociationSet Name="FinalSolutionConsultation" Association="ExpertSystemModel.FinalSolutionConsultation">
+            <End Role="FinalSolution" EntitySet="FinalSolutionSet" />
+            <End Role="Consultation" EntitySet="ConsultationSet" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ExpertSystem">
           <Key>
@@ -1337,6 +1368,7 @@
           <NavigationProperty Name="WorkedRules" Relationship="ExpertSystemModel.ConsultationConsultationRule" FromRole="Consultation" ToRole="ConsultationRule" />
           <NavigationProperty Name="CurrentRule" Relationship="ExpertSystemModel.RuleConsultation" FromRole="Consultation" ToRole="Rule" />
           <NavigationProperty Name="GoalStack" Relationship="ExpertSystemModel.GoalStackConsultation" FromRole="Consultation" ToRole="GoalStack" />
+          <NavigationProperty Name="FinalSolution" Relationship="ExpertSystemModel.FinalSolutionConsultation" FromRole="Consultation" ToRole="FinalSolution" />
         </EntityType>
         <EntityType Name="Session">
           <Key>
@@ -1350,7 +1382,7 @@
         </EntityType>
         <Association Name="SessionConsultation">
           <End Type="ExpertSystemModel.Session" Role="Session" Multiplicity="1" />
-          <End Type="ExpertSystemModel.Consultation" Role="Consultation" Multiplicity="1" />
+          <End Type="ExpertSystemModel.Consultation" Role="Consultation" Multiplicity="0..1" />
         </Association>
         <Association Name="ExpertSystemConsultation">
           <End Type="ExpertSystemModel.ExpertSystem" Role="ExpertSystem" Multiplicity="1" />
@@ -1706,6 +1738,20 @@
           </End>
           <End Type="ExpertSystemModel.CustomPropertyForFilter" Role="CustomPropertyForFilter" Multiplicity="*" />
         </Association>
+        <EntityType Name="FinalSolution">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="VariableName" Type="String" Nullable="false" />
+          <Property Name="Value" Type="String" Nullable="false" />
+          <NavigationProperty Name="Consultation" Relationship="ExpertSystemModel.FinalSolutionConsultation" FromRole="FinalSolution" ToRole="Consultation" />
+        </EntityType>
+        <Association Name="FinalSolutionConsultation">
+          <End Type="ExpertSystemModel.FinalSolution" Role="FinalSolution" Multiplicity="0..1" >
+          </End>
+          <End Type="ExpertSystemModel.Consultation" Role="Consultation" Multiplicity="1" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1985,6 +2031,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="FinalSolutionSet">
+      <EntityTypeMapping TypeName="IsTypeOf(ExpertSystemModel.FinalSolution)">
+        <MappingFragment StoreEntitySet="FinalSolutionSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="VariableName" ColumnName="VariableName" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <AssociationSetMapping Name="ExpertSystemDomain" TypeName="ExpertSystemModel.ExpertSystemDomain" StoreEntitySet="DomainSet">
       <EndProperty Name="ExpertSystem">
         <ScalarProperty Name="Id" ColumnName="ExpertSystemDomain_Domain_Id" />
@@ -2074,11 +2129,11 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="SessionConsultation" TypeName="ExpertSystemModel.SessionConsultation" StoreEntitySet="SessionSet">
-      <EndProperty Name="Consultation">
-        <ScalarProperty Name="Id" ColumnName="SessionConsultation_Session_Id" />
-      </EndProperty>
+    <AssociationSetMapping Name="SessionConsultation" TypeName="ExpertSystemModel.SessionConsultation" StoreEntitySet="ConsultationSet">
       <EndProperty Name="Session">
+        <ScalarProperty Name="Id" ColumnName="Session_Id" />
+      </EndProperty>
+      <EndProperty Name="Consultation">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
@@ -2317,6 +2372,14 @@
         <ScalarProperty Name="Id" ColumnName="CustomProperty_Id" />
       </EndProperty>
       <EndProperty Name="CustomPropertyForFilter">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FinalSolutionConsultation" TypeName="ExpertSystemModel.FinalSolutionConsultation" StoreEntitySet="FinalSolutionSet">
+      <EndProperty Name="Consultation">
+        <ScalarProperty Name="Id" ColumnName="Consultation_Id" />
+      </EndProperty>
+      <EndProperty Name="FinalSolution">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
