@@ -9,6 +9,7 @@ namespace WebApi.Classes.Vk
 {
     public static class KeyboardHelper
     {
+
         public static Keyboard CreateFromVariable(string sessionId, VariableDto variable)
         {
             Keyboard keyboard = new Keyboard()
@@ -18,12 +19,25 @@ namespace WebApi.Classes.Vk
             };
 
             // TODO: здесь формат чисто строковый, а потом он парсится в SetAnswerAndNext
+            List<Button> currentRow = new List<Button>();
             foreach (var variant in variable.Domain)
             {
-                keyboard.Buttons.Add(new List<Button>()
+                if (variant.StartNewLint)
                 {
-                    new Button() { Payload = $"SetAnswerAndNext|{sessionId}|{variable.Name}|{variant}", Label = variant, Color = ButtonColor.primary }
-                });
+                    if (currentRow.Any())
+                        keyboard.Buttons.Add(currentRow);
+
+                    currentRow = new List<Button>();
+                }
+
+                currentRow.Add(
+                    new Button() { Payload = $"SetAnswerAndNext|{sessionId}|{variable.Name}|{variant.Value}", Label = variant.Value, Color = MapButtonColor(variant.Color) }
+                );
+            }
+
+            if (currentRow.Any())
+            {
+                keyboard.Buttons.Add(currentRow);
             }
 
             keyboard.Buttons.Add(new List<Button>() {
@@ -31,6 +45,26 @@ namespace WebApi.Classes.Vk
             });
 
             return keyboard;
+        }
+
+
+
+
+        private static ButtonColor MapButtonColor(DomainValueColor mood)
+        {
+            switch (mood)
+            {
+                case DomainValueColor.Blue:
+                    return ButtonColor.primary;
+                case DomainValueColor.White:
+                    return ButtonColor.secondary;
+                case DomainValueColor.Green:
+                    return ButtonColor.positive;
+                case DomainValueColor.Red:
+                    return ButtonColor.negative;
+                default:
+                    return ButtonColor.primary;
+            }
         }
     }
 }

@@ -87,10 +87,10 @@ namespace Logic
 
         private QuestionOrResultDto ПринятьОтветЗнаютЛиЧегоХотят(Session session, VariableValue answer)
         {
-            if (answer.Variable != переменнаяЗнаюЧегоХочу)
+            if (answer.Variable.ToLower() != переменнаяЗнаюЧегоХочу.ToLower())
                 throw new ArgumentException("Неправильная последовательность ответов и вопросов");
 
-            session.PreprocessQuestions.IKnowThatIWant = answer.Value == ответЗнаюЧегоХочу;
+            session.PreprocessQuestions.IKnowThatIWant = answer.Value.ToLower() == ответЗнаюЧегоХочу.ToLower();
             db.Update(session.PreprocessQuestions);
 
             if (session.PreprocessQuestions.IKnowThatIWant == true)
@@ -109,20 +109,20 @@ namespace Logic
 
         private QuestionOrResultDto ПринятьОтветПоЖанрамИТэгам(Session session, VariableValue answer)
         {
-            if (answer.Variable != переменнаяЖанрыИТэги)
+            if (answer.Variable.ToLower() != переменнаяЖанрыИТэги.ToLower())
                 throw new ArgumentException("Неправильная последовательность ответов и вопросов");
 
-            if (answer.Value == ответЗакончитьВыбор)
+            if (answer.Value.ToLower() == ответЗакончитьВыбор.ToLower())
             {
                 return СоздатьОтветПоЖанрамИТэгам(session);
             }
-            else if (answer.Value == ответПереходНаЖанры)
+            else if (answer.Value.ToLower() == ответПереходНаЖанры.ToLower())
             {
                 session.PreprocessQuestions.ActiveFilterType = FilterType.Genre;
                 db.Update(session.PreprocessQuestions);
                 return СоздатьВопросПоВыборуЖанраИлиТэга(session);
             }
-            else if (answer.Value == ответПереходНаТэги)
+            else if (answer.Value.ToLower() == ответПереходНаТэги.ToLower())
             {
                 session.PreprocessQuestions.ActiveFilterType = FilterType.CustomProperty;
                 db.Update(session.PreprocessQuestions);
@@ -133,7 +133,7 @@ namespace Logic
                 // выбор конкретного жанра или свойства
                 if (session.PreprocessQuestions.ActiveFilterType == FilterType.Genre)
                 {
-                    Genre genre = db.GetFromDatabase<Genre>(x => x.Name == answer.Value).FirstOrDefault();
+                    Genre genre = db.GetFromDatabase<Genre>(x => x.Name.ToLower() == answer.Value.ToLower()).FirstOrDefault();
                     if (genre != null)
                     {
                         GenreForFilter gff = new GenreForFilter()
@@ -147,7 +147,7 @@ namespace Logic
                 }
                 else if (session.PreprocessQuestions.ActiveFilterType == FilterType.CustomProperty)
                 {
-                    CustomProperty customProp = db.GetFromDatabase<CustomProperty>(x => x.Name == answer.Value).FirstOrDefault();
+                    CustomProperty customProp = db.GetFromDatabase<CustomProperty>(x => x.Name.ToLower() == answer.Value.ToLower()).FirstOrDefault();
                     if (customProp != null)
                     {
                         CustomPropertyForFilter cpff = new CustomPropertyForFilter()
@@ -184,25 +184,40 @@ namespace Logic
                 }
             };
 
+            List<string> selectedGenres = session.PreprocessQuestions.GenreForFilter.Select(x => x.Genre.Name).ToList();
+
             result.Question.Question = session.PreprocessQuestions.ActiveFilterType == FilterType.Genre
-                ? "Выберите жанры"
+                ? $"Выберите жанры (можно выбрать еще до {3 - selectedGenres.Count} жанров)"
                 : "Выберите тэги";
 
-            result.Question.Domain = new List<string>();
+            result.Question.Domain = new List<QuestionDomainValueDto>();
 
-            // TODO: раскраска кнопок
             if (session.PreprocessQuestions.ActiveFilterType == FilterType.Genre)
             {
-                result.Question.Domain.AddRange(db.GetFromDatabase<Genre>().OrderBy(x => x.Name).Select(x => x.Name));
+                int i = 0;
+                foreach (var val in db.GetFromDatabase<Genre>()
+                        .Where(x => !selectedGenres.Contains(x.Name))
+                        .OrderBy(x => x.Name))
+                {
+                    result.Question.Domain.Add(new QuestionDomainValueDto(val.Name, DomainValueColor.Blue, i != 0 && i % 3 == 0));
+                    i++;
+                }
+
                 //result.Question.Domain.Add(ответПереходНаТэги); // пока не делаем, пусть будет только по жанрам
             }
             else
             {
-                result.Question.Domain.AddRange(db.GetFromDatabase<CustomProperty>().OrderBy(x => x.Name).Select(x => x.Name));
-                result.Question.Domain.Add(ответПереходНаЖанры);
+                int i = 0;
+                foreach (var val in db.GetFromDatabase<CustomProperty>().OrderBy(x => x.Name))
+                {
+                    result.Question.Domain.Add(new QuestionDomainValueDto(val.Name, DomainValueColor.Blue, i !=0 && i % 3 == 0));
+                    i++;
+                }
+
+                result.Question.Domain.Add(new QuestionDomainValueDto(ответПереходНаЖанры, DomainValueColor.Green, true));
             }
 
-            result.Question.Domain.Add(ответЗакончитьВыбор);
+            result.Question.Domain.Add(new QuestionDomainValueDto(ответЗакончитьВыбор, DomainValueColor.Green, true));
 
             return result;
         }
@@ -251,10 +266,10 @@ namespace Logic
                 {
                     Name = переменнаяЗнаюЧегоХочу,
                     Question = "Вы примерно знаете, что хотите посмотреть?",
-                    Domain = new List<string>()
+                    Domain = new List<QuestionDomainValueDto>()
                         {
-                            ответЗнаюЧегоХочу,
-                            ответНеЗнаюЧегоХочу
+                            new QuestionDomainValueDto(ответЗнаюЧегоХочу),
+                            new QuestionDomainValueDto(ответНеЗнаюЧегоХочу)
                         }
                 }
             };

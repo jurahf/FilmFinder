@@ -84,7 +84,7 @@ namespace ExpertSystemDb.DTOs
     {
         public string Name { get; set; }
         public string Question { get; set; }
-        public List<string> Domain { get; set; }
+        public List<QuestionDomainValueDto> Domain { get; set; }
 
         public VariableDto()
         {
@@ -94,7 +94,39 @@ namespace ExpertSystemDb.DTOs
         {
             Name = variable.Name;
             Question = variable.Question;
-            Domain = variable.Domain.DomainValue.Select(x => x.Value).ToList();
+            Domain = variable.Domain.DomainValue.Select(x => new QuestionDomainValueDto(x.Value, DomainValueColor.Blue, true)).ToList();
         }
     }
+
+
+    public class QuestionDomainValueDto
+    {
+        public string Value { get; set; }
+        public DomainValueColor Color { get; set; }
+        public bool StartNewLint { get; set; }
+
+        public QuestionDomainValueDto(string value, DomainValueColor color, bool startNewLine)
+        {
+            this.Value = value;
+            this.Color = color;
+            this.StartNewLint = startNewLine;
+        }
+
+        public QuestionDomainValueDto(string value)
+            : this(value, DomainValueColor.Blue, true)
+        {
+        }
+    }
+
+
+    public enum DomainValueColor
+    {
+        Blue,
+        White,
+        Green,
+        Red
+    }
+
+
+
 }

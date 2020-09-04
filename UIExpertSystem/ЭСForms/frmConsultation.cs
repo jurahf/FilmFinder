@@ -114,7 +114,7 @@ namespace ЭС
                     Top = top,
                     Left = left,
                     Dock = DockStyle.Top,
-                    Text = v
+                    Text = v.Value
                 };
 
                 top += topInc;
