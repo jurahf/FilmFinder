@@ -68,7 +68,8 @@ namespace WebApi.Controllers
                 new StartCommand(vkApi),
                 new StartConsultationCommand(vkApi),
                 new SetAnswerAndNextCommand(vkApi),
-                new AnotherCommand(vkApi)
+                new AnotherCommand(vkApi),
+                new ReviewCommand(vkApi)
             };
 
             return commandsList;

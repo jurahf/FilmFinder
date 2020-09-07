@@ -97,6 +97,7 @@
     <Compile Include="Classes\StartEsArgs.cs" />
     <Compile Include="Classes\Vk\Commands\AnotherCommand.cs" />
     <Compile Include="Classes\Vk\Commands\CommonLogic.cs" />
+    <Compile Include="Classes\Vk\Commands\ReviewCommand.cs" />
     <Compile Include="Classes\Vk\Commands\SetAnswerAndNextCommand.cs" />
     <Compile Include="Classes\Vk\Commands\StartCommand.cs" />
     <Compile Include="Classes\Vk\Commands\StartConsultationCommand.cs" />

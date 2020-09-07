@@ -41,6 +41,11 @@ namespace WebApi.Classes.Vk.Commands
                         new List<Button>() { new Button() { Color = ButtonColor.positive, Label = "Подобрать еще один фильм!", Payload = "Consultation" } },
                         new List<Button>() { new Button() { Color = ButtonColor.secondary, Label = "Другой по тем же параметрам", Payload = $"Another|{sessionId}|{film.Id}" } },
                         //new List<Button>() { new Button() { Color = ButtonColor.secondary, Label = "Оставить отзыв",  Payload = $"Feedback|{sessionId}|{adviceId}|{film.Id}" } }
+                        new List<Button>()
+                        {
+                            new Button() { Color = ButtonColor.secondary, Label = "👎🏻", Payload = $"Review|{sessionId}|{SimpleEstimation.NEGATIVE}" },
+                            new Button() { Color = ButtonColor.secondary, Label = "👍🏻", Payload = $"Review|{sessionId}|{SimpleEstimation.POSITIVE}" },
+                        }
                     }
             };
 
