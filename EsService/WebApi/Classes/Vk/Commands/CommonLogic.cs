@@ -30,8 +30,10 @@ namespace WebApi.Classes.Vk.Commands
             sb.AppendLine();
             sb.AppendLine(WebUtility.HtmlDecode($"{film.Description}"));
             sb.AppendLine();
-            sb.Append("Основываясь на мнении пользователей, этот фильм: ");
-            sb.AppendLine(string.Join(", ", film.CustomProperties.OrderByDescending(x => x.Percent).Select(x => $"на {x.Percent}% {x.Name}")));
+            sb.AppendLine($"Рейтинг IMDb: {film.Rating:N2}");
+            sb.AppendLine();
+            sb.AppendLine("Основываясь на мнении пользователей, этот фильм: ");
+            sb.AppendLine(string.Join(Environment.NewLine, film.CustomProperties.OrderByDescending(x => x.Percent).Select(x => $"{x.Percent}% {x.Name}")));
 
             Keyboard keyboard = new Keyboard()
             {
