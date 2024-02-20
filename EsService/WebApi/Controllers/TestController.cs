@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Hosting;
 using System.Web.Http;
 
@@ -25,6 +27,8 @@ namespace Server.Controllers
         {
             try
             {
+                Task<string> str = GetStrAsync();
+
                 /// TODO: Код для проверки 
                 DBWork db = new DBWork();
                 var film = db.GetFromDatabase<Film>(x => x.Id == 5).FirstOrDefault();
@@ -37,5 +41,15 @@ namespace Server.Controllers
                 return ex.Message + " " + (ex?.InnerException?.Message ?? "");
             }
         }
+
+
+        private async Task<string> GetStrAsync()
+        {
+            await Task.Delay(5000);
+            return "after sleep";
+        }
+
+
+
     }
 }
