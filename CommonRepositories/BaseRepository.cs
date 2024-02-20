@@ -27,98 +27,98 @@ namespace CommonRepositories
             return set.OrderBy(x => x.Id);
         }
 
-        public virtual int GetCount()
+        public async virtual Task<int> GetCountAsync()
         {
             try
             {
-                return dbContext.Set<T>().Count();
+                return await dbContext.Set<T>().CountAsync();
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, $"Ошибка в {nameof(GetCount)}");
+                Log.Logger.Error(ex, $"Ошибка в {nameof(GetCountAsync)}");
                 throw;
             }
         }
 
-        public virtual List<T> GetAll(int limit = 100, int page = 0)
+        public async virtual Task<List<T>> GetAllAsync(int limit = 100, int page = 0)
         {
             try
             {
-                return Fetch(
+                return await Fetch(
                         DefaultOrder(dbContext.Set<T>())
                         .Skip(page * limit)
                         .Take(limit))
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, $"Ошибка в {nameof(GetAll)}");
+                Log.Logger.Error(ex, $"Ошибка в {nameof(GetAllAsync)}");
                 throw;
             }
         }
 
-        public virtual List<T> GetAll()
+        public async virtual Task<List<T>> GetAllAsync()
         {
             try
             {
-                return Fetch(
+                return await Fetch(
                         DefaultOrder(dbContext.Set<T>()))
-                    .ToList();
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, $"Ошибка в {nameof(GetAll)}");
+                Log.Logger.Error(ex, $"Ошибка в {nameof(GetAllAsync)}");
                 throw;
             }
         }
 
-        public virtual T GetById(long id)
+        public async virtual Task<T> GetByIdAsync(long id)
         {
             try
             {
-                return Fetch(dbContext.Set<T>())
-                    .FirstOrDefault(x => x.Id == id);
+                return await Fetch(dbContext.Set<T>())
+                    .FirstOrDefaultAsync(x => x.Id == id);
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, $"Ошибка в {nameof(GetById)}");
+                Log.Logger.Error(ex, $"Ошибка в {nameof(GetByIdAsync)}");
                 throw;
             }
         }
 
-        public virtual void Add(T entity)
+        public async virtual Task AddAsync(T entity)
         {
             try
             {
-                dbContext.Set<T>().Add(entity);
-                dbContext.SaveChanges();
+                await dbContext.Set<T>().AddAsync(entity);
+                await dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, $"Ошибка в {nameof(Add)}");
+                Log.Logger.Error(ex, $"Ошибка в {nameof(AddAsync)}");
                 throw;
             }
         }
 
-        public virtual void Delete(long id)
+        public async virtual Task DeleteAsync(long id)
         {
             try
             {
-                T entity = GetById(id);
+                T entity = await GetByIdAsync(id);
                 if (entity != null)
                 {
                     dbContext.Set<T>().Remove(entity);
-                    dbContext.SaveChanges();
+                    await dbContext.SaveChangesAsync();
                 }
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, $"Ошибка в {nameof(Delete)}");
+                Log.Logger.Error(ex, $"Ошибка в {nameof(DeleteAsync)}");
                 throw;
             }
         }
 
-        public virtual void Update(T entity)
+        public async virtual Task UpdateAsync(T entity)
         {
             try
             {
@@ -130,19 +130,19 @@ namespace CommonRepositories
                 }
                 else
                 {
-                    dbContext.Add(entity);
+                    await dbContext.AddAsync(entity);
                 }
 
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, $"Ошибка в {nameof(Update)}");
+                Log.Logger.Error(ex, $"Ошибка в {nameof(UpdateAsync)}");
                 throw;
             }
         }
 
-        public virtual void UpdateAll(List<T> entities)
+        public async virtual Task UpdateAllAsync(List<T> entities)
         {
             try
             {
@@ -156,15 +156,15 @@ namespace CommonRepositories
                     }
                     else
                     {
-                        dbContext.Add(entity);
+                        await dbContext.AddAsync(entity);
                     }
                 }
 
-                dbContext.SaveChanges();
+                await dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                Log.Logger.Error(ex, $"Ошибка в {nameof(UpdateAll)}");
+                Log.Logger.Error(ex, $"Ошибка в {nameof(UpdateAllAsync)}");
                 throw;
             }
         }

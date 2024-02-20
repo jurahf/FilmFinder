@@ -1,0 +1,52 @@
+﻿@page "/fetchdata"
+
+@using CommonRepositories;
+@using FilmDb.Model;
+
+@inject IRepository<Film> filmRepository
+
+
+<PageTitle>Weather forecast</PageTitle>
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+
+@if (films == null)
+{
+    <p>Loading...</p>
+}
+else
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Год</th>
+            <th>Описание</th>
+            <th>Постер</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var f in films)
+        {
+            <tr>
+                <td>@f.Name</td>
+                <td>@f.Year</td>
+                <td>@f.Description</td>
+                <td><img src="@f.Poster" width="200" /></td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+
+@code {
+    private List<Film> films;
+
+    protected override async Task OnInitializedAsync()
+    {
+        films = await filmRepository.GetAllAsync(100, 0);
+    }
+}

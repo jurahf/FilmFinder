@@ -8,20 +8,20 @@ namespace CommonRepositories
 {
     public interface IRepository<T> where T : BaseEntity
     {
-        List<T> GetAll(int limit, int page);
+        Task<List<T>> GetAllAsync(int limit, int page);
 
-        List<T> GetAll();
+        Task<List<T>> GetAllAsync();
 
-        T GetById(long id);
+        Task<T> GetByIdAsync(long id);
 
-        void Update(T entity);
+        Task UpdateAsync(T entity);
 
-        void UpdateAll(List<T> entities);
+        Task UpdateAllAsync(List<T> entities);
 
-        void Add(T entity);
+        Task AddAsync(T entity);
 
-        void Delete(long id);
+        Task DeleteAsync(long id);
 
-        int GetCount();
+        Task<int> GetCountAsync();
     }
 }

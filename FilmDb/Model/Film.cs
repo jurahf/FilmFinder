@@ -19,13 +19,13 @@ namespace FilmDb.Model
         }
 
         public int Year { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public decimal? Rating { get; set; }
-        public string Poster { get; set; }
-        public string Slogan { get; set; }
-        public string Link { get; set; }
-        public string KinopoiskId { get; set; }
-        public string Name { get; set; }
+        public string? Poster { get; set; }
+        public string? Slogan { get; set; }
+        public string? Link { get; set; }
+        public string? KinopoiskId { get; set; }
+        public string? Name { get; set; }
 
 
         public virtual ICollection<CountryFilm> CountryFilm { get; set; }

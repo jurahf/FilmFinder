@@ -14,4 +14,8 @@
     <ProjectReference Include="..\CommonRepositories\CommonRepositories.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Model\Enums\" />
+  </ItemGroup>
+
 </Project>
