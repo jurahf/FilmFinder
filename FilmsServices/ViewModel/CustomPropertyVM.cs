@@ -9,6 +9,8 @@ namespace FilmsServices.ViewModel
 {
     public class CustomPropertyVM : BaseViewModel
     {
+        public int Value { get; set; }
+
         public string Name { get; set; }
     }
 }

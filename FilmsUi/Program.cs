@@ -1,6 +1,7 @@
 using CommonRepositories;
 using FilmDb;
 using FilmDb.Model;
+using FilmDb.Repositories;
 using FilmsServices.Converters;
 using FilmsServices.Converters.Common;
 using FilmsServices.Services.Common;
@@ -43,16 +44,38 @@ namespace FilmsUi
             builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 
 
-            builder.Services.AddScoped<IRepository<Film>>(sp => new BaseRepository<Film>(sp.GetService<FilmDbContext>()));
+            builder.Services.AddScoped<IEntityConverter<Actor, ActorVM>>(sp => new DefaultConverter<Actor, ActorVM>());
+            builder.Services.AddScoped<IEntityConverter<Country, CountryVM>>(sp => new DefaultConverter<Country, CountryVM>());
+            builder.Services.AddScoped<IEntityConverter<Genre, GenreVM>>(sp => new DefaultConverter<Genre, GenreVM>());
+            builder.Services.AddScoped<IEntityConverter<Producer, ProducerVM>>(sp => new DefaultConverter<Producer, ProducerVM>());
+            builder.Services.AddScoped<IEntityConverter<CustomProperty, CustomPropertyVM>>(sp => new DefaultConverter<CustomProperty, CustomPropertyVM>());
+            builder.Services.AddScoped<IEntityConverter<Advice, AdviceVM>, AdviceConverter>();
             builder.Services.AddScoped<IEntityConverter<Film, FilmVM>, FilmConverter>();
+
+            builder.Services.AddScoped<IRepository<Actor>>(sp => new BaseRepository<Actor>(sp.GetService<FilmDbContext>()));
+            builder.Services.AddScoped<IRepository<Country>>(sp => new BaseRepository<Country>(sp.GetService<FilmDbContext>()));
+            builder.Services.AddScoped<IRepository<Genre>>(sp => new BaseRepository<Genre>(sp.GetService<FilmDbContext>()));
+            builder.Services.AddScoped<IRepository<Producer>>(sp => new BaseRepository<Producer>(sp.GetService<FilmDbContext>()));
+            builder.Services.AddScoped<IRepository<CustomProperty>>(sp => new BaseRepository<CustomProperty>(sp.GetService<FilmDbContext>()));
+            builder.Services.AddScoped<IRepository<Advice>, AdviceRepository>();
+            builder.Services.AddScoped<IRepository<Film>, FilmRepository>();
+
+
+            builder.Services.AddScoped<IValidator<ActorVM>>(sp => new DefaultValidator<ActorVM>());
+            builder.Services.AddScoped<IValidator<CountryVM>>(sp => new DefaultValidator<CountryVM>());
+            builder.Services.AddScoped<IValidator<GenreVM>>(sp => new DefaultValidator<GenreVM>());
+            builder.Services.AddScoped<IValidator<ProducerVM>>(sp => new DefaultValidator<ProducerVM>());
+            builder.Services.AddScoped<IValidator<CustomPropertyVM>>(sp => new DefaultValidator<CustomPropertyVM>());
+            builder.Services.AddScoped<IValidator<AdviceVM>>(sp => new DefaultValidator<AdviceVM>());
             builder.Services.AddScoped<IValidator<FilmVM>>(sp => new DefaultValidator<FilmVM>());
-            builder.Services.AddScoped<IService<Film, FilmVM>>(sp => new BaseSevice<Film, FilmVM>(
-                sp.GetService<IRepository<Film>>(),
-                sp.GetService<IEntityConverter<Film, FilmVM>>(),
-                sp.GetService<IValidator<FilmVM>>()
-                ));
 
-
+            builder.Services.AddScoped<IService<Actor, ActorVM>, BaseSevice<Actor, ActorVM>>();
+            builder.Services.AddScoped<IService<Country, CountryVM>, BaseSevice<Country, CountryVM>>();
+            builder.Services.AddScoped<IService<Genre, GenreVM>, BaseSevice<Genre, GenreVM>>();
+            builder.Services.AddScoped<IService<Producer, ProducerVM>, BaseSevice<Producer, ProducerVM>>();
+            builder.Services.AddScoped<IService<CustomProperty, CustomPropertyVM>, BaseSevice<CustomProperty, CustomPropertyVM>>();
+            builder.Services.AddScoped<IService<Advice, AdviceVM>, BaseSevice<Advice, AdviceVM>>();
+            builder.Services.AddScoped<IService<Film, FilmVM>, BaseSevice<Film, FilmVM>>();
 
 
 
