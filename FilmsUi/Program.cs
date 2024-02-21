@@ -1,6 +1,11 @@
 using CommonRepositories;
 using FilmDb;
 using FilmDb.Model;
+using FilmsServices.Converters;
+using FilmsServices.Converters.Common;
+using FilmsServices.Services.Common;
+using FilmsServices.Validators.Common;
+using FilmsServices.ViewModel;
 using FilmsUi.Areas.Identity;
 using FilmsUi.Data;
 using Microsoft.AspNetCore.Components;
@@ -37,7 +42,19 @@ namespace FilmsUi
 
             builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 
+
             builder.Services.AddScoped<IRepository<Film>>(sp => new BaseRepository<Film>(sp.GetService<FilmDbContext>()));
+            builder.Services.AddScoped<IEntityConverter<Film, FilmVM>, FilmConverter>();
+            builder.Services.AddScoped<IValidator<FilmVM>>(sp => new DefaultValidator<FilmVM>());
+            builder.Services.AddScoped<IService<Film, FilmVM>>(sp => new BaseSevice<Film, FilmVM>(
+                sp.GetService<IRepository<Film>>(),
+                sp.GetService<IEntityConverter<Film, FilmVM>>(),
+                sp.GetService<IValidator<FilmVM>>()
+                ));
+
+
+
+
 
             var app = builder.Build();
 

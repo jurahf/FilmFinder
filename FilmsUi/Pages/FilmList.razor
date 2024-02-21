@@ -1,9 +1,11 @@
-﻿@page "/fetchdata"
+﻿@page "/filmlist"
 
-@using CommonRepositories;
+
 @using FilmDb.Model;
+@using FilmsServices.Services.Common;
+@using FilmsServices.ViewModel;
 
-@inject IRepository<Film> filmRepository
+@inject IService<Film, FilmVM> filmRepository
 
 
 <PageTitle>Weather forecast</PageTitle>
@@ -19,6 +21,11 @@
 }
 else
 {
+    <p role="status">Current count: @(page + 1)</p>
+
+    <button class="btn btn-primary" @onclick="IncrementPage">Следующая страница</button>
+
+
 <table class="table">
     <thead>
         <tr>
@@ -43,10 +50,27 @@ else
 }
 
 @code {
-    private List<Film> films;
+    private List<FilmVM> films;
+    private int page = 0;
+    private int limit = 100;
+
 
     protected override async Task OnInitializedAsync()
     {
-        films = await filmRepository.GetAllAsync(100, 0);
+        await UpdateFilmsPage();
     }
+
+
+    private async Task IncrementPage()
+    {
+        page++;
+        await UpdateFilmsPage();
+    }
+
+
+    private async Task UpdateFilmsPage()
+    {
+        films = await filmRepository.GetAllAsync(limit, page);
+    }
+
 }

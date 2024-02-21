@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FilmDb\FilmDb.csproj" />
+    <ProjectReference Include="..\FilmsServices\FilmsServices.csproj" />
   </ItemGroup>
 
 </Project>
