@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 
 namespace FilmsServices.Services.Common
 {
-    public interface IService<DB, VM>
-        where DB : BaseEntity
+    public interface IService<VM>
         where VM : BaseViewModel
     {
         Task<List<VM>> GetAllAsync(int limit, int page);

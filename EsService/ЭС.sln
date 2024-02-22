@@ -37,17 +37,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "net7", "net7", "{2E99814F-A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{20548F7B-04A3-43E1-93CC-E75B07C41085}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonRepositories", "..\CommonRepositories\CommonRepositories.csproj", "{B7AC35D8-665D-49E6-90D4-BEA0EDBF8467}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonRepositories", "..\CommonRepositories\CommonRepositories.csproj", "{B7AC35D8-665D-49E6-90D4-BEA0EDBF8467}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EsDb", "..\EsDb\EsDb.csproj", "{AD388726-77A4-4A41-A55C-FC7C7CE7BB95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EsDb", "..\EsDb\EsDb.csproj", "{AD388726-77A4-4A41-A55C-FC7C7CE7BB95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilmDb", "..\FilmDb\FilmDb.csproj", "{AFE78799-D6E1-4978-BC8B-8A71AECF7017}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FilmDb", "..\FilmDb\FilmDb.csproj", "{AFE78799-D6E1-4978-BC8B-8A71AECF7017}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebUIFilms", "WebUIFilms", "{1164B02F-54F3-4C44-8699-4512517B9029}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilmsUi", "..\FilmsUi\FilmsUi.csproj", "{595EE3F4-623A-4B76-BC70-82080DA2D828}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FilmsUi", "..\FilmsUi\FilmsUi.csproj", "{595EE3F4-623A-4B76-BC70-82080DA2D828}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilmsServices", "..\FilmsServices\FilmsServices.csproj", "{3B04DF5D-D142-498D-9029-3040FB89CE1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FilmsServices", "..\FilmsServices\FilmsServices.csproj", "{3B04DF5D-D142-498D-9029-3040FB89CE1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

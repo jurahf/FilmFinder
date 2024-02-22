@@ -10,5 +10,10 @@ namespace FilmsServices.ViewModel
     public class CountryVM : BaseViewModel
     {
         public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

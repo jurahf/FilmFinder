@@ -1,0 +1,98 @@
+﻿@typeparam TEntity where TEntity : BaseViewModel
+
+
+@using FilmsServices.Services.Common;
+@using FilmsServices.ViewModel.Common;
+
+
+
+
+<div class="row">
+    <table class="table table-bordered table-hover caption-top">
+        <caption>@Caption</caption>
+        <thead>
+            <tr>
+                @foreach (var m in Mappings.OrderBy(x => x.Order))
+                {
+                    <th>@m.Caption</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in List)
+            {
+                <tr>
+                    @foreach (var m in Mappings.OrderBy(x => x.Order))
+                    {
+                        <td>@m.GetVal(item)</td>
+                    }
+                </tr>
+            }
+
+            <tr>
+                <td colspan="1">
+                    <button class="btn btn-outline-success" @onclick="AddRow">+</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<EntityPicker @ref="Picker"
+              TEntity="TEntity"
+              Service="Service"
+              Title="Добавление"
+              Mappings="Mappings"
+              SearchField="SearchField"
+              ChooseDone="Picker_Choose">
+</EntityPicker>
+
+
+
+@code {
+    [Parameter]
+    public string Caption { get; set; } = "";
+
+    [Parameter]
+    public ICollection<TEntity> List { get; set; }
+
+    [Parameter]
+    public IService<TEntity> Service { get; set; }
+
+    [Parameter]
+    public List<FieldMapping<TEntity>> Mappings { get; set; }
+
+    [Parameter]
+    public Func<TEntity, string> SearchField { get; set; }
+
+
+    private EntityPicker<TEntity> Picker;
+
+    // TODO: удаление строк
+
+
+    protected async override Task OnInitializedAsync()
+    {
+        if (List == null)
+            throw new ArgumentNullException("List");
+        if (Service == null)
+            throw new ArgumentNullException("Service");
+        if (Mappings == null)
+            throw new ArgumentNullException("Mappings");
+        if (SearchField == null)
+            throw new ArgumentNullException("SearchField");
+    }
+
+    private async Task AddRow()
+    {
+        await Picker.Show();
+    }
+
+    protected async Task Picker_Choose(TEntity choosen)
+    {
+        if (!List.Any(x => x.Id == choosen.Id))
+            List.Add(choosen);
+    }
+
+}

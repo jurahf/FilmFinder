@@ -70,12 +70,12 @@ namespace FilmsUi
             builder.Services.AddScoped<IValidator<AdviceVM>>(sp => new DefaultValidator<AdviceVM>());
             builder.Services.AddScoped<IValidator<FilmVM>>(sp => new DefaultValidator<FilmVM>());
 
-            builder.Services.AddScoped<IService<Actor, ActorVM>, BaseSevice<Actor, ActorVM>>();
-            builder.Services.AddScoped<IService<Country, CountryVM>, BaseSevice<Country, CountryVM>>();
-            builder.Services.AddScoped<IService<Genre, GenreVM>, BaseSevice<Genre, GenreVM>>();
-            builder.Services.AddScoped<IService<Producer, ProducerVM>, BaseSevice<Producer, ProducerVM>>();
-            builder.Services.AddScoped<IService<CustomProperty, CustomPropertyVM>, BaseSevice<CustomProperty, CustomPropertyVM>>();
-            builder.Services.AddScoped<IService<Advice, AdviceVM>, BaseSevice<Advice, AdviceVM>>();
+            builder.Services.AddScoped<IService<ActorVM>, BaseSevice<Actor, ActorVM>>();
+            builder.Services.AddScoped<IService<CountryVM>, BaseSevice<Country, CountryVM>>();
+            builder.Services.AddScoped<IService<GenreVM>, BaseSevice<Genre, GenreVM>>();
+            builder.Services.AddScoped<IService<ProducerVM>, BaseSevice<Producer, ProducerVM>>();
+            builder.Services.AddScoped<IService<CustomPropertyVM>, BaseSevice<CustomProperty, CustomPropertyVM>>();
+            builder.Services.AddScoped<IService<AdviceVM>, BaseSevice<Advice, AdviceVM>>();
             builder.Services.AddScoped<IFilmService, FilmService>();
 
 

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace FilmsServices.Services
 {
-    public interface IFilmService : IService<Film, FilmVM>
+    public interface IFilmService : IService<FilmVM>
     {
         Task<List<FilmVM>> SearchByName(string query, int limit, int page);
     }

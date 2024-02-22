@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace FilmsServices.Services.Common
 {
-    public class BaseSevice<DB, VM> : IService<DB, VM>
+    public class BaseSevice<DB, VM> : IService<VM>
         where DB : BaseEntity
         where VM : BaseViewModel
     {

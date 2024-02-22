@@ -1,10 +1,16 @@
 ﻿@page "/filmedit/{FilmId:int}"
 
 @using FilmsServices.Services;
+@using FilmsServices.Services.Common;
 @using FilmsServices.ViewModel;
 
 @inject NavigationManager navigation
 @inject IFilmService filmService
+@inject IService<ActorVM> actorService
+@inject IService<ProducerVM> producerService
+@inject IService<GenreVM> genreService
+@inject IService<CustomPropertyVM> customPropService
+@inject IService<CountryVM> countryService
 
 
 <h3>Редактирование фильма</h3>
@@ -27,6 +33,7 @@ else
         <DataAnnotationsValidator />
         <ValidationSummary />
 
+        <!-- поля -->
         <div class="row">
             <div class="col-sm-8">
                 <div class="form-group row">
@@ -93,83 +100,42 @@ else
             </div>
         </div>
 
-        <div class="row">
-            <table class="table table-bordered table-hover caption-top">
-                <caption>Страны</caption>
-                <thead>
-                    <tr>
-                        <th>Название</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var country in film.Countries)
-                    {
-                        <tr>
-                            <td>@country.Name</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+        <!-- ссылки -->
+        <ListEditor TEntity="CountryVM"
+            List="film.Countries"
+            Caption="Страны"
+            Service="countryService"
+            Mappings="countryMapping"
+            SearchField="a => a.Name">
+        </ListEditor>
 
-        <div class="row">
-            <table class="table table-bordered table-hover caption-top">
-                <caption>Создатели</caption>
-                <thead>
-                    <tr>
-                        <th>Имя</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var producer in film.Producers)
-                    {
-                        <tr>
-                            <td>@producer.Name</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+        <ListEditor TEntity="ProducerVM"
+            List="film.Producers"
+            Caption="Создатели"
+            Service="producerService"
+            Mappings="producerMapping"
+            SearchField="a => a.Name">
+        </ListEditor>
 
-        <div class="row">
-            <table class="table table-bordered table-hover caption-top">
-                <caption>В ролях</caption>
-                <thead>
-                    <tr>
-                        <th>Имя</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var actor in film.Actors)
-                    {
-                        <tr>
-                            <td>@actor.Name</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+        <ListEditor 
+            TEntity="ActorVM"
+            List="film.Actors"
+            Caption="В ролях"
+            Service="actorService"
+            Mappings="actorMapping"
+            SearchField="a => a.Name">
+        </ListEditor>
 
-        <div class="row">
-            <table class="table table-bordered table-hover caption-top">
-                <caption>Жанры</caption>
-                <thead>
-                    <tr>
-                        <th>Название</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var genre in film.Genres)
-                    {
-                        <tr>
-                            <td>@genre.Name</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+        <ListEditor 
+            TEntity="GenreVM"
+            List="film.Genres"
+            Caption="Жанры"
+            Service="genreService"
+            Mappings="genreMapping"
+            SearchField="a => a.Name">
+        </ListEditor>
 
-
+        <!-- не меняем на контрол, поскольку value редактируем прямо тут -->
         <div class="row">
             <table class="table table-hover caption-top table-bordered">
                 <caption>Допольнительные свойства</caption>
@@ -191,7 +157,14 @@ else
             </table>
         </div>
 
+        <div class="row">
+            <div class="col">
+                <button type="submit" class="btn btn-success" @onclick="Save">Сохранить</button>
+            </div>
+        </div>
+
     </EditForm>
+
 }
 
 
@@ -208,6 +181,30 @@ else
     private EditContext filmEditContext;
     private ValidationMessageStore messageStore;
 
+    #region Маппинг для таблиц
+    
+    private List<FieldMapping<ActorVM>> actorMapping = new List<FieldMapping<ActorVM>>()
+    {
+        new FieldMapping<ActorVM>(0, "Имя", a => a.Name)
+    };
+
+    private List<FieldMapping<ProducerVM>> producerMapping = new List<FieldMapping<ProducerVM>>()
+    {
+        new FieldMapping<ProducerVM>(0, "Имя", a => a.Name)
+    };
+
+    private List<FieldMapping<CountryVM>> countryMapping = new List<FieldMapping<CountryVM>>()
+    {
+        new FieldMapping<CountryVM>(0, "Название", a => a.Name)
+    };
+
+    private List<FieldMapping<GenreVM>> genreMapping = new List<FieldMapping<GenreVM>>()
+    {
+        new FieldMapping<GenreVM>(0, "Название", a => a.Name)
+    };
+
+    #endregion
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -217,4 +214,9 @@ else
         messageStore = new ValidationMessageStore(filmEditContext);
     }
 
+
+    protected async Task Save()
+    {
+        
+    }
 }

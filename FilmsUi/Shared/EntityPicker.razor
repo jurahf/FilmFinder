@@ -1,0 +1,192 @@
+﻿@typeparam TEntity where TEntity : BaseViewModel
+
+@using FilmsServices.Services.Common;
+@using FilmsServices.ViewModel.Common;
+
+
+
+@if (Visible)
+{
+    <div class="modal fade show d-block" id="exampleModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">@Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="() => Close()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    @if (list == null)
+                    {
+                        <h3>Загрузка...</h3>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <div class="col col-4">
+                                <button class="btn btn-primary" @onclick="DecrementPage">Назад</button>
+                            </div>
+                            <div class="col col-4">
+                                <p role="status">Страница @(page + 1)</p>
+                            </div>
+                            <div class="col col-4">
+                                <button class="btn btn-primary" @onclick="IncrementPage">Вперед</button>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <EditForm EditContext="searchEditContext" Context="InnerContext">
+                                <div class="form-group row">
+                                    <div class="col col-12">
+                                        <label for="searchText" class="col-sm-2 col-form-label">Поиск</label>
+                                        <input class="form-control" @bind="@searchText" @bind:event="oninput" @onchange="SearchTextInput" />
+                                    </div>
+                                </div>
+                            </EditForm>
+                        </div>
+
+                        <table class="table table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    @foreach (var m in Mappings.OrderBy(x => x.Order))
+                                    {
+                                        <th>@m.Caption</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var entity in list)
+                                {
+                                    <tr data-id="@entity.Id" @onclick="() => SelectEntity(entity.Id)" class="@(entity.Id == choosedId ? "active" : "")">
+                                        @foreach (var m in Mappings.OrderBy(x => x.Order))
+                                        {
+                                            <td>@m.GetVal(entity)</td>
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    }
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="() => Close()">Отмена</button>
+                    <button type="button" class="btn btn-primary" @onclick="() => Choose()">Выбрать</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+    protected bool Visible { get; set; }
+    protected int limit = 10;
+    protected int page = 0;
+
+    private EditContext searchEditContext;
+    private string searchText = "";
+
+    private List<TEntity> allEntities;
+    private List<TEntity> list;
+    private int choosedId = 0;
+
+
+    [Parameter]
+    public string Title { get; set; } = "Выберите сущность";
+
+    [Parameter]
+    public IService<TEntity> Service { get; set; }
+
+    [Parameter]
+    public EventCallback<TEntity> ChooseDone { get; set; }
+
+    [Parameter]
+    public List<FieldMapping<TEntity>> Mappings { get; set; }
+
+    [Parameter]
+    public Func<TEntity, string> SearchField { get; set; }
+
+
+    public async Task Show()
+    {
+        if (Service == null)
+            throw new ArgumentNullException("Service");
+        if (Mappings == null)
+            throw new ArgumentNullException("Mappings");
+        if (SearchField == null)
+            throw new ArgumentNullException("SearchField");
+
+        searchEditContext = new EditContext(searchText);
+
+        await UpdateList();
+
+        Visible = true;
+        StateHasChanged();
+    }
+
+    public void Close()
+    {
+        Visible = false;
+    }
+
+    protected async Task Choose()
+    {
+        if (choosedId <= 0)
+            return;
+
+        Visible = false;
+        TEntity result = list.First(x => x.Id == choosedId);
+        await ChooseDone.InvokeAsync(result);
+    }
+
+    private async Task SelectEntity(int entityId)
+    {
+        choosedId = entityId;
+    }
+
+    private async Task UpdateList()
+    {
+        choosedId = 0;
+
+        if (string.IsNullOrWhiteSpace(searchText))
+            list = await Service.GetAllAsync(limit, page);
+        else
+        {
+            if (allEntities == null)        // TODO: переложить поиск на сервис и не вычитывать вообще все сущности
+                allEntities = await Service.GetAllAsync();
+
+            list = allEntities
+                .Where(x => SearchField(x).Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
+                .Skip(page * limit)
+                .Take(limit)
+                .ToList();
+        }
+    }
+
+    private async Task IncrementPage()
+    {
+        //if (page < maxPage)
+            page++;
+
+        await UpdateList();
+    }
+
+    private async Task DecrementPage()
+    {
+        if (page > 0)
+            page--;
+
+        await UpdateList();
+    }
+
+    private async Task SearchTextInput()
+    {
+        page = 0;
+        await UpdateList();
+    }
+
+
+}

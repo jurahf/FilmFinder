@@ -8,6 +8,10 @@ html, body {
     margin-bottom:1em;
 }
 
+table tr.active {
+    background-color: #e5e5e5 !important;
+}
+
 h1:focus {
     outline: none;
 }
