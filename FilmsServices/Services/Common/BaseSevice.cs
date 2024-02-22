@@ -15,7 +15,7 @@ namespace FilmsServices.Services.Common
         where DB : BaseEntity
         where VM : BaseViewModel
     {
-        protected readonly IRepository<DB> repository;
+        private readonly IRepository<DB> repository;
         protected readonly IEntityConverter<DB, VM> converter;
         protected readonly IValidator<VM> validator;
 

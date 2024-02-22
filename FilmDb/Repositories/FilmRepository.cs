@@ -1,6 +1,7 @@
 ﻿using CommonRepositories;
 using FilmDb.Model;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,13 @@ using System.Threading.Tasks;
 
 namespace FilmDb.Repositories
 {
-    public class FilmRepository : BaseRepository<Film>, IRepository<Film>
+    public interface IFilmRepository : IRepository<Film>
+    {
+        Task<List<Film>> SearchByName(string query, int limit, int page);
+    }
+
+
+    public class FilmRepository : BaseRepository<Film>, IFilmRepository
     {
         public FilmRepository(FilmDbContext dbContext) 
             : base(dbContext)
@@ -36,5 +43,22 @@ namespace FilmDb.Repositories
             return set.OrderBy(x => x.Name);
         }
 
+        public async Task<List<Film>> SearchByName(string query, int limit = 100, int page = 0)
+        {
+            try
+            {
+                return await Fetch(
+                        DefaultOrder(dbContext.Set<Film>())
+                        .Where(x => x.Name.StartsWith(query))
+                        .Skip(page * limit)
+                        .Take(limit))
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                Log.Logger.Error(ex, $"Ошибка в {nameof(GetAllAsync)}");
+                throw;
+            }
+        }
     }
 }

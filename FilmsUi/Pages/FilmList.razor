@@ -3,74 +3,128 @@
 
 @using FilmDb.Model;
 @using FilmsServices.Services.Common;
+@using FilmsServices.Services;
 @using FilmsServices.ViewModel;
 
-@inject IService<Film, FilmVM> filmRepository
+@inject NavigationManager navigation
+@inject IFilmService filmService
 
 
-<PageTitle>Weather forecast</PageTitle>
+<PageTitle>Точнофильм - все фильмы</PageTitle>
 
-<h1>Weather forecast</h1>
-
-<p>This component demonstrates fetching data from a service.</p>
-
+<h1>Список фильмов</h1>
 
 @if (films == null)
 {
-    <p>Loading...</p>
+    <p>Загрузка...</p>
 }
 else
 {
-    <p role="status">Current count: @(page + 1)</p>
+    <div class="row">
+        <div class="col col-1">
+            <button class="btn btn-primary" @onclick="DecrementPage">Назад</button>
+        </div>
+        <div class="col col-2">
+            <p role="status">Страница @(page + 1) из @(maxPage)</p>
+        </div>
+        <div class="col col-1">
+            <button class="btn btn-primary" @onclick="IncrementPage">Вперед</button>
+        </div>
+    </div>
 
-    <button class="btn btn-primary" @onclick="IncrementPage">Следующая страница</button>
+    <div class="row">
+        <EditForm EditContext="searchEditContext" Context="InnerContext">
+            <div class="form-group row">
+                <div class="col col-md-3 col-sm-6">
+                    <label for="searchText" class="col-sm-2 col-form-label">Поиск</label>
+                    <input class="form-control" @bind="@searchText" @bind:event="oninput" @onchange="SearchTextInput" />
+                </div>
+            </div>
+        </EditForm>
+    </div>
 
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Название</th>
-            <th>Год</th>
-            <th>Описание</th>
-            <th>Постер</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var f in films)
-        {
-            <tr>
-                <td>@f.Name</td>
-                <td>@f.Year</td>
-                <td>@f.Description</td>
-                <td><img src="@f.Poster" width="200" /></td>
-            </tr>
-        }
-    </tbody>
-</table>
+
+    <div class="row">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Название</th>
+                    <th>Год</th>
+                    <th>Описание</th>
+                    <th>Постер</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var f in films)
+                {
+                    <tr @onclick="() => ToEdit(f.Id)">
+                        <td>@f.Name</td>
+                        <td>@f.Year</td>
+                        <td>@f.Description</td>
+                        <td><img src="@f.Poster" width="200" /></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 }
 
 @code {
     private List<FilmVM> films;
+
     private int page = 0;
     private int limit = 100;
+    private int maxPage;
+
+    private EditContext searchEditContext;
+    private string searchText = "";
 
 
     protected override async Task OnInitializedAsync()
     {
+        searchEditContext = new EditContext(searchText);
+
+        maxPage = await filmService.GetCountAsync() / 100;
         await UpdateFilmsPage();
     }
 
 
     private async Task IncrementPage()
     {
-        page++;
+        if (page < maxPage)
+            page++;
+
+        await UpdateFilmsPage();
+    }
+
+    private async Task DecrementPage()
+    {
+        if (page > 0)
+            page--;
+
         await UpdateFilmsPage();
     }
 
 
     private async Task UpdateFilmsPage()
     {
-        films = await filmRepository.GetAllAsync(limit, page);
+        if (string.IsNullOrWhiteSpace(searchText))
+            films = await filmService.GetAllAsync(limit, page);
+        else
+            films = await filmService.SearchByName(searchText, limit, page);
     }
+
+
+    private async Task ToEdit(int filmId)
+    {
+        navigation.NavigateTo($"FilmEdit/{filmId}");
+    }
+
+    private async Task SearchTextInput()
+    {
+        page = 0;
+        await UpdateFilmsPage();
+    }        
 
 }

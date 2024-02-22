@@ -1,0 +1,220 @@
+﻿@page "/filmedit/{FilmId:int}"
+
+@using FilmsServices.Services;
+@using FilmsServices.ViewModel;
+
+@inject NavigationManager navigation
+@inject IFilmService filmService
+
+
+<h3>Редактирование фильма</h3>
+
+<div class="form-group row">
+    <div class="col-sm-10">
+        <a href="/FilmList">К списку</a>
+    </div>
+</div>
+
+
+@if (filmEditContext == null)
+{
+    <p>Загрузка...</p>
+}
+else
+{
+    <EditForm EditContext="filmEditContext">
+
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="form-group row">
+                    <label for="Name" class="col-sm-2 col-form-label">Название</label>
+                    <div class="col-sm-10">
+                        <InputText class="form-control" @bind-Value="film.Name"></InputText>
+                    </div>
+                    <br/>
+                </div>
+
+                <div class="form-group row">
+                    <label for="Year" class="col-sm-2 col-form-label">Год производства</label>
+                    <div class="col-sm-10">
+                        <InputNumber class="form-control" @bind-Value="film.Year"></InputNumber>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="Rating" class="col-sm-2 col-form-label">Рейтинг</label>
+                    <div class="col-sm-10">
+                        <InputNumber class="form-control" @bind-Value="film.Rating"></InputNumber>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="Slogan" class="col-sm-2 col-form-label">Слоган</label>
+                    <div class="col-sm-10">
+                        <InputText class="form-control" @bind-Value="film.Slogan"></InputText>
+                    </div>
+                    <br />
+                </div>
+
+                <div class="form-group row">
+                    <label for="Description" class="col-sm-2 col-form-label">Описание</label>
+                    <div class="col-sm-10">
+                        <InputTextArea class="form-control" @bind-Value="film.Description" rows="5"></InputTextArea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="Poster" class="col-sm-2 col-form-label">Постер</label>
+                    <div class="col-sm-10">
+                        <InputText class="form-control" @bind-Value="film.Poster"></InputText>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="Link" class="col-sm-2 col-form-label">Ссылка</label>
+                    <div class="col-sm-10">
+                        <InputText class="form-control" @bind-Value="film.Link"></InputText>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="KinopoiskId" class="col-sm-2 col-form-label">Кинопоиск ID</label>
+                    <div class="col-sm-10">
+                        <InputText class="form-control" @bind-Value="film.KinopoiskId"></InputText>
+                    </div>
+                </div>
+            </div>
+
+            <div class="offset-1 col-sm-3">
+                <img src="@film.Poster" style="width:100%"/>
+            </div>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered table-hover caption-top">
+                <caption>Страны</caption>
+                <thead>
+                    <tr>
+                        <th>Название</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var country in film.Countries)
+                    {
+                        <tr>
+                            <td>@country.Name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered table-hover caption-top">
+                <caption>Создатели</caption>
+                <thead>
+                    <tr>
+                        <th>Имя</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var producer in film.Producers)
+                    {
+                        <tr>
+                            <td>@producer.Name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered table-hover caption-top">
+                <caption>В ролях</caption>
+                <thead>
+                    <tr>
+                        <th>Имя</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var actor in film.Actors)
+                    {
+                        <tr>
+                            <td>@actor.Name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="row">
+            <table class="table table-bordered table-hover caption-top">
+                <caption>Жанры</caption>
+                <thead>
+                    <tr>
+                        <th>Название</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var genre in film.Genres)
+                    {
+                        <tr>
+                            <td>@genre.Name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="row">
+            <table class="table table-hover caption-top table-bordered">
+                <caption>Допольнительные свойства</caption>
+                <thead>
+                    <tr>
+                        <th>Название</th>
+                        <th>Степень</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cp in film.CustomProperties)
+                    {
+                        <tr>
+                            <td>@cp.Name</td>
+                            <td>@cp.Value</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </EditForm>
+}
+
+
+
+
+
+@code {
+
+
+    [Parameter]
+    public int FilmId { get; set; }
+
+    private FilmVM film = new FilmVM();
+    private EditContext filmEditContext;
+    private ValidationMessageStore messageStore;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        film = await filmService.GetByIdAsync(FilmId);
+
+        filmEditContext = new EditContext(film);
+        messageStore = new ValidationMessageStore(filmEditContext);
+    }
+
+}

@@ -4,6 +4,7 @@ using FilmDb.Model;
 using FilmDb.Repositories;
 using FilmsServices.Converters;
 using FilmsServices.Converters.Common;
+using FilmsServices.Services;
 using FilmsServices.Services.Common;
 using FilmsServices.Validators.Common;
 using FilmsServices.ViewModel;
@@ -58,7 +59,7 @@ namespace FilmsUi
             builder.Services.AddScoped<IRepository<Producer>>(sp => new BaseRepository<Producer>(sp.GetService<FilmDbContext>()));
             builder.Services.AddScoped<IRepository<CustomProperty>>(sp => new BaseRepository<CustomProperty>(sp.GetService<FilmDbContext>()));
             builder.Services.AddScoped<IRepository<Advice>, AdviceRepository>();
-            builder.Services.AddScoped<IRepository<Film>, FilmRepository>();
+            builder.Services.AddScoped<IFilmRepository, FilmRepository>();
 
 
             builder.Services.AddScoped<IValidator<ActorVM>>(sp => new DefaultValidator<ActorVM>());
@@ -75,7 +76,7 @@ namespace FilmsUi
             builder.Services.AddScoped<IService<Producer, ProducerVM>, BaseSevice<Producer, ProducerVM>>();
             builder.Services.AddScoped<IService<CustomProperty, CustomPropertyVM>, BaseSevice<CustomProperty, CustomPropertyVM>>();
             builder.Services.AddScoped<IService<Advice, AdviceVM>, BaseSevice<Advice, AdviceVM>>();
-            builder.Services.AddScoped<IService<Film, FilmVM>, BaseSevice<Film, FilmVM>>();
+            builder.Services.AddScoped<IFilmService, FilmService>();
 
 
 
