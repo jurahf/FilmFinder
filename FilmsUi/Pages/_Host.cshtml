@@ -9,6 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="~/" />
+    <script src="js/bootstrap/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link href="css/site.css" rel="stylesheet" />
     <link href="FilmsUi.styles.css" rel="stylesheet" />
@@ -28,6 +29,13 @@
         <a href="" class="reload">Reload</a>
         <a class="dismiss">🗙</a>
     </div>
+
+    <script>
+        function showToast(toastId) {
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(document.getElementById(toastId));
+            toastBootstrap.show();
+        }
+    </script>
 
     <script src="_framework/blazor.server.js"></script>
 </body>

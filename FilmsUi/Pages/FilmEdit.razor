@@ -2,9 +2,12 @@
 
 @using FilmsServices.Services;
 @using FilmsServices.Services.Common;
+@using FilmsServices.Validators.Common;
 @using FilmsServices.ViewModel;
 
 @inject NavigationManager navigation
+@inject IJSRuntime jsRuntime;
+
 @inject IFilmService filmService
 @inject IService<ActorVM> actorService
 @inject IService<ProducerVM> producerService
@@ -28,6 +31,18 @@
 }
 else
 {
+    <div class="toast-container position-fixed p-3 top-0 end-0" id="toastPlacement" style="margin-top: 50px">
+        <div id="liveToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    Сохранение успешно завершено
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+
     <EditForm EditContext="filmEditContext">
 
         <DataAnnotationsValidator />
@@ -135,7 +150,7 @@ else
             SearchField="a => a.Name">
         </ListEditor>
 
-        <!-- не меняем на контрол, поскольку value редактируем прямо тут -->
+        <!-- не меняем на ListEditor, поскольку value редактируем прямо тут -->
         <div class="row">
             <table class="table table-hover caption-top table-bordered">
                 <caption>Допольнительные свойства</caption>
@@ -156,6 +171,8 @@ else
                 </tbody>
             </table>
         </div>
+
+
 
         <div class="row">
             <div class="col">
@@ -217,8 +234,30 @@ else
 
     protected async Task Save()
     {
-        // TODO: try-catch, message
+        try 
+        {
+            messageStore.Clear();
+            ValidationResult result = await filmService.UpdateAsync(film);
 
-        await filmService.UpdateAsync(film);
+            if (result.Success)
+            {
+                await jsRuntime.InvokeVoidAsync("showToast", "liveToast");
+
+                filmEditContext.MarkAsUnmodified();
+                StateHasChanged();
+            }
+            else
+            {
+                foreach (var err in result.Errors)
+                    messageStore.Add(new FieldIdentifier(film, err.Field), err.Message);
+            }
+        }
+        catch (Exception ex)
+        {
+            messageStore.Add(() => film.Name, ex.Message);
+        }            
     }
+
+
+    // TODO: Delete
 }
