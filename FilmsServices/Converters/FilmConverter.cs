@@ -1,11 +1,6 @@
 ﻿using FilmDb.Model;
 using FilmsServices.Converters.Common;
 using FilmsServices.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FilmsServices.Converters
 {
@@ -28,63 +23,205 @@ namespace FilmsServices.Converters
         }
 
 
-        public Film ConvertToDb(FilmVM viewModel)
+        public Film FillDb(Film film, FilmVM viewModel)
         {
-            // TODO: проверить, как будут сохраняться связи 
-            // чтобы без дублей
-            // желательно не пересоздавать все (возможно, тогда надо читать film из базы и сравнивать)
+            //database.Id = viewModel.Id;
+            film.Description = viewModel.Description;
+            film.KinopoiskId = viewModel.KinopoiskId;
+            film.Link = viewModel.Link;
+            film.Name = viewModel.Name;
+            film.Poster = viewModel.Poster;
+            film.Rating = viewModel.Rating;
+            film.Slogan = viewModel.Slogan;
+            film.Year = viewModel.Year;
+
+            FillActorFilm(film, viewModel);
+            FillCountryFilm(film, viewModel);
+            FillGenreFilm(film, viewModel);
+            FillProducerFilm(film, viewModel);
+            FillCustomPropFilm(film, viewModel);
+
+            return film;
+        }
 
 
-            var film = new Film()
+        // TODO: Как-то это неправильно
+
+        private void FillActorFilm(Film film, FilmVM viewModel)
+        {
+            // удяляем пропавшие связи
+            List<ActorFilm> forDel = new List<ActorFilm>();
+            foreach (var db in film.ActorFilm)
             {
-                Id = viewModel.Id,
-                Description = viewModel.Description,
-                KinopoiskId = viewModel.KinopoiskId,
-                Link = viewModel.Link,
-                Name = viewModel.Name,
-                Poster = viewModel.Poster,
-                Rating = viewModel.Rating,
-                Slogan = viewModel.Slogan,
-                Year = viewModel.Year,
-            };
-
-            film.ActorFilm = viewModel.Actors.Select(x =>
-                new ActorFilm()
+                if (!viewModel.Actors.Any(x => x.Id == db.ActorId))
                 {
-                    Actor = actorConverter.ConvertToDb(x),
-                    Film = film
-                }).ToHashSet();
+                    forDel.Add(db);
+                }
+            }
 
-            film.CountryFilm = viewModel.Countries.Select(x =>
-                new CountryFilm()
+            foreach (var del in forDel)
+            {
+                film.ActorFilm.Remove(del);
+            }
+
+            // добавляем новые связи
+            foreach (var vm in viewModel.Actors)
+            {
+                ActorFilm? actorFilm = film.ActorFilm.FirstOrDefault(x => x.ActorId == vm.Id);
+
+                if (actorFilm == null)
                 {
-                    Country = countryConverter.ConvertToDb(x),
-                    Film = film
-                }).ToHashSet();
+                    actorFilm = new ActorFilm()
+                    {
+                        Film = film,
+                        ActorId = vm.Id,
+                        //Actor = new Actor() { Id = vm.Id }
+                    };
 
-            film.GenreFilm = viewModel.Genres.Select(x =>
-                new GenreFilm()
+                    film.ActorFilm.Add(actorFilm);
+                }
+            }
+        }
+
+        private void FillCountryFilm(Film film, FilmVM viewModel)
+        {
+            // удяляем пропавшие связи
+            List<CountryFilm> forDel = new List<CountryFilm>();
+            foreach (var db in film.CountryFilm)
+            {
+                if (!viewModel.Countries.Any(x => x.Id == db.CountryId))
                 {
-                    Genre = genreConverter.ConvertToDb(x),
-                    Film = film
-                }).ToHashSet();
+                    forDel.Add(db);
+                }
+            }
 
-            film.ProducerFilm = viewModel.Producers.Select(x =>
-                new ProducerFilm()
+            foreach (var del in forDel)
+            {
+                film.CountryFilm.Remove(del);
+            }
+
+            // добавляем новые связи
+            foreach (var vm in viewModel.Countries)
+            {
+                CountryFilm? countryFilm = film.CountryFilm.FirstOrDefault(x => x.CountryId == vm.Id);
+
+                if (countryFilm == null)
                 {
-                    Producer = producerConverter.ConvertToDb(x),
-                    Film = film
-                }).ToHashSet();
+                    countryFilm = new CountryFilm()
+                    {
+                        Film = film,
+                        CountryId = vm.Id,
+                    };
 
-            film.FilmCustomProperty = viewModel.CustomProperties
-                .Select(x => new FilmCustomProperty()
+                    film.CountryFilm.Add(countryFilm);
+                }
+            }
+        }
+
+        private void FillGenreFilm(Film film, FilmVM viewModel)
+        {
+            // удяляем пропавшие связи
+            List<GenreFilm> forDel = new List<GenreFilm>();
+            foreach (var db in film.GenreFilm)
+            {
+                if (!viewModel.Genres.Any(x => x.Id == db.GenreId))
                 {
-                    Value = x.Value,
-                    Film = film,
-                    CustomProperty = customPropConverter.ConvertToDb(x),
-                }).ToHashSet();
+                    forDel.Add(db);
+                }
+            }
 
-            return film;    
+            foreach (var del in forDel)
+            {
+                film.GenreFilm.Remove(del);
+            }
+
+            // добавляем новые связи
+            foreach (var vm in viewModel.Genres)
+            {
+                GenreFilm? genreFilm = film.GenreFilm.FirstOrDefault(x => x.GenreId == vm.Id);
+
+                if (genreFilm == null)
+                {
+                    genreFilm = new GenreFilm()
+                    {
+                        Film = film,
+                        GenreId = vm.Id,
+                    };
+
+                    film.GenreFilm.Add(genreFilm);
+                }
+            }
+        }
+
+        private void FillProducerFilm(Film film, FilmVM viewModel)
+        {
+            // удяляем пропавшие связи
+            List<ProducerFilm> forDel = new List<ProducerFilm>();
+            foreach (var db in film.ProducerFilm)
+            {
+                if (!viewModel.Producers.Any(x => x.Id == db.ProducerId))
+                {
+                    forDel.Add(db);
+                }
+            }
+
+            foreach (var del in forDel)
+            {
+                film.ProducerFilm.Remove(del);
+            }
+
+            // добавляем новые связи
+            foreach (var vm in viewModel.Producers)
+            {
+                ProducerFilm? producerFilm = film.ProducerFilm.FirstOrDefault(x => x.ProducerId == vm.Id);
+
+                if (producerFilm == null)
+                {
+                    producerFilm = new ProducerFilm()
+                    {
+                        Film = film,
+                        ProducerId = vm.Id,
+                    };
+
+                    film.ProducerFilm.Add(producerFilm);
+                }
+            }
+        }
+
+        private void FillCustomPropFilm(Film film, FilmVM viewModel)
+        {
+            // удяляем пропавшие связи
+            List<FilmCustomProperty> forDel = new List<FilmCustomProperty>();
+            foreach (var db in film.FilmCustomProperty)
+            {
+                if (!viewModel.CustomProperties.Any(x => x.Id == db.CustomPropertyId))
+                {
+                    forDel.Add(db);
+                }
+            }
+
+            foreach (var del in forDel)
+            {
+                film.FilmCustomProperty.Remove(del);
+            }
+
+            // добавляем новые связи
+            foreach (var vm in viewModel.CustomProperties)
+            {
+                FilmCustomProperty? customPropFilm = film.FilmCustomProperty.FirstOrDefault(x => x.CustomPropertyId == vm.Id);
+
+                if (customPropFilm == null)
+                {
+                    customPropFilm = new FilmCustomProperty()
+                    {
+                        Film = film,
+                        CustomPropertyId = vm.Id,
+                        Value = vm.Value,
+                    };
+
+                    film.FilmCustomProperty.Add(customPropFilm);
+                }
+            }
         }
 
         public FilmVM ConvertToVm(Film database)

@@ -16,6 +16,7 @@
                 {
                     <th>@m.Caption</th>
                 }
+                <th width="2em">&nbsp;</th>
             </tr>
         </thead>
         <tbody>
@@ -26,13 +27,14 @@
                     {
                         <td>@m.GetVal(item)</td>
                     }
+                    <td><button class="btn btn-outline-danger" @onclick="() => DeleteRow(item)">-</button></td>
                 </tr>
             }
 
             <tr>
-                <td colspan="1">
+                <td colspan="2">
                     <button class="btn btn-outline-success" @onclick="AddRow">+</button>
-                </td>
+               </td>                
             </tr>
         </tbody>
     </table>
@@ -69,8 +71,6 @@
 
     private EntityPicker<TEntity> Picker;
 
-    // TODO: удаление строк
-
 
     protected async override Task OnInitializedAsync()
     {
@@ -95,4 +95,8 @@
             List.Add(choosen);
     }
 
+    private async Task DeleteRow(TEntity item)
+    {
+        List.Remove(item);
+    }
 }

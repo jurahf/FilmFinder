@@ -1,13 +1,6 @@
 ﻿using FilmDb.Model;
 using FilmsServices.Converters.Common;
 using FilmsServices.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FilmsServices.Converters
 {
@@ -22,33 +15,92 @@ namespace FilmsServices.Converters
             filmConverter = new DefaultConverter<Film, FilmVM>();
         }
 
-        public Advice ConvertToDb(AdviceVM viewModel)
+        public Advice FillDb(Advice advice, AdviceVM viewModel)
         {
-            var advice = new Advice()
-            {
-                Id = viewModel.Id,
-                Key = viewModel.Key
-            };
-            
-            advice.AdviceCustomProperty = viewModel.CustomProperties
-                .Select(x => new AdviceCustomProperty()
-                {
-                    Value = x.Value,
-                    Advice = advice,
-                    CustomProperty = customPropConverter.ConvertToDb(x),
-                }).ToHashSet();
+            // переносим значения полей
+            advice.Key = viewModel.Key;
 
-            advice.AdviceFilm = viewModel.Films
-                .Select(x => new AdviceFilm()
-                {
-                    //Value = x.        // TODO:
-                    Advice = advice,
-                    Film = filmConverter.ConvertToDb(x),
-                })
-                .ToHashSet();
-            
+            FillAdviceCustomProp(advice, viewModel);
+            FillAdviceFilm(advice, viewModel);
+
             return advice;
         }
+
+        // TODO:
+
+        private void FillAdviceCustomProp(Advice advice, AdviceVM viewModel)
+        {
+            // удяляем пропавшие связи
+            List<AdviceCustomProperty> forDel = new List<AdviceCustomProperty>();
+            foreach (var acpDb in advice.AdviceCustomProperty)
+            {
+                if (!viewModel.CustomProperties.Any(x => x.Id == acpDb.CustomPropertyId))
+                {
+                    forDel.Add(acpDb);
+                }
+            }
+
+            foreach (var del in forDel)
+            {
+                advice.AdviceCustomProperty.Remove(del);
+            }
+
+            // добавляем новые связи
+            foreach (var vm in viewModel.CustomProperties)
+            {
+                AdviceCustomProperty? acp = advice.AdviceCustomProperty.FirstOrDefault(x => x.CustomPropertyId == vm.Id);
+
+                if (acp == null)
+                {
+                    acp = new AdviceCustomProperty
+                    {
+                        Advice = advice,
+                        CustomPropertyId = vm.Id,
+                        Value = vm.Value
+                    };
+
+                    advice.AdviceCustomProperty.Add(acp);
+                }
+            }
+        }
+
+        private void FillAdviceFilm(Advice advice, AdviceVM viewModel)
+        {
+            // удяляем пропавшие связи
+            List<AdviceFilm> forDel = new List<AdviceFilm>();
+            foreach (var db in advice.AdviceFilm)
+            {
+                if (!viewModel.Films.Any(x => x.Id == db.FilmId))
+                {
+                    forDel.Add(db);
+                }
+            }
+
+            foreach (var del in forDel)
+            {
+                advice.AdviceFilm.Remove(del);
+            }
+
+            // добавляем новые связи
+            foreach (var vm in viewModel.Films)
+            {
+                AdviceFilm? adviceFilm = advice.AdviceFilm.FirstOrDefault(x => x.FilmId == vm.Id);
+
+                if (adviceFilm == null)
+                {
+                    adviceFilm = new AdviceFilm()
+                    {
+                        Advice = advice,
+                        FilmId = vm.Id,
+                        //Value = vm.Value,     // TODO:
+                    };
+
+                    advice.AdviceFilm.Add(adviceFilm);
+                }
+            }
+        }
+
+
 
         public AdviceVM ConvertToVm(Advice database)
         {

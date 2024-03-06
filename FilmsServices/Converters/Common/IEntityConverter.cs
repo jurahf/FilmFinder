@@ -12,7 +12,7 @@ namespace FilmsServices.Converters.Common
         where DB : BaseEntity
         where VM : BaseViewModel
     {
-        DB ConvertToDb(VM viewModel);
+        DB FillDb(DB database, VM viewModel);
 
         VM ConvertToVm(DB database);
     }

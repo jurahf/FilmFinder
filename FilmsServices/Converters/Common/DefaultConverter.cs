@@ -13,21 +13,22 @@ namespace FilmsServices.Converters.Common
         where DB : BaseEntity, new ()
         where VM : BaseViewModel, new ()
     {
-        public DB ConvertToDb(VM viewModel)
+        public DB FillDb(DB database, VM viewModel)
         {
-            return ConvertProperties<VM, DB>(viewModel);
+            return ConvertProperties<VM, DB>(viewModel, database);
         }
 
         public VM ConvertToVm(DB database)
         {
-            return ConvertProperties<DB, VM>(database);
+            return ConvertProperties<DB, VM>(database, null);
         }
 
-        private DEST ConvertProperties<SOURCE, DEST>(SOURCE src)
+        private DEST ConvertProperties<SOURCE, DEST>(SOURCE src, DEST dest)
             where SOURCE : new()
             where DEST : new()
         {
-            DEST dest = new DEST();
+            if (dest == null)
+                dest = new DEST();
             Type destType = typeof(DEST);
             Type srcType = typeof(SOURCE);
             foreach (var property in srcType.GetProperties())

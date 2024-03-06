@@ -9,7 +9,10 @@ namespace FilmDb.Model
 {
     public class ActorFilm : BaseEntity
     {
+        public virtual int FilmId { get; set; }
         public virtual Film Film { get; set; }
+
+        public virtual int ActorId { get; set; }
         public virtual Actor Actor { get; set; }
     }
 }

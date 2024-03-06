@@ -6,13 +6,14 @@ using FilmsServices.ViewModel.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FilmsServices.Services.Common
 {
     public class BaseSevice<DB, VM> : IService<VM>
-        where DB : BaseEntity
+        where DB : BaseEntity, new ()
         where VM : BaseViewModel
     {
         private readonly IRepository<DB> repository;
@@ -67,7 +68,8 @@ namespace FilmsServices.Services.Common
 
             if (vr.Success)
             {
-                DB toDb = converter.ConvertToDb(entity);
+                DB toDb = new DB();
+                converter.FillDb(toDb, entity);
                 await repository.AddAsync(toDb);
             }
 
@@ -80,7 +82,11 @@ namespace FilmsServices.Services.Common
 
             if (vr.Success)
             {
-                DB toDb = converter.ConvertToDb(entity);
+                DB toDb = entity.Id > 0
+                    ? await repository.GetByIdAsync(entity.Id)
+                    : new DB();
+
+                converter.FillDb(toDb, entity);
                 await repository.UpdateAsync(toDb);
             }
 
@@ -98,7 +104,16 @@ namespace FilmsServices.Services.Common
             if (vr.Success)
             {
                 List<DB> toDb = entities
-                    .Select(e => converter.ConvertToDb(e))
+                    .Select(async e =>
+                    {
+                        DB toDb = e.Id > 0
+                            ? await repository.GetByIdAsync(e.Id)
+                            : new DB();
+
+                        converter.FillDb(toDb, e);
+                        return toDb;
+                    })
+                    .Select(x => x.Result)
                     .ToList();
 
                 await repository.UpdateAllAsync(toDb);

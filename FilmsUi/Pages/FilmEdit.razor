@@ -182,7 +182,7 @@ else
     private ValidationMessageStore messageStore;
 
     #region Маппинг для таблиц
-    
+
     private List<FieldMapping<ActorVM>> actorMapping = new List<FieldMapping<ActorVM>>()
     {
         new FieldMapping<ActorVM>(0, "Имя", a => a.Name)
@@ -217,6 +217,8 @@ else
 
     protected async Task Save()
     {
-        
+        // TODO: try-catch, message
+
+        await filmService.UpdateAsync(film);
     }
 }
