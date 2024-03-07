@@ -205,6 +205,17 @@ namespace FilmsServices.Converters
                 film.FilmCustomProperty.Remove(del);
             }
 
+            // еще и редактируем связи
+            foreach (var vm in viewModel.CustomProperties)
+            {
+                FilmCustomProperty? customPropFilm = film.FilmCustomProperty.FirstOrDefault(x => x.CustomPropertyId == vm.Id);
+
+                if (customPropFilm != null)
+                {
+                    customPropFilm.Value = vm.Value;
+                }
+            }
+
             // добавляем новые связи
             foreach (var vm in viewModel.CustomProperties)
             {

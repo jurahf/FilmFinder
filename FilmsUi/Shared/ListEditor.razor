@@ -25,9 +25,21 @@
                 <tr>
                     @foreach (var m in Mappings.OrderBy(x => x.Order))
                     {
-                        <td>@m.GetVal(item)</td>
+                        @if (m.WithEdit)
+                        {
+                            <td>
+                                <input type="text" value="@m.GetVal(item)" @onchange="(e) => Changed(m, item, e)"/>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>@m.GetVal(item)</td>
+                        }
                     }
-                    <td><button class="btn btn-outline-danger" @onclick="() => DeleteRow(item)">-</button></td>
+
+                    <td>
+                        <button class="btn btn-outline-danger" @onclick="() => DeleteRow(item)">-</button>
+                    </td>
                 </tr>
             }
 
@@ -71,6 +83,11 @@
 
     private EntityPicker<TEntity> Picker;
 
+
+    private void Changed(FieldMapping<TEntity> fieldInfo, TEntity entity, ChangeEventArgs value)
+    {
+        fieldInfo.SetVal(entity, value.Value?.ToString() ?? "");
+    }
 
     protected async override Task OnInitializedAsync()
     {

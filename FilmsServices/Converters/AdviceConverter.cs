@@ -45,6 +45,17 @@ namespace FilmsServices.Converters
                 advice.AdviceCustomProperty.Remove(del);
             }
 
+            // еще и редактируем связи
+            foreach (var vm in viewModel.CustomProperties)
+            {
+                AdviceCustomProperty? acp = advice.AdviceCustomProperty.FirstOrDefault(x => x.CustomPropertyId == vm.Id);
+
+                if (acp != null)
+                {
+                    acp.Value = vm.Value;
+                }
+            }
+
             // добавляем новые связи
             foreach (var vm in viewModel.CustomProperties)
             {

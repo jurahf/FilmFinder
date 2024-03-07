@@ -151,27 +151,14 @@ else
         </ListEditor>
 
         <!-- не меняем на ListEditor, поскольку value редактируем прямо тут -->
-        <div class="row">
-            <table class="table table-hover caption-top table-bordered">
-                <caption>Допольнительные свойства</caption>
-                <thead>
-                    <tr>
-                        <th>Название</th>
-                        <th>Степень</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var cp in film.CustomProperties)
-                    {
-                        <tr>
-                            <td>@cp.Name</td>
-                            <td>@cp.Value</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-
+        <ListEditor
+            TEntity="CustomPropertyVM"
+            List="film.CustomProperties"
+            Caption="Дополнительные свойства"
+            Service="customPropService"
+            Mappings="customPropMapping"
+            SearchField="a => a.Name"
+        ></ListEditor>
 
 
         <div class="row">
@@ -220,6 +207,16 @@ else
         new FieldMapping<GenreVM>(0, "Название", a => a.Name)
     };
 
+    private List<FieldMapping<CustomPropertyVM>> customPropMapping = new List<FieldMapping<CustomPropertyVM>>()
+    {
+        new FieldMapping<CustomPropertyVM>(0, "Название", a => a.Name),
+        new FieldMapping<CustomPropertyVM>(1, "Степень", a => a.Value.ToString(), true, (e, v) => 
+        {
+            if (int.TryParse(v, out int val))
+                e.Value = val;
+        })
+    };
+    
     #endregion
 
 
