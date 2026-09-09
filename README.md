@@ -104,6 +104,7 @@
 8. Читает Excel-файл со словарём англ-рус. тэгов и переводит EnglishTags в RussianTags
 9. По встроенному словарю переводит англ. жанры в русские
 10. Формирует из готовых записей IMDbLoading сущности Film, Actor, Country, Producer, Genre, FilmCustomProperty (веса свойств) и сохраняет в БД
+Исходные данные дял загрузки можно брать из MovieLens - https://grouplens.org/datasets/movielens/ 
 
 
 # Базы данных
