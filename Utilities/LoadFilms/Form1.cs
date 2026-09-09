@@ -500,6 +500,9 @@ namespace LoadFilms
             }
         }
 
+        /// <summary>
+        /// Кнопка "прогрузить фильмы"
+        /// </summary>
         private void button10_Click(object sender, EventArgs e)
         {
             List<Film> allFilms = db.GetFromDatabase<Film>();
