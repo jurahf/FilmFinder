@@ -131,4 +131,3 @@
 	- TMDB, https://www.kaggle.com/datasets/alanvourch/tmdb-movies-daily-updates
 	- соединять базы с фильмами и базы с тегами и отзывами
 	- LLM для заполнения тегов к фильмам
-1. vkToken - в настройки и в секреты
