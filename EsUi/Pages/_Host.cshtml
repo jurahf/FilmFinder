@@ -1,0 +1,42 @@
+@page "/"
+@using Microsoft.AspNetCore.Components.Web
+@namespace EsUi.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="~/" />
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link href="css/site.css" rel="stylesheet" />
+    <link href="EsUi.styles.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <component type="typeof(HeadOutlet)" render-mode="Server" />
+</head>
+<body>
+    <component type="typeof(App)" render-mode="Server" />
+
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            Произошла ошибка. Перезагрузите страницу.
+        </environment>
+        <environment include="Development">
+            Необработанная ошибка. Подробности — в консоли браузера.
+        </environment>
+        <a href="" class="reload">Перезагрузить</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <script>
+        function showToast(toastId) {
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(document.getElementById(toastId));
+            toastBootstrap.show();
+        }
+    </script>
+
+    <script src="_framework/blazor.server.js"></script>
+</body>
+</html>

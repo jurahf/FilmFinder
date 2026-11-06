@@ -1,0 +1,21 @@
+@page
+@model EsUi.Pages.ErrorModel
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ошибка</title>
+</head>
+<body>
+    <h1 class="text-danger">Ошибка</h1>
+    <h2 class="text-danger">При обработке запроса произошла ошибка.</h2>
+    @if (Model.ShowRequestId)
+    {
+        <p>
+            <strong>Request ID:</strong> <code>@Model.RequestId</code>
+        </p>
+    }
+</body>
+</html>
