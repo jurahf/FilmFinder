@@ -37,20 +37,24 @@ namespace EsDb
             {
                 entity.HasIndex(x => x.Name);
 
+                // Удаление ЭС в UI не предусмотрено. NoAction выбран специально:
+                // каскад от ExpertSystems к Domains/Variables/Rules вместе с
+                // Variable.Domain (SET NULL) даёт множественные каскадные пути,
+                // которые SQL Server запрещает.
                 entity.HasMany(x => x.AllDomains)
                     .WithOne(x => x.ExpertSystem)
                     .HasForeignKey(x => x.ExpertSystemId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasMany(x => x.AllVariables)
                     .WithOne(x => x.ExpertSystem)
                     .HasForeignKey(x => x.ExpertSystemId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasMany(x => x.AllRules)
                     .WithOne(x => x.ExpertSystem)
                     .HasForeignKey(x => x.ExpertSystemId)
-                    .OnDelete(DeleteBehavior.Cascade);
+                    .OnDelete(DeleteBehavior.NoAction);
 
                 entity.HasOne(x => x.Target)
                     .WithMany()

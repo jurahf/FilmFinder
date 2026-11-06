@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EsDb.Migrations
 {
     [DbContext(typeof(EsDbContext))]
-    [Migration("20261106105601_InitialCreate")]
+    [Migration("20261106110517_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -472,7 +472,7 @@ namespace EsDb.Migrations
                     b.HasOne("EsDb.Model.ExpertSystem", "ExpertSystem")
                         .WithMany("AllDomains")
                         .HasForeignKey("ExpertSystemId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("ExpertSystem");
@@ -561,7 +561,7 @@ namespace EsDb.Migrations
                     b.HasOne("EsDb.Model.ExpertSystem", "ExpertSystem")
                         .WithMany("AllRules")
                         .HasForeignKey("ExpertSystemId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("EsDb.Model.Fact", "Result")
@@ -603,7 +603,7 @@ namespace EsDb.Migrations
                     b.HasOne("EsDb.Model.ExpertSystem", "ExpertSystem")
                         .WithMany("AllVariables")
                         .HasForeignKey("ExpertSystemId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Domain");

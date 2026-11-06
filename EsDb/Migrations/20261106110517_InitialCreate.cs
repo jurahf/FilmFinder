@@ -194,8 +194,7 @@ namespace EsDb.Migrations
                         name: "FK_Variables_ExpertSystems_ExpertSystemId",
                         column: x => x.ExpertSystemId,
                         principalTable: "ExpertSystems",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -265,8 +264,7 @@ namespace EsDb.Migrations
                         name: "FK_Rules_ExpertSystems_ExpertSystemId",
                         column: x => x.ExpertSystemId,
                         principalTable: "ExpertSystems",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Rules_Facts_ResultId",
                         column: x => x.ResultId,
@@ -484,8 +482,7 @@ namespace EsDb.Migrations
                 table: "Domains",
                 column: "ExpertSystemId",
                 principalTable: "ExpertSystems",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_ExpertSystems_Variables_TargetId",
