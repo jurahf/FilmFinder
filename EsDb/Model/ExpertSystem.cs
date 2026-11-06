@@ -1,9 +1,4 @@
 ﻿using CommonRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EsDb.Model
 {
@@ -11,16 +6,18 @@ namespace EsDb.Model
     {
         public ExpertSystem()
         {
-            this.AllDomains = new HashSet<Domain>();
-            this.AllVariables = new HashSet<Variable>();
-            this.AllRules = new HashSet<Rule>();
+            AllDomains = new HashSet<Domain>();
+            AllVariables = new HashSet<Variable>();
+            AllRules = new HashSet<Rule>();
         }
 
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
+
+        public int? TargetId { get; set; }
+        public virtual Variable? Target { get; set; }
 
         public virtual ICollection<Domain> AllDomains { get; set; }
         public virtual ICollection<Variable> AllVariables { get; set; }
-        public virtual Variable Target { get; set; }
         public virtual ICollection<Rule> AllRules { get; set; }
     }
 }

@@ -1,9 +1,4 @@
 ﻿using CommonRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EsDb.Model
 {
@@ -11,14 +6,18 @@ namespace EsDb.Model
     {
         public Rule()
         {
-            this.Conditions = new HashSet<RuleFact>();
+            Conditions = new HashSet<RuleFact>();
         }
 
         public int Order { get; set; }
-        public string Name { get; set; }
-        public string Reasoning { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string? Reasoning { get; set; }
 
-        public virtual Fact Result { get; set; }
+        public int? ResultId { get; set; }
+        public virtual Fact? Result { get; set; }
+
+        public int ExpertSystemId { get; set; }
+        public virtual ExpertSystem ExpertSystem { get; set; } = null!;
 
         public virtual ICollection<RuleFact> Conditions { get; set; }
     }

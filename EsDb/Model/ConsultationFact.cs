@@ -1,10 +1,5 @@
 ﻿using CommonRepositories;
 using EsDb.Model.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EsDb.Model
 {
@@ -12,7 +7,10 @@ namespace EsDb.Model
     {
         public FactTruly Truly { get; set; }
 
-        public virtual Consultation Consultation { get; set; }
-        public virtual Fact Fact { get; set; }
+        public int ConsultationId { get; set; }
+        public virtual Consultation Consultation { get; set; } = null!;
+
+        public int FactId { get; set; }
+        public virtual Fact Fact { get; set; } = null!;
     }
 }

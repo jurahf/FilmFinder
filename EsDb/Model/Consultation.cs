@@ -1,9 +1,4 @@
 ﻿using CommonRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EsDb.Model
 {
@@ -11,17 +6,24 @@ namespace EsDb.Model
     {
         public Consultation()
         {
-            this.ProvedFacts = new HashSet<ConsultationFact>();
-            this.WorkedRules = new HashSet<ConsultationRule>();
+            ProvedFacts = new HashSet<ConsultationFact>();
+            WorkedRules = new HashSet<ConsultationRule>();
         }
 
+        public int SessionId { get; set; }
+        public virtual Session Session { get; set; } = null!;
 
-        public virtual Session Session { get; set; }
-        public virtual ExpertSystem ExpertSystem { get; set; }
+        public int ExpertSystemId { get; set; }
+        public virtual ExpertSystem ExpertSystem { get; set; } = null!;
+
+        public int? CurrentRuleId { get; set; }
+        public virtual Rule? CurrentRule { get; set; }
+
+        public int? GoalStackId { get; set; }
+        public virtual GoalStack? GoalStack { get; set; }
+
         public virtual ICollection<ConsultationFact> ProvedFacts { get; set; }
         public virtual ICollection<ConsultationRule> WorkedRules { get; set; }
-        public virtual Rule CurrentRule { get; set; }
-        public virtual GoalStack GoalStack { get; set; }
-        public virtual FinalSolution FinalSolution { get; set; }
+        public virtual FinalSolution? FinalSolution { get; set; }
     }
 }
