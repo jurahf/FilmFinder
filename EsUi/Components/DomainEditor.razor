@@ -1,5 +1,4 @@
 @inject IJSRuntime JS
-@inject EsServices.Services.Advice.IAdviceCatalogService AdviceCatalog
 
 <div class="row">
     <div class="col-lg-4">
@@ -145,14 +144,9 @@
             return;
 
         var domain = selected;
-        expertSystemEditorDeleteDomain(domain);
+        ExpertSystemEditor.DeleteDomain(ExpertSystem, domain);
         selected = null;
         await NotifyChanged();
-    }
-
-    private void expertSystemEditorDeleteDomain(DomainVM domain)
-    {
-        ExpertSystemEditor.DeleteDomain(ExpertSystem, domain);
     }
 
     private async Task AddValue()

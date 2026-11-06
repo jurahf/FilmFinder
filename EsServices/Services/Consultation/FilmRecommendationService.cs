@@ -52,28 +52,50 @@ namespace EsServices.Services.Consultation
             if (positiveProperties.Count == 0)
                 return null;
 
-            var films = await GetFilmsWithDetails()
-                .Where(x => x.FilmCustomProperty.Any(p => positiveProperties.Contains(p.CustomPropertyId)))
+            // Для расчёта расстояний достаточно значений свойств и рейтинга,
+            // поэтому не вычитываем фильмы с актёрами/жанрами целиком.
+            var propertyRows = await db.FilmCustomProperties
+                .AsNoTracking()
+                .Where(x => positiveProperties.Contains(x.CustomPropertyId))
+                .Select(x => new
+                {
+                    FilmId = x.Film.Id,
+                    x.CustomPropertyId,
+                    x.Value
+                })
                 .ToListAsync(cancellationToken);
 
-            if (films.Count == 0)
+            if (propertyRows.Count == 0)
                 return null;
 
             var allProperties = await db.CustomProperties
                 .AsNoTracking()
+                .Select(x => x.Id)
                 .ToListAsync(cancellationToken);
+
+            var filmProperties = propertyRows
+                .GroupBy(x => x.FilmId)
+                .ToDictionary(
+                    x => x.Key,
+                    x => x.GroupBy(p => p.CustomPropertyId)
+                        .ToDictionary(p => p.Key, p => p.First().Value));
+
+            var filmIds = filmProperties.Keys.ToList();
+            var ratings = await db.Films
+                .AsNoTracking()
+                .Where(x => filmIds.Contains(x.Id))
+                .Select(x => new { x.Id, x.Rating })
+                .ToDictionaryAsync(x => x.Id, x => x.Rating ?? 0, cancellationToken);
 
             var adviceValues = advice.AdviceCustomProperty
                 .GroupBy(x => x.CustomPropertyId)
                 .ToDictionary(x => x.Key, x => x.First().Value);
 
-            var candidates = new List<(Film Film, double Distance)>();
+            var candidates = new List<(int FilmId, double Distance, decimal Rating)>();
 
-            foreach (var film in films)
+            foreach (var pair in filmProperties)
             {
-                var filmValues = film.FilmCustomProperty
-                    .GroupBy(x => x.CustomPropertyId)
-                    .ToDictionary(x => x.Key, x => x.First().Value);
+                var filmValues = pair.Value;
 
                 bool signConflict = advice.AdviceCustomProperty.Any(adviceProperty =>
                     filmValues.TryGetValue(adviceProperty.CustomPropertyId, out var filmValue) &&
@@ -83,14 +105,14 @@ namespace EsServices.Services.Consultation
                     continue;
 
                 double distance = 0;
-                foreach (var property in allProperties)
+                foreach (var propertyId in allProperties)
                 {
-                    var adviceValue = adviceValues.TryGetValue(property.Id, out var av) ? av : 0;
-                    var filmValue = filmValues.TryGetValue(property.Id, out var fv) ? fv : 0;
+                    var adviceValue = adviceValues.TryGetValue(propertyId, out var av) ? av : 0;
+                    var filmValue = filmValues.TryGetValue(propertyId, out var fv) ? fv : 0;
                     distance += Math.Pow(adviceValue - filmValue, 2);
                 }
 
-                candidates.Add((film, distance));
+                candidates.Add((pair.Key, distance, ratings.TryGetValue(pair.Key, out var rating) ? rating : 0));
             }
 
             if (candidates.Count == 0)
@@ -99,12 +121,17 @@ namespace EsServices.Services.Consultation
             var topCount = Math.Max((int)(candidates.Count * 0.25), 5);
             var top = candidates
                 .OrderBy(x => x.Distance)
-                .ThenByDescending(x => x.Film.Rating ?? 0)
+                .ThenByDescending(x => x.Rating)
                 .Take(topCount)
                 .ToList();
 
             var selected = PickRandom(top, 5);
-            return selected.Count == 0 ? null : Map(selected[Random.Shared.Next(selected.Count)].Film);
+            if (selected.Count == 0)
+                return null;
+
+            var chosenId = selected[Random.Shared.Next(selected.Count)].FilmId;
+            var film = await GetFilmWithDetailsAsync(chosenId, cancellationToken);
+            return film == null ? null : Map(film);
         }
 
         public async Task<FilmResultVM?> FindByFiltersAsync(
@@ -126,8 +153,9 @@ namespace EsServices.Services.Consultation
                     x.FilmCustomProperty.Any(p => p.CustomPropertyId == propertyId && p.Value > 0));
             }
 
-            var films = await WithDetails(query)
-                .OrderByDescending(x => x.Rating ?? 0)
+            var films = await query
+                .Select(x => new { x.Id, x.Rating })
+                .OrderByDescending(x => x.Rating)
                 .ToListAsync(cancellationToken);
 
             if (films.Count == 0)
@@ -135,13 +163,18 @@ namespace EsServices.Services.Consultation
 
             var topCount = Math.Max((int)(films.Count * 0.25), 5);
             var selected = PickRandom(films.Take(topCount).ToList(), 5);
+            if (selected.Count == 0)
+                return null;
 
-            return selected.Count == 0 ? null : Map(selected[Random.Shared.Next(selected.Count)]);
+            var chosenId = selected[Random.Shared.Next(selected.Count)].Id;
+            var film = await GetFilmWithDetailsAsync(chosenId, cancellationToken);
+            return film == null ? null : Map(film);
         }
 
-        private IQueryable<Film> GetFilmsWithDetails()
+        private async Task<Film?> GetFilmWithDetailsAsync(int filmId, CancellationToken cancellationToken)
         {
-            return WithDetails(db.Films.AsNoTracking());
+            return await WithDetails(db.Films.AsNoTracking().Where(x => x.Id == filmId))
+                .FirstOrDefaultAsync(cancellationToken);
         }
 
         private static IQueryable<Film> WithDetails(IQueryable<Film> query)
