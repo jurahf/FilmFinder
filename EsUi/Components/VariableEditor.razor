@@ -1,0 +1,258 @@
+@using EsDb.Model.Enums
+@inject IJSRuntime JS
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="section-title">
+            <h4>Переменные</h4>
+            <button class="btn btn-sm btn-outline-success" @onclick="AddVariable">Добавить</button>
+        </div>
+
+        <div class="list-group editor-list">
+            @foreach (var variable in ExpertSystem.Variables)
+            {
+                <button type="button"
+                        class="list-group-item list-group-item-action @(ReferenceEquals(variable, selected) ? "active" : "")"
+                        @onclick="() => Select(variable)">
+                    <div class="d-flex justify-content-between">
+                        <span>@variable.Name</span>
+                        <small>@variable.TypeDisplay</small>
+                    </div>
+                </button>
+            }
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        @if (selected == null)
+        {
+            <p class="muted-empty">Выберите переменную или добавьте новую.</p>
+        }
+        else
+        {
+            <div class="section-title">
+                <h4>Переменная</h4>
+                <div class="btn-group">
+                    <button class="btn btn-sm btn-outline-secondary" disabled="@(selectedIndex <= 0)"
+                            @onclick="() => MoveSelected(-1)">↑</button>
+                    <button class="btn btn-sm btn-outline-secondary" disabled="@(selectedIndex >= ExpertSystem.Variables.Count - 1)"
+                            @onclick="() => MoveSelected(1)">↓</button>
+                    <button class="btn btn-sm btn-outline-danger" @onclick="DeleteVariable">Удалить</button>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Имя</label>
+                <input class="form-control" @bind="selected.Name" @bind:after="NotifyChanged" />
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Тип</label>
+                    <select class="form-select" @bind="selected.Type" @bind:after="OnTypeChanged">
+                        <option value="@VariableType.Queriable">Запрашиваемая</option>
+                        <option value="@VariableType.Detective">Выводимая</option>
+                        <option value="@VariableType.QuerriableDetective">Выводимо-запрашиваемая</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Домен</label>
+                    <div class="d-flex gap-2">
+                        <select class="form-select" @onchange="OnDomainChanged">
+                            <option value="">(без домена)</option>
+                            @foreach (var domain in ExpertSystem.Domains)
+                            {
+                                <option value="@domain.Name" selected="@(selected.Domain != null && selected.Domain.Name == domain.Name)">
+                                    @domain.Name
+                                </option>
+                            }
+                        </select>
+                        <button class="btn btn-outline-success" title="Добавить домен" @onclick="AddDomain">+</button>
+                    </div>
+                </div>
+            </div>
+
+            @if (selected.Domain != null)
+            {
+                <div class="mb-3">
+                    <label class="form-label">Значения домена «@selected.Domain.Name»</label>
+                    <div class="d-flex gap-2">
+                        <input class="form-control form-control-sm" placeholder="Новое значение"
+                               @bind="newDomainValue" @bind:event="oninput" @onkeydown="OnNewValueKeyDown" />
+                        <button class="btn btn-sm btn-outline-success" @onclick="AddDomainValue">Добавить значение</button>
+                    </div>
+                    @if (domainError != null)
+                    {
+                        <div class="text-danger small mt-1">@domainError</div>
+                    }
+                </div>
+            }
+
+            <div class="mb-3">
+                <label class="form-label">Вопрос</label>
+                <textarea class="form-control" rows="2"
+                          disabled="@(selected.Type == VariableType.Detective)"
+                          @bind="selected.Question" @bind:after="NotifyChanged"></textarea>
+                <div class="form-text">Для выводимой переменной вопрос не используется.</div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Объяснение</label>
+                <textarea class="form-control" rows="2"
+                          @bind="selected.Reasoning" @bind:after="NotifyChanged"></textarea>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public ExpertSystemVM ExpertSystem { get; set; } = new();
+
+    [Parameter]
+    public EventCallback OnChanged { get; set; }
+
+    private VariableVM? selected;
+    private string newDomainValue = string.Empty;
+    private string? domainError;
+
+    private int selectedIndex => selected == null ? -1 : ExpertSystem.Variables.IndexOf(selected);
+
+    protected override void OnParametersSet()
+    {
+        if (selected != null && !ExpertSystem.Variables.Contains(selected))
+            selected = null;
+    }
+
+    private void Select(VariableVM variable)
+    {
+        selected = variable;
+        domainError = null;
+    }
+
+    private async Task AddVariable()
+    {
+        var name = BuildUniqueName("Новая переменная", ExpertSystem.Variables.Select(x => x.Name));
+        var variable = new VariableVM
+        {
+            Name = name,
+            Type = VariableType.Queriable,
+            Domain = ExpertSystem.Domains.FirstOrDefault()
+        };
+
+        ExpertSystem.Variables.Add(variable);
+        selected = variable;
+        await NotifyChanged();
+    }
+
+    private async Task DeleteVariable()
+    {
+        if (selected == null)
+            return;
+
+        var confirmed = await JS.InvokeAsync<bool>(
+            "confirm",
+            $"Удалить переменную '{selected.Name}'? Она будет удалена из посылок и выводов правил.");
+
+        if (!confirmed)
+            return;
+
+        var variable = selected;
+        ExpertSystemEditor.DeleteVariable(ExpertSystem, variable);
+        selected = null;
+        await NotifyChanged();
+    }
+
+    private async Task OnTypeChanged()
+    {
+        if (selected == null)
+            return;
+
+        ExpertSystemEditor.ChangeVariableType(ExpertSystem, selected, selected.Type);
+        if (selected.Type == VariableType.Detective)
+            selected.Question = string.Empty;
+
+        await NotifyChanged();
+    }
+
+    private async Task OnDomainChanged(ChangeEventArgs args)
+    {
+        if (selected == null)
+            return;
+
+        var name = args.Value?.ToString();
+        selected.Domain = string.IsNullOrWhiteSpace(name)
+            ? null
+            : ExpertSystem.Domains.FirstOrDefault(x => x.Name == name);
+
+        await NotifyChanged();
+    }
+
+    private async Task AddDomain()
+    {
+        if (selected == null)
+            return;
+
+        var name = BuildUniqueName("Новый домен", ExpertSystem.Domains.Select(x => x.Name));
+        var domain = new DomainVM { Name = name };
+        ExpertSystem.Domains.Add(domain);
+        selected.Domain = domain;
+        await NotifyChanged();
+    }
+
+    private async Task AddDomainValue()
+    {
+        if (selected?.Domain == null)
+            return;
+
+        var text = newDomainValue.Trim();
+        if (string.IsNullOrWhiteSpace(text))
+            return;
+
+        if (selected.Domain.Values.Any(x => string.Equals(x.Value, text, StringComparison.OrdinalIgnoreCase)))
+        {
+            domainError = $"Значение '{text}' уже есть в домене.";
+            return;
+        }
+
+        selected.Domain.Values.Add(new DomainValueVM { Value = text, Display = text });
+        newDomainValue = string.Empty;
+        domainError = null;
+        await NotifyChanged();
+    }
+
+    private async Task OnNewValueKeyDown(KeyboardEventArgs args)
+    {
+        if (args.Key == "Enter")
+            await AddDomainValue();
+    }
+
+    private async Task MoveSelected(int delta)
+    {
+        var index = selectedIndex;
+        if (index < 0)
+            return;
+
+        ExpertSystemEditor.Reorder(ExpertSystem.Variables, index, index + delta);
+        await NotifyChanged();
+    }
+
+    private async Task NotifyChanged()
+    {
+        await OnChanged.InvokeAsync();
+    }
+
+    private static string BuildUniqueName(string baseName, IEnumerable<string> existing)
+    {
+        var names = new HashSet<string>(existing, StringComparer.OrdinalIgnoreCase);
+        if (!names.Contains(baseName))
+            return baseName;
+
+        var index = 1;
+        while (names.Contains($"{baseName} {index}"))
+            index++;
+
+        return $"{baseName} {index}";
+    }
+}

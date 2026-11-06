@@ -1,0 +1,153 @@
+@page "/expert-systems"
+
+@inject IExpertSystemService ExpertSystemService
+@inject NavigationManager Navigation
+
+<PageTitle>Экспертные системы</PageTitle>
+
+<div class="section-title">
+    <div>
+        <h1 class="mb-1">Экспертные системы</h1>
+        <div class="text-muted">Настройка доменов, переменных, правил и запуск консультации.</div>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Новая экспертная система</h5>
+        <div class="row g-2 align-items-end">
+            <div class="col-md-6">
+                <label class="form-label">Имя</label>
+                <input class="form-control" placeholder="Например, Фильмы"
+                       @bind="newName" @bind:event="oninput" @onkeydown="OnNameKeyDown" />
+            </div>
+            <div class="col-md-auto">
+                <button class="btn btn-primary" @onclick="CreateAsync" disabled="@creating">
+                    @(creating ? "Создание..." : "Создать")
+                </button>
+            </div>
+        </div>
+        @if (createError != null)
+        {
+            <div class="alert alert-danger mt-3 mb-0">@createError</div>
+        }
+    </div>
+</div>
+
+@if (loading)
+{
+    <p>Загрузка...</p>
+}
+else if (loadError != null)
+{
+    <div class="alert alert-danger">@loadError</div>
+}
+else if (items.Count == 0)
+{
+    <p class="muted-empty">Экспертных систем пока нет. Создайте первую.</p>
+}
+else
+{
+    <table class="table table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Имя</th>
+                <th class="text-end">Домены</th>
+                <th class="text-end">Переменные</th>
+                <th class="text-end">Правила</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in items)
+            {
+                <tr>
+                    <td>
+                        <span class="fw-semibold">@item.Name</span>
+                        @if (item.IsAutoVersion)
+                        {
+                            <span class="badge bg-secondary ms-2">архив</span>
+                        }
+                    </td>
+                    <td class="text-end">@item.DomainCount</td>
+                    <td class="text-end">@item.VariableCount</td>
+                    <td class="text-end">@item.RuleCount</td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-outline-primary" @onclick="() => Open(item.Id)">Открыть</button>
+                        <a class="btn btn-sm btn-outline-secondary" href="@($"expert-systems/{item.Id}/consultation")">Консультация</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<ExpertSystemSummaryVM> items = new();
+    private bool loading = true;
+    private bool creating;
+    private string newName = string.Empty;
+    private string? loadError;
+    private string? createError;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        loading = true;
+        loadError = null;
+
+        try
+        {
+            items = await ExpertSystemService.GetListAsync();
+        }
+        catch (Exception ex)
+        {
+            loadError = ex.Message;
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private async Task CreateAsync()
+    {
+        createError = null;
+        if (string.IsNullOrWhiteSpace(newName))
+        {
+            createError = "Введите имя экспертной системы.";
+            return;
+        }
+
+        creating = true;
+        try
+        {
+            var created = await ExpertSystemService.CreateAsync(newName);
+            newName = string.Empty;
+            Navigation.NavigateTo($"/expert-systems/{created.Id}");
+        }
+        catch (Exception ex)
+        {
+            createError = ex.Message;
+        }
+        finally
+        {
+            creating = false;
+        }
+    }
+
+    private async Task OnNameKeyDown(KeyboardEventArgs args)
+    {
+        if (args.Key == "Enter")
+            await CreateAsync();
+    }
+
+    private void Open(int id)
+    {
+        Navigation.NavigateTo($"/expert-systems/{id}");
+    }
+}

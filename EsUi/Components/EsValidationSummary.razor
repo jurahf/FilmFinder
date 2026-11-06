@@ -1,0 +1,19 @@
+@using EsServices.Validators
+
+@if (Result != null && !Result.Success)
+{
+    <div class="alert alert-danger">
+        <h6 class="alert-heading">Проверьте данные</h6>
+        <ul class="mb-0">
+            @foreach (var error in Result.Errors)
+            {
+                <li>@error.Message</li>
+            }
+        </ul>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public ValidationResult? Result { get; set; }
+}

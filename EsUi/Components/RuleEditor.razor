@@ -1,0 +1,409 @@
+@using EsDb.Model.Enums
+@inject IJSRuntime JS
+
+<div class="row">
+    <div class="col-lg-5">
+        <div class="section-title">
+            <h4>Правила</h4>
+            <button class="btn btn-sm btn-outline-success" @onclick="AddRule">Добавить</button>
+        </div>
+
+        <div class="list-group editor-list">
+            @foreach (var rule in ExpertSystem.Rules)
+            {
+                <button type="button"
+                        class="list-group-item list-group-item-action @(ReferenceEquals(rule, selected) ? "active" : "")"
+                        @onclick="() => Select(rule)">
+                    <div class="fw-semibold">@rule.Name</div>
+                    <small>@(rule.Result?.Display ?? "вывод не задан")</small>
+                </button>
+            }
+        </div>
+    </div>
+
+    <div class="col-lg-7">
+        @if (selected == null)
+        {
+            <p class="muted-empty">Выберите правило или добавьте новое.</p>
+        }
+        else
+        {
+            <div class="section-title">
+                <h4>Правило</h4>
+                <div class="btn-group">
+                    <button class="btn btn-sm btn-outline-secondary" disabled="@(selectedRuleIndex <= 0)"
+                            @onclick="() => MoveSelectedRule(-1)">↑</button>
+                    <button class="btn btn-sm btn-outline-secondary" disabled="@(selectedRuleIndex >= ExpertSystem.Rules.Count - 1)"
+                            @onclick="() => MoveSelectedRule(1)">↓</button>
+                    <button class="btn btn-sm btn-outline-danger" @onclick="DeleteRule">Удалить</button>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Имя</label>
+                <input class="form-control" @bind="selected.Name" @bind:after="NotifyChanged" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Объяснение</label>
+                <textarea class="form-control" rows="2" @bind="selected.Reasoning" @bind:after="NotifyChanged"></textarea>
+            </div>
+
+            <div class="section-title">
+                <h5>Посылки</h5>
+                <button class="btn btn-sm btn-outline-success" disabled="@(ConditionVariables.Count == 0)"
+                        @onclick="AddCondition">Добавить посылку</button>
+            </div>
+
+            @if (selected.Conditions.Count == 0)
+            {
+                <p class="muted-empty">У правила пока нет посылок.</p>
+            }
+            else
+            {
+                <div class="rule-conditions">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Переменная</th>
+                                <th>Значение</th>
+                                <th style="width: 8em"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < selected.Conditions.Count; i++)
+                            {
+                                var index = i;
+                                var condition = selected.Conditions[index];
+                                <tr>
+                                    <td>
+                                        <select class="form-select form-select-sm" @onchange="e => OnConditionVariableChanged(condition, e)">
+                                            @foreach (var variable in ConditionVariables)
+                                            {
+                                                <option value="@variable.Name" selected="@(condition.Fact.Variable.Name == variable.Name)">
+                                                    @variable.Name
+                                                </option>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-select form-select-sm" @onchange="e => OnConditionValueChanged(condition, e)">
+                                            @foreach (var value in GetValues(condition.Fact.Variable))
+                                            {
+                                                <option value="@value.Value" selected="@(condition.Fact.DomainValue.Value == value.Value)">
+                                                    @value.Display
+                                                </option>
+                                            }
+                                        </select>
+                                    </td>
+                                    <td class="text-nowrap">
+                                        <button class="btn btn-sm btn-outline-secondary" disabled="@(index == 0)"
+                                                @onclick="() => MoveCondition(index, -1)">↑</button>
+                                        <button class="btn btn-sm btn-outline-secondary" disabled="@(index == selected.Conditions.Count - 1)"
+                                                @onclick="() => MoveCondition(index, 1)">↓</button>
+                                        <button class="btn btn-sm btn-outline-danger" @onclick="() => DeleteCondition(index)">×</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+            <div class="section-title mt-4">
+                <h5>Вывод</h5>
+                @if (selected.Result != null)
+                {
+                    <button class="btn btn-sm btn-outline-danger" @onclick="DeleteResult">Удалить вывод</button>
+                }
+                else
+                {
+                    <button class="btn btn-sm btn-outline-success" disabled="@(ResultVariables.Count == 0)"
+                            @onclick="SetDefaultResult">Задать вывод</button>
+                }
+            </div>
+
+            @if (selected.Result == null)
+            {
+                <p class="muted-empty">Вывод не задан.</p>
+            }
+            else
+            {
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <select class="form-select" @onchange="OnResultVariableChanged">
+                            @foreach (var variable in ResultVariables)
+                            {
+                                <option value="@variable.Name" selected="@(selected.Result.Variable.Name == variable.Name)">
+                                    @variable.Name
+                                </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <select class="form-select" @onchange="OnResultValueChanged">
+                            @foreach (var value in GetValues(selected.Result.Variable))
+                            {
+                                <option value="@value.Value" selected="@(selected.Result.DomainValue.Value == value.Value)">
+                                    @value.Display
+                                </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            }
+
+            @if (validationMessage != null)
+            {
+                <div class="alert alert-warning">@validationMessage</div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public ExpertSystemVM ExpertSystem { get; set; } = new();
+
+    [Parameter]
+    public EventCallback OnChanged { get; set; }
+
+    private RuleVM? selected;
+    private string? validationMessage;
+
+    private int selectedRuleIndex => selected == null ? -1 : ExpertSystem.Rules.IndexOf(selected);
+
+    private List<VariableVM> ConditionVariables => ExpertSystem.Variables
+        .Where(x => x.Domain != null && x.Domain.Values.Count > 0)
+        .ToList();
+
+    private List<VariableVM> ResultVariables => ExpertSystem.Variables
+        .Where(x => x.Type != VariableType.Queriable && x.Domain != null && x.Domain.Values.Count > 0)
+        .ToList();
+
+    protected override void OnParametersSet()
+    {
+        if (selected != null && !ExpertSystem.Rules.Contains(selected))
+            selected = null;
+    }
+
+    private void Select(RuleVM rule)
+    {
+        selected = rule;
+        validationMessage = null;
+    }
+
+    private async Task AddRule()
+    {
+        var name = BuildUniqueName("Новое правило", ExpertSystem.Rules.Select(x => x.Name));
+        var rule = new RuleVM { Name = name };
+        ExpertSystem.Rules.Add(rule);
+        RenumberRules();
+        selected = rule;
+        await NotifyChanged();
+    }
+
+    private async Task DeleteRule()
+    {
+        if (selected == null)
+            return;
+
+        var confirmed = await JS.InvokeAsync<bool>("confirm", $"Удалить правило '{selected.Name}'?");
+        if (!confirmed)
+            return;
+
+        var rule = selected;
+        ExpertSystemEditor.DeleteRule(ExpertSystem, rule);
+        selected = null;
+        RenumberRules();
+        await NotifyChanged();
+    }
+
+    private async Task AddCondition()
+    {
+        if (selected == null)
+            return;
+
+        var variable = selected.Conditions.Count > 0
+            ? selected.Conditions[0].Fact.Variable
+            : ConditionVariables.FirstOrDefault();
+
+        if (variable?.Domain == null || variable.Domain.Values.Count == 0)
+        {
+            validationMessage = "У доступных переменных нет домена со значениями.";
+            return;
+        }
+
+        var value = variable.Domain.Values.First();
+        selected.Conditions.Add(new RuleFactVM
+        {
+            Fact = GetOrCreateFact(variable, value)
+        });
+
+        RenumberConditions(selected);
+        await NotifyChanged();
+    }
+
+    private async Task DeleteCondition(int index)
+    {
+        if (selected == null)
+            return;
+
+        selected.Conditions.RemoveAt(index);
+        RenumberConditions(selected);
+        await NotifyChanged();
+    }
+
+    private async Task MoveCondition(int index, int delta)
+    {
+        if (selected == null)
+            return;
+
+        ExpertSystemEditor.Reorder(selected.Conditions, index, index + delta);
+        RenumberConditions(selected);
+        await NotifyChanged();
+    }
+
+    private async Task OnConditionVariableChanged(RuleFactVM condition, ChangeEventArgs args)
+    {
+        var name = args.Value?.ToString();
+        var variable = ExpertSystem.Variables.FirstOrDefault(x => x.Name == name);
+        if (variable?.Domain == null || variable.Domain.Values.Count == 0)
+            return;
+
+        condition.Fact = GetOrCreateFact(variable, variable.Domain.Values.First());
+        await NotifyChanged();
+    }
+
+    private async Task OnConditionValueChanged(RuleFactVM condition, ChangeEventArgs args)
+    {
+        var valueText = args.Value?.ToString();
+        var value = condition.Fact.Variable.Domain?.Values
+            .FirstOrDefault(x => x.Value == valueText);
+
+        if (value == null)
+            return;
+
+        condition.Fact = GetOrCreateFact(condition.Fact.Variable, value);
+        await NotifyChanged();
+    }
+
+    private async Task OnResultVariableChanged(ChangeEventArgs args)
+    {
+        if (selected?.Result == null)
+            return;
+
+        var name = args.Value?.ToString();
+        var variable = ExpertSystem.Variables.FirstOrDefault(x => x.Name == name);
+        if (variable?.Domain == null || variable.Domain.Values.Count == 0)
+            return;
+
+        selected.Result = GetOrCreateFact(variable, variable.Domain.Values.First());
+        await NotifyChanged();
+    }
+
+    private async Task OnResultValueChanged(ChangeEventArgs args)
+    {
+        if (selected?.Result == null)
+            return;
+
+        var valueText = args.Value?.ToString();
+        var value = selected.Result.Variable.Domain?.Values
+            .FirstOrDefault(x => x.Value == valueText);
+
+        if (value == null)
+            return;
+
+        selected.Result = GetOrCreateFact(selected.Result.Variable, value);
+        await NotifyChanged();
+    }
+
+    private async Task SetDefaultResult()
+    {
+        if (selected == null)
+            return;
+
+        var variable = ResultVariables.FirstOrDefault();
+        if (variable?.Domain == null || variable.Domain.Values.Count == 0)
+        {
+            validationMessage = "Нет доступной выводимой переменной с доменом.";
+            return;
+        }
+
+        selected.Result = GetOrCreateFact(variable, variable.Domain.Values.First());
+        await NotifyChanged();
+    }
+
+    private async Task DeleteResult()
+    {
+        if (selected == null)
+            return;
+
+        selected.Result = null;
+        await NotifyChanged();
+    }
+
+    private async Task MoveSelectedRule(int delta)
+    {
+        var index = selectedRuleIndex;
+        if (index < 0)
+            return;
+
+        ExpertSystemEditor.Reorder(ExpertSystem.Rules, index, index + delta);
+        RenumberRules();
+        await NotifyChanged();
+    }
+
+    private FactVM GetOrCreateFact(VariableVM variable, DomainValueVM value)
+    {
+        var fact = ExpertSystem.Facts.FirstOrDefault(x =>
+            ReferenceEquals(x.Variable, variable) && ReferenceEquals(x.DomainValue, value));
+
+        if (fact != null)
+            return fact;
+
+        fact = new FactVM
+        {
+            Variable = variable,
+            DomainValue = value
+        };
+
+        ExpertSystem.Facts.Add(fact);
+        return fact;
+    }
+
+    private static IEnumerable<DomainValueVM> GetValues(VariableVM? variable)
+    {
+        return variable?.Domain?.Values ?? Enumerable.Empty<DomainValueVM>();
+    }
+
+    private void RenumberConditions(RuleVM rule)
+    {
+        for (int i = 0; i < rule.Conditions.Count; i++)
+            rule.Conditions[i].Order = i;
+    }
+
+    private void RenumberRules()
+    {
+        for (int i = 0; i < ExpertSystem.Rules.Count; i++)
+            ExpertSystem.Rules[i].Order = i;
+    }
+
+    private async Task NotifyChanged()
+    {
+        await OnChanged.InvokeAsync();
+    }
+
+    private static string BuildUniqueName(string baseName, IEnumerable<string> existing)
+    {
+        var names = new HashSet<string>(existing, StringComparer.OrdinalIgnoreCase);
+        if (!names.Contains(baseName))
+            return baseName;
+
+        var index = 1;
+        while (names.Contains($"{baseName} {index}"))
+            index++;
+
+        return $"{baseName} {index}";
+    }
+}

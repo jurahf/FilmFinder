@@ -1,0 +1,452 @@
+@page "/expert-systems/{Id:int}/consultation"
+@using EsServices.ViewModel.Consultation
+
+@inject IExpertSystemService ExpertSystemService
+@inject IConsultationService ConsultationService
+@inject IFilmRecommendationService FilmRecommendationService
+@inject NavigationManager Navigation
+
+<PageTitle>Консультация</PageTitle>
+
+@if (loading)
+{
+    <p>Загрузка...</p>
+}
+else if (loadError != null)
+{
+    <div class="alert alert-danger">@loadError</div>
+    <a class="btn btn-outline-secondary" href="@($"expert-systems/{Id}")">В редактор</a>
+}
+else if (expertSystem != null)
+{
+    <div class="section-title">
+        <div>
+            <h1 class="mb-1">Консультация: @expertSystem.Name</h1>
+            @if (filmMode)
+            {
+                <div class="text-muted">Режим подбора фильма</div>
+            }
+        </div>
+        <div class="d-flex gap-2">
+            <a class="btn btn-outline-secondary" href="@($"expert-systems/{Id}")">В редактор</a>
+            <button class="btn btn-outline-primary" @onclick="Restart">Начать заново</button>
+        </div>
+    </div>
+
+    @if (error != null)
+    {
+        <div class="alert alert-danger">@error</div>
+    }
+
+    @if (warning != null)
+    {
+        <div class="alert alert-warning">@warning</div>
+    }
+
+    @switch (stage)
+    {
+        case FilmStage.KnowsWhatWants:
+            <div class="card">
+                <div class="card-body">
+                    <h4>Вы примерно знаете, что хотите посмотреть?</h4>
+                    <p class="text-muted">
+                        Можно сразу выбрать жанры и свойства фильма или запустить подбор по правилам экспертной системы.
+                    </p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <button class="btn btn-primary" @onclick="ChooseWantsAsync">@FilmConsultationConstants.KnowsWhatWantsYes</button>
+                        <button class="btn btn-outline-primary" @onclick="GoToEngineAsync">@FilmConsultationConstants.KnowsWhatWantsNo</button>
+                    </div>
+                </div>
+            </div>
+            break;
+
+        case FilmStage.Filters:
+            <div class="card">
+                <div class="card-body">
+                    <h4>Что хотите посмотреть?</h4>
+                    <p class="text-muted">Выберите жанры и/или свойства. Будут выбраны фильмы, подходящие по всем выбранным пунктам.</p>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6>Жанры</h6>
+                            <div class="border rounded p-2" style="max-height: 18rem; overflow-y: auto;">
+                                @foreach (var genre in genres)
+                                {
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="@($"genre-{genre.Id}")"
+                                               checked="@selectedGenreIds.Contains(genre.Id)"
+                                               @onchange="e => ToggleGenre(genre.Id, e)" />
+                                        <label class="form-check-label" for="@($"genre-{genre.Id}")">@genre.Name</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>Свойства</h6>
+                            <div class="border rounded p-2" style="max-height: 18rem; overflow-y: auto;">
+                                @foreach (var tag in customProperties)
+                                {
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="@($"tag-{tag.Id}")"
+                                               checked="@selectedPropertyIds.Contains(tag.Id)"
+                                               @onchange="e => ToggleProperty(tag.Id, e)" />
+                                        <label class="form-check-label" for="@($"tag-{tag.Id}")">@tag.Name</label>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (filterError != null)
+                    {
+                        <div class="alert alert-warning mt-3">@filterError</div>
+                    }
+
+                    <div class="mt-3">
+                        <button class="btn btn-primary" @onclick="FindFilmByFiltersAsync" disabled="@busy">
+                            @(busy ? "Подбор..." : "Подобрать фильм")
+                        </button>
+                    </div>
+                </div>
+            </div>
+            break;
+
+        case FilmStage.Engine:
+            @if (step?.Question != null)
+            {
+                <div class="card">
+                    <div class="card-body">
+                        <h4>@step.Question.Text</h4>
+                        <p class="text-muted">@step.Question.Name</p>
+
+                        @if (step.Question.Answers.Count == 0)
+                        {
+                            <div class="alert alert-warning">У переменной нет домена со значениями.</div>
+                        }
+                        else
+                        {
+                            @foreach (var answer in step.Question.Answers)
+                            {
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="answer"
+                                           id="@($"answer-{answer.Value}")"
+                                           checked="@(selectedAnswer == answer.Value)"
+                                           @onchange="() => selectedAnswer = answer.Value" />
+                                    <label class="form-check-label" for="@($"answer-{answer.Value}")">@answer.Display</label>
+                                </div>
+                            }
+
+                            <button class="btn btn-primary mt-3" @onclick="AnswerAsync"
+                                    disabled="@(selectedAnswer == null || busy)">
+                                Ответить
+                            </button>
+                        }
+                    </div>
+                </div>
+            }
+            break;
+
+        case FilmStage.Result:
+            <div class="card">
+                <div class="card-body">
+                    <h4>Результат консультации</h4>
+                    @if (step?.Result == null)
+                    {
+                        <p class="muted-empty">Результат не получен.</p>
+                    }
+                    else if (step.Result.IsUnknown)
+                    {
+                        <div class="alert alert-warning mb-0">@step.Result.Display</div>
+                    }
+                    else
+                    {
+                        <p class="fs-5"><strong>@step.Result.VariableName:</strong> @step.Result.Display</p>
+                    }
+
+                    @if (step?.Result != null)
+                    {
+                        <button class="btn btn-outline-secondary mt-2" @onclick="() => showExplanation = !showExplanation">
+                            @(showExplanation ? "Скрыть объяснение" : "Показать объяснение")
+                        </button>
+                        @if (showExplanation)
+                        {
+                            <ExplanationTree Explanation="step.Result.Explanation" />
+                        }
+                    }
+                </div>
+            </div>
+            break;
+
+        case FilmStage.FilmResult:
+            <h4>Рекомендация</h4>
+            @if (film != null)
+            {
+                <FilmResultCard Film="film" />
+            }
+            else
+            {
+                <div class="alert alert-warning">По заданным параметрам фильм не найден.</div>
+            }
+
+            @if (step?.Result != null)
+            {
+                <button class="btn btn-outline-secondary" @onclick="() => showExplanation = !showExplanation">
+                    @(showExplanation ? "Скрыть объяснение" : "Показать объяснение")
+                </button>
+                @if (showExplanation)
+                {
+                    <ExplanationTree Explanation="step.Result.Explanation" />
+                }
+            }
+            break;
+    }
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private ExpertSystemVM? expertSystem;
+    private bool loading = true;
+    private bool busy;
+    private string? loadError;
+    private string? error;
+    private string? warning;
+    private string? filterError;
+
+    private bool filmMode;
+    private FilmStage stage = FilmStage.Engine;
+
+    private string? sessionId;
+    private ConsultationStep? step;
+    private string? selectedAnswer;
+    private bool showExplanation;
+
+    private FilmResultVM? film;
+    private List<FilmLookupItemVM> genres = new();
+    private List<FilmLookupItemVM> customProperties = new();
+    private HashSet<int> selectedGenreIds = new();
+    private HashSet<int> selectedPropertyIds = new();
+
+    protected override async Task OnParametersSetAsync()
+    {
+        loading = true;
+        loadError = null;
+
+        try
+        {
+            expertSystem = await ExpertSystemService.GetAsync(Id);
+            filmMode = string.Equals(
+                expertSystem.Name,
+                FilmConsultationConstants.ExpertSystemName,
+                StringComparison.Ordinal);
+
+            if (filmMode)
+            {
+                stage = FilmStage.KnowsWhatWants;
+            }
+            else
+            {
+                await StartEngineAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            loadError = ex.Message;
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private async Task ChooseWantsAsync()
+    {
+        busy = true;
+        error = null;
+        try
+        {
+            genres = await FilmRecommendationService.GetGenresAsync();
+            customProperties = await FilmRecommendationService.GetCustomPropertiesAsync();
+            stage = FilmStage.Filters;
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+        finally
+        {
+            busy = false;
+        }
+    }
+
+    private async Task GoToEngineAsync()
+    {
+        await StartEngineAsync();
+    }
+
+    private async Task StartEngineAsync()
+    {
+        if (expertSystem == null)
+            return;
+
+        if (expertSystem.Target == null)
+        {
+            error = "В экспертной системе не выбрана цель консультации.";
+            return;
+        }
+
+        busy = true;
+        error = null;
+        warning = null;
+        film = null;
+        selectedAnswer = null;
+        showExplanation = false;
+
+        try
+        {
+            var session = await ConsultationService.StartAsync(expertSystem.Id);
+            sessionId = session.SessionId;
+            step = session.Step;
+            warning = session.PersistenceError;
+            stage = FilmStage.Engine;
+
+            if (step.Result != null)
+                await HandleEngineResultAsync();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+        finally
+        {
+            busy = false;
+        }
+    }
+
+    private async Task AnswerAsync()
+    {
+        if (step?.Question == null || selectedAnswer == null || sessionId == null)
+            return;
+
+        busy = true;
+        error = null;
+        warning = null;
+
+        try
+        {
+            step = await ConsultationService.AnswerAsync(
+                sessionId,
+                step.Question.Name,
+                selectedAnswer);
+
+            selectedAnswer = null;
+
+            if (step.Result != null)
+                await HandleEngineResultAsync();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+        finally
+        {
+            busy = false;
+        }
+    }
+
+    private async Task HandleEngineResultAsync()
+    {
+        if (step?.Result == null)
+            return;
+
+        if (!filmMode || step.Result.IsUnknown)
+        {
+            stage = FilmStage.Result;
+            return;
+        }
+
+        if (Guid.TryParse(step.Result.Value, out var adviceKey))
+        {
+            film = await FilmRecommendationService.FindByAdviceAsync(adviceKey);
+            stage = FilmStage.FilmResult;
+        }
+        else
+        {
+            stage = FilmStage.Result;
+        }
+    }
+
+    private async Task FindFilmByFiltersAsync()
+    {
+        filterError = null;
+
+        if (selectedGenreIds.Count == 0 && selectedPropertyIds.Count == 0)
+        {
+            filterError = "Выберите хотя бы один жанр или свойство.";
+            return;
+        }
+
+        busy = true;
+        try
+        {
+            film = await FilmRecommendationService.FindByFiltersAsync(
+                selectedGenreIds.ToList(),
+                selectedPropertyIds.ToList());
+
+            stage = FilmStage.FilmResult;
+        }
+        catch (Exception ex)
+        {
+            filterError = ex.Message;
+        }
+        finally
+        {
+            busy = false;
+        }
+    }
+
+    private void ToggleGenre(int id, ChangeEventArgs args)
+    {
+        if (args.Value is bool value && value)
+            selectedGenreIds.Add(id);
+        else
+            selectedGenreIds.Remove(id);
+    }
+
+    private void ToggleProperty(int id, ChangeEventArgs args)
+    {
+        if (args.Value is bool value && value)
+            selectedPropertyIds.Add(id);
+        else
+            selectedPropertyIds.Remove(id);
+    }
+
+    private async Task Restart()
+    {
+        sessionId = null;
+        step = null;
+        film = null;
+        error = null;
+        warning = null;
+        filterError = null;
+        selectedAnswer = null;
+        selectedGenreIds.Clear();
+        selectedPropertyIds.Clear();
+        showExplanation = false;
+
+        if (filmMode)
+            stage = FilmStage.KnowsWhatWants;
+        else
+            await StartEngineAsync();
+    }
+
+    private enum FilmStage
+    {
+        KnowsWhatWants,
+        Filters,
+        Engine,
+        Result,
+        FilmResult
+    }
+}

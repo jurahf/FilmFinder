@@ -1,0 +1,74 @@
+@using EsServices.ViewModel.Consultation
+
+<div class="mt-3">
+    <h5>Объяснение</h5>
+
+    @if (Explanation.Rules.Count == 0)
+    {
+        <p class="muted-empty">Нет сработавших правил.</p>
+    }
+    else
+    {
+        @foreach (var rule in Explanation.Rules)
+        {
+            <div class="card mb-2">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h6 class="card-title">@rule.Name</h6>
+                        <span class="badge @(rule.Work == EsDb.Model.Enums.RuleWork.Signify ? "bg-success" : "bg-secondary")">
+                            @rule.WorkDisplay
+                        </span>
+                    </div>
+
+                    <div class="tree-node">
+                        <strong>ЕСЛИ</strong>
+                        <ul class="mb-1">
+                            @foreach (var condition in rule.Conditions)
+                            {
+                                <li>@condition</li>
+                            }
+                        </ul>
+                    </div>
+
+                    <div class="tree-node">
+                        <strong>ТО</strong> @rule.Result
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(rule.Reasoning))
+                    {
+                        <div class="tree-node">
+                            <strong>ТАК КАК</strong> @rule.Reasoning
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    }
+
+    @if (Explanation.ProvedFacts.Count > 0)
+    {
+        <h6 class="mt-3">Установленные факты</h6>
+        <ul>
+            @foreach (var fact in Explanation.ProvedFacts)
+            {
+                <li>@fact</li>
+            }
+        </ul>
+    }
+
+    @if (Explanation.UnknownVariables.Count > 0)
+    {
+        <h6 class="mt-3">Не удалось вывести</h6>
+        <ul>
+            @foreach (var variable in Explanation.UnknownVariables)
+            {
+                <li>@variable</li>
+            }
+        </ul>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public ConsultationExplanationVM Explanation { get; set; } = new();
+}

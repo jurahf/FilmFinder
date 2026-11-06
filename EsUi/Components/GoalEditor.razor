@@ -1,0 +1,61 @@
+@using EsDb.Model.Enums
+
+<div class="row">
+    <div class="col-lg-8">
+        <h4>Цель консультации</h4>
+        <p class="text-muted">
+            Цель — переменная, значение которой должна вывести экспертная система.
+            Запрашиваемые переменные в качестве цели не выбираются.
+        </p>
+
+        <div class="mb-3">
+            <label class="form-label">Целевая переменная</label>
+            <select class="form-select" @onchange="OnTargetChanged">
+                <option value="">(не выбрана)</option>
+                @foreach (var variable in TargetVariables)
+                {
+                    <option value="@variable.Name" selected="@(ExpertSystem.Target != null && ExpertSystem.Target.Name == variable.Name)">
+                        @variable.Name (@variable.TypeDisplay)
+                    </option>
+                }
+            </select>
+        </div>
+
+        @if (ExpertSystem.Target == null)
+        {
+            <div class="alert alert-warning">Цель не выбрана. Без цели консультация не запустится.</div>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                Текущая цель: <strong>@ExpertSystem.Target.Name</strong>
+                @if (ExpertSystem.Target.Domain != null)
+                {
+                    <span>, домен «@ExpertSystem.Target.Domain.Name»</span>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public ExpertSystemVM ExpertSystem { get; set; } = new();
+
+    [Parameter]
+    public EventCallback OnChanged { get; set; }
+
+    private List<VariableVM> TargetVariables => ExpertSystem.Variables
+        .Where(x => x.Type != VariableType.Queriable)
+        .ToList();
+
+    private async Task OnTargetChanged(ChangeEventArgs args)
+    {
+        var name = args.Value?.ToString();
+        ExpertSystem.Target = string.IsNullOrWhiteSpace(name)
+            ? null
+            : ExpertSystem.Variables.FirstOrDefault(x => x.Name == name);
+
+        await OnChanged.InvokeAsync();
+    }
+}

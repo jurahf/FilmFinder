@@ -1,0 +1,243 @@
+@page "/expert-systems/{Id:int}"
+@using EsServices.Services.Advice
+
+@inject IExpertSystemService ExpertSystemService
+@inject IAdviceSyncService AdviceSyncService
+@inject NavigationManager Navigation
+
+<PageTitle>Редактор ЭС</PageTitle>
+
+@if (loading)
+{
+    <p>Загрузка...</p>
+}
+else if (loadError != null)
+{
+    <div class="alert alert-danger">@loadError</div>
+    <a class="btn btn-outline-secondary" href="expert-systems">К списку</a>
+}
+else if (ExpertSystem == null)
+{
+    <p class="muted-empty">Экспертная система не найдена.</p>
+}
+else
+{
+    <div class="section-title">
+        <div>
+            <h1 class="mb-1">@ExpertSystem.Name</h1>
+            <div class="text-muted">
+                Id: @ExpertSystem.Id · доменов: @ExpertSystem.Domains.Count ·
+                переменных: @ExpertSystem.Variables.Count · правил: @ExpertSystem.Rules.Count
+                @if (isDirty)
+                {
+                    <span class="dirty-indicator ms-2">● есть несохранённые изменения</span>
+                }
+            </div>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-outline-secondary" href="expert-systems">К списку</a>
+            <button class="btn btn-outline-primary" @onclick="OpenConsultation">Консультация</button>
+            <button class="btn btn-outline-secondary" @onclick="Cancel">Отменить</button>
+            <button class="btn btn-success" @onclick="Save" disabled="@saving">
+                @(saving ? "Сохранение..." : "Сохранить новую версию")
+            </button>
+        </div>
+    </div>
+
+    @if (successMessage != null)
+    {
+        <div class="alert alert-success">@successMessage</div>
+    }
+
+    @if (saveError != null)
+    {
+        <div class="alert alert-danger">@saveError</div>
+    }
+
+    <EsValidationSummary Result="validation" />
+
+    <ul class="nav nav-tabs mt-3">
+        <li class="nav-item">
+            <button class="nav-link @(tab == "domains" ? "active" : "")" @onclick='() => tab = "domains"'>Домены</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link @(tab == "variables" ? "active" : "")" @onclick='() => tab = "variables"'>Переменные</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link @(tab == "rules" ? "active" : "")" @onclick='() => tab = "rules"'>Правила</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link @(tab == "goal" ? "active" : "")" @onclick='() => tab = "goal"'>Цель</button>
+        </li>
+        <li class="nav-item">
+            <button class="nav-link @(tab == "sync" ? "active" : "")" @onclick='() => tab = "sync"'>Советы</button>
+        </li>
+    </ul>
+
+    <div class="mt-3">
+        @switch (tab)
+        {
+            case "domains":
+                <DomainEditor ExpertSystem="ExpertSystem" OnChanged="OnChanged" />
+                break;
+            case "variables":
+                <VariableEditor ExpertSystem="ExpertSystem" OnChanged="OnChanged" />
+                break;
+            case "rules":
+                <RuleEditor ExpertSystem="ExpertSystem" OnChanged="OnChanged" />
+                break;
+            case "goal":
+                <GoalEditor ExpertSystem="ExpertSystem" OnChanged="OnChanged" />
+                break;
+            case "sync":
+                <div class="col-lg-8">
+                    <h4>Синхронизация советов</h4>
+                    <p>
+                        Добавляет в домен <code>#Советы</code> ключи советов из базы фильмов.
+                        Если совета ещё нет в домене, он появится после сохранения новой версии.
+                    </p>
+                    <button class="btn btn-primary" @onclick="SyncAdvice" disabled="@syncing">
+                        @(syncing ? "Синхронизация..." : "Синхронизировать советы")
+                    </button>
+                    @if (syncMessage != null)
+                    {
+                        <div class="alert alert-info mt-3">@syncMessage</div>
+                    }
+                </div>
+                break;
+        }
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private ExpertSystemVM? ExpertSystem;
+    private ValidationResult? validation;
+    private bool loading = true;
+    private bool saving;
+    private bool syncing;
+    private bool isDirty;
+    private string? loadError;
+    private string? saveError;
+    private string? successMessage;
+    private string? syncMessage;
+    private string tab = "domains";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadAsync();
+    }
+
+    private async Task LoadAsync()
+    {
+        loading = true;
+        loadError = null;
+        validation = null;
+        saveError = null;
+        successMessage = null;
+        syncMessage = null;
+        isDirty = false;
+
+        try
+        {
+            ExpertSystem = await ExpertSystemService.GetAsync(Id);
+        }
+        catch (Exception ex)
+        {
+            ExpertSystem = null;
+            loadError = ex.Message;
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private async Task OnChanged()
+    {
+        isDirty = true;
+        validation = null;
+        successMessage = null;
+        await Task.CompletedTask;
+    }
+
+    private async Task Save()
+    {
+        if (ExpertSystem == null)
+            return;
+
+        saving = true;
+        saveError = null;
+        successMessage = null;
+
+        try
+        {
+            var result = await ExpertSystemService.SaveAsNewVersionAsync(ExpertSystem);
+            validation = result.Validation;
+
+            if (!result.Success)
+            {
+                if (result.Error != null)
+                    saveError = result.Error;
+                return;
+            }
+
+            isDirty = false;
+            successMessage = "Сохранена новая версия экспертной системы.";
+
+            if (result.ExpertSystem != null)
+                Navigation.NavigateTo($"/expert-systems/{result.ExpertSystem.Id}");
+        }
+        catch (Exception ex)
+        {
+            saveError = ex.Message;
+        }
+        finally
+        {
+            saving = false;
+        }
+    }
+
+    private async Task Cancel()
+    {
+        await LoadAsync();
+    }
+
+    private async Task SyncAdvice()
+    {
+        if (ExpertSystem == null)
+            return;
+
+        syncing = true;
+        syncMessage = null;
+
+        try
+        {
+            var added = await AdviceSyncService.SyncAsync(ExpertSystem);
+            syncMessage = added == 0
+                ? "Все советы уже есть в домене #Советы."
+                : $"Добавлено советов: {added}. Не забудьте сохранить новую версию.";
+
+            if (added > 0)
+                await OnChanged();
+        }
+        catch (Exception ex)
+        {
+            syncMessage = $"Ошибка синхронизации: {ex.Message}";
+        }
+        finally
+        {
+            syncing = false;
+        }
+    }
+
+    private void OpenConsultation()
+    {
+        if (ExpertSystem == null)
+            return;
+
+        Navigation.NavigateTo($"/expert-systems/{ExpertSystem.Id}/consultation");
+    }
+}

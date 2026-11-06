@@ -1,0 +1,85 @@
+@using EsServices.ViewModel.Film
+
+<div class="card movie-card mb-3">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3">
+                @if (!string.IsNullOrWhiteSpace(Film.Poster))
+                {
+                    <img src="@Film.Poster" alt="@Film.Name" />
+                }
+                else
+                {
+                    <div class="border rounded p-4 text-center text-muted">Нет постера</div>
+                }
+            </div>
+            <div class="col-md-9">
+                <h3>@Film.Name @if (Film.Year > 0) { <span class="text-muted">(@Film.Year)</span> }</h3>
+
+                @if (Film.Rating > 0)
+                {
+                    <p><strong>Рейтинг:</strong> @Film.Rating</p>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(Film.Slogan))
+                {
+                    <p class="fst-italic">@Film.Slogan</p>
+                }
+
+                @if (!string.IsNullOrWhiteSpace(Film.Description))
+                {
+                    <p>@Film.Description</p>
+                }
+
+                <dl class="row mb-0">
+                    @if (Film.Genres.Count > 0)
+                    {
+                        <dt class="col-sm-3">Жанры</dt>
+                        <dd class="col-sm-9">@string.Join(", ", Film.Genres)</dd>
+                    }
+                    @if (Film.Countries.Count > 0)
+                    {
+                        <dt class="col-sm-3">Страны</dt>
+                        <dd class="col-sm-9">@string.Join(", ", Film.Countries)</dd>
+                    }
+                    @if (Film.Producers.Count > 0)
+                    {
+                        <dt class="col-sm-3">Режиссёры</dt>
+                        <dd class="col-sm-9">@string.Join(", ", Film.Producers)</dd>
+                    }
+                    @if (Film.Actors.Count > 0)
+                    {
+                        <dt class="col-sm-3">Актёры</dt>
+                        <dd class="col-sm-9">@string.Join(", ", Film.Actors)</dd>
+                    }
+                    @if (Film.Tags.Count > 0)
+                    {
+                        <dt class="col-sm-3">Свойства</dt>
+                        <dd class="col-sm-9">
+                            @foreach (var tag in Film.Tags)
+                            {
+                                <span class="badge bg-secondary me-1 mb-1">@tag.Name (@tag.Percent)</span>
+                            }
+                        </dd>
+                    }
+                </dl>
+
+                <div class="mt-2">
+                    @if (!string.IsNullOrWhiteSpace(Film.Link))
+                    {
+                        <a class="btn btn-sm btn-outline-primary" href="@Film.Link" target="_blank" rel="noopener">Открыть ссылку</a>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Film.KinopoiskId))
+                    {
+                        <a class="btn btn-sm btn-outline-secondary" href="https://www.imdb.com/title/tt@(Film.KinopoiskId)" target="_blank" rel="noopener">IMDb</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public FilmResultVM Film { get; set; } = new();
+}

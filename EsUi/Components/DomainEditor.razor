@@ -1,0 +1,234 @@
+@inject IJSRuntime JS
+@inject EsServices.Services.Advice.IAdviceCatalogService AdviceCatalog
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="section-title">
+            <h4>Домены</h4>
+            <button class="btn btn-sm btn-outline-success" @onclick="AddDomain">Добавить</button>
+        </div>
+
+        <div class="list-group editor-list">
+            @foreach (var domain in ExpertSystem.Domains)
+            {
+                <button type="button"
+                        class="list-group-item list-group-item-action @(ReferenceEquals(domain, selected) ? "active" : "")"
+                        @onclick="() => Select(domain)">
+                    <span>@domain.Name</span>
+                    <span class="badge bg-secondary float-end">@domain.Values.Count</span>
+                </button>
+            }
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        @if (selected == null)
+        {
+            <p class="muted-empty">Выберите домен или добавьте новый.</p>
+        }
+        else
+        {
+            <div class="section-title">
+                <h4>Домен</h4>
+                <button class="btn btn-sm btn-outline-danger" @onclick="DeleteDomain">Удалить домен</button>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Имя домена</label>
+                <input class="form-control" @bind="selected.Name" @bind:after="NotifyChanged" />
+            </div>
+
+            @if (error != null)
+            {
+                <div class="alert alert-warning">@error</div>
+            }
+
+            <div class="section-title">
+                <h5>Значения</h5>
+                <div class="d-flex gap-2">
+                    <input class="form-control form-control-sm" placeholder="Новое значение"
+                           @bind="newValue" @bind:event="oninput" @onkeydown="OnNewValueKeyDown" />
+                    <button class="btn btn-sm btn-outline-success" @onclick="AddValue">Добавить</button>
+                </div>
+            </div>
+
+            <table class="table table-sm table-hover">
+                <thead>
+                    <tr>
+                        <th style="width: 2.5em"></th>
+                        <th>Значение</th>
+                        @if (IsAdviceDomain)
+                        {
+                            <th>Описание совета</th>
+                        }
+                        <th style="width: 7em"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < selected.Values.Count; i++)
+                    {
+                        var index = i;
+                        var value = selected.Values[index];
+                        <tr>
+                            <td class="text-nowrap">
+                                <button class="btn btn-sm btn-outline-secondary" disabled="@(index == 0)"
+                                        @onclick="() => MoveValue(index, -1)">↑</button>
+                                <button class="btn btn-sm btn-outline-secondary" disabled="@(index == selected.Values.Count - 1)"
+                                        @onclick="() => MoveValue(index, 1)">↓</button>
+                            </td>
+                            <td>
+                                <input class="form-control form-control-sm"
+                                       @bind="value.Value"
+                                       @bind:after="() => OnValueChanged(value)" />
+                            </td>
+                            @if (IsAdviceDomain)
+                            {
+                                <td class="advice-value">@value.Display</td>
+                            }
+                            <td>
+                                <button class="btn btn-sm btn-outline-danger" @onclick="() => DeleteValue(value)">Удалить</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public ExpertSystemVM ExpertSystem { get; set; } = new();
+
+    [Parameter]
+    public EventCallback OnChanged { get; set; }
+
+    private DomainVM? selected;
+    private string newValue = string.Empty;
+    private string? error;
+
+    private bool IsAdviceDomain =>
+        selected != null &&
+        string.Equals(selected.Name, EsServices.Converters.ExpertSystemConverter.AdviceDomainName, StringComparison.Ordinal);
+
+    protected override void OnParametersSet()
+    {
+        if (selected != null && !ExpertSystem.Domains.Contains(selected))
+            selected = null;
+    }
+
+    private void Select(DomainVM domain)
+    {
+        selected = domain;
+        error = null;
+    }
+
+    private async Task AddDomain()
+    {
+        var name = BuildUniqueName("Новый домен", ExpertSystem.Domains.Select(x => x.Name));
+        var domain = new DomainVM { Name = name };
+        ExpertSystem.Domains.Add(domain);
+        selected = domain;
+        await NotifyChanged();
+    }
+
+    private async Task DeleteDomain()
+    {
+        if (selected == null)
+            return;
+
+        var confirmed = await JS.InvokeAsync<bool>(
+            "confirm",
+            $"Удалить домен '{selected.Name}'? Связанные посылки и выводы правил также будут удалены.");
+
+        if (!confirmed)
+            return;
+
+        var domain = selected;
+        expertSystemEditorDeleteDomain(domain);
+        selected = null;
+        await NotifyChanged();
+    }
+
+    private void expertSystemEditorDeleteDomain(DomainVM domain)
+    {
+        ExpertSystemEditor.DeleteDomain(ExpertSystem, domain);
+    }
+
+    private async Task AddValue()
+    {
+        if (selected == null)
+            return;
+
+        var text = newValue.Trim();
+        if (string.IsNullOrWhiteSpace(text))
+            return;
+
+        if (selected.Values.Any(x => string.Equals(x.Value, text, StringComparison.OrdinalIgnoreCase)))
+        {
+            error = $"Значение '{text}' уже есть в домене.";
+            return;
+        }
+
+        var value = new DomainValueVM { Value = text, Display = text };
+        selected.Values.Add(value);
+        newValue = string.Empty;
+        error = null;
+        await NotifyChanged();
+    }
+
+    private async Task OnNewValueKeyDown(KeyboardEventArgs args)
+    {
+        if (args.Key == "Enter")
+            await AddValue();
+    }
+
+    private async Task OnValueChanged(DomainValueVM value)
+    {
+        value.Display = value.Value;
+        await NotifyChanged();
+    }
+
+    private async Task DeleteValue(DomainValueVM value)
+    {
+        if (selected == null)
+            return;
+
+        var confirmed = await JS.InvokeAsync<bool>(
+            "confirm",
+            $"Удалить значение '{value.Value}'? Связанные посылки и выводы правил также будут удалены.");
+
+        if (!confirmed)
+            return;
+
+        ExpertSystemEditor.DeleteDomainValue(ExpertSystem, selected, value);
+        await NotifyChanged();
+    }
+
+    private async Task MoveValue(int index, int delta)
+    {
+        if (selected == null)
+            return;
+
+        ExpertSystemEditor.Reorder(selected.Values, index, index + delta);
+        await NotifyChanged();
+    }
+
+    private async Task NotifyChanged()
+    {
+        await OnChanged.InvokeAsync();
+    }
+
+    private static string BuildUniqueName(string baseName, IEnumerable<string> existing)
+    {
+        var names = new HashSet<string>(existing, StringComparer.OrdinalIgnoreCase);
+        if (!names.Contains(baseName))
+            return baseName;
+
+        var index = 1;
+        while (names.Contains($"{baseName} {index}"))
+            index++;
+
+        return $"{baseName} {index}";
+    }
+}

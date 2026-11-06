@@ -1,4 +1,10 @@
 using EsDb;
+using EsDb.Repositories;
+using EsServices.Converters;
+using EsServices.Services;
+using EsServices.Services.Advice;
+using EsServices.Services.Consultation;
+using EsServices.Validators;
 using EsUi.Areas.Identity;
 using EsUi.Data;
 using FilmDb;
@@ -44,6 +50,17 @@ namespace EsUi
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
             builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
+
+            builder.Services.AddScoped<IExpertSystemRepository, ExpertSystemRepository>();
+            builder.Services.AddScoped<ExpertSystemConverter>();
+            builder.Services.AddScoped<ExpertSystemValidator>();
+            builder.Services.AddScoped<IExpertSystemService, ExpertSystemService>();
+            builder.Services.AddScoped<IAdviceCatalogService, AdviceCatalogService>();
+            builder.Services.AddScoped<IAdviceSyncService, AdviceSyncService>();
+            builder.Services.AddScoped<ConsultationEngine>();
+            builder.Services.AddScoped<ConsultationSessionStore>();
+            builder.Services.AddScoped<IConsultationService, ConsultationService>();
+            builder.Services.AddScoped<IFilmRecommendationService, FilmRecommendationService>();
 
             var app = builder.Build();
 
