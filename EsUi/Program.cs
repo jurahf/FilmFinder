@@ -40,12 +40,12 @@ namespace EsUi
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            builder.Services.AddAuthorization(options =>
-            {
-                options.FallbackPolicy = new AuthorizationPolicyBuilder()
-                    .RequireAuthenticatedUser()
-                    .Build();
-            });
+            //builder.Services.AddAuthorization(options =>
+            //{
+            //    options.FallbackPolicy = new AuthorizationPolicyBuilder()
+            //        .RequireAuthenticatedUser()
+            //        .Build();
+            //});
 
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
@@ -79,7 +79,7 @@ namespace EsUi
 
             app.UseRouting();
 
-            app.UseAuthentication();
+            //app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();

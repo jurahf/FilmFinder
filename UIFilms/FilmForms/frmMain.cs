@@ -124,8 +124,9 @@ namespace FilmForms
         {
             try
             {
-                var s = new СинхронизацияБдФильмовСБзЭс();
-                s.СоветыВСпецДомен();
+                throw new NotSupportedException("Эта функция удалена");
+                //var s = new СинхронизацияБдФильмовСБзЭс();
+                //s.СоветыВСпецДомен();
 
                 MessageBox.Show("Успешно синхронизировали");
             }
