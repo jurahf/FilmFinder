@@ -1,0 +1,13 @@
+@page "/customproperties"
+
+@using FilmsServices.Services.Common
+@using FilmsServices.ViewModel
+
+@inject INamedService<CustomPropertyVM> CustomPropertyService
+
+<PageTitle>Точнофильм - пользовательские свойства</PageTitle>
+
+<DictionaryList TEntity="CustomPropertyVM"
+                Service="CustomPropertyService"
+                Title="Пользовательские свойства"
+                DeleteQuestion="Удалить свойство? Связи с фильмами и советами тоже будут удалены." />

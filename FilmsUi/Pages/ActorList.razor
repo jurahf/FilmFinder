@@ -1,0 +1,13 @@
+@page "/actors"
+
+@using FilmsServices.Services.Common
+@using FilmsServices.ViewModel
+
+@inject INamedService<ActorVM> ActorService
+
+<PageTitle>Точнофильм - актёры</PageTitle>
+
+<DictionaryList TEntity="ActorVM"
+                Service="ActorService"
+                Title="Актёры"
+                DeleteQuestion="Удалить актёра? Связи с фильмами тоже будут удалены." />

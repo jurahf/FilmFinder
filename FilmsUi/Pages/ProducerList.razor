@@ -1,0 +1,13 @@
+@page "/producers"
+
+@using FilmsServices.Services.Common
+@using FilmsServices.ViewModel
+
+@inject INamedService<ProducerVM> ProducerService
+
+<PageTitle>Точнофильм - режиссёры</PageTitle>
+
+<DictionaryList TEntity="ProducerVM"
+                Service="ProducerService"
+                Title="Режиссёры"
+                DeleteQuestion="Удалить режиссёра? Связи с фильмами тоже будут удалены." />

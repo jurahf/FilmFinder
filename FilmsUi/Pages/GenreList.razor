@@ -1,0 +1,13 @@
+@page "/genres"
+
+@using FilmsServices.Services.Common
+@using FilmsServices.ViewModel
+
+@inject INamedService<GenreVM> GenreService
+
+<PageTitle>Точнофильм - жанры</PageTitle>
+
+<DictionaryList TEntity="GenreVM"
+                Service="GenreService"
+                Title="Жанры"
+                DeleteQuestion="Удалить жанр? Связи с фильмами тоже будут удалены." />

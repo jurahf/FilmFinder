@@ -1,0 +1,13 @@
+@page "/countries"
+
+@using FilmsServices.Services.Common
+@using FilmsServices.ViewModel
+
+@inject INamedService<CountryVM> CountryService
+
+<PageTitle>Точнофильм - страны</PageTitle>
+
+<DictionaryList TEntity="CountryVM"
+                Service="CountryService"
+                Title="Страны"
+                DeleteQuestion="Удалить страну? Связи с фильмами тоже будут удалены." />
