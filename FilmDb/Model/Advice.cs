@@ -13,6 +13,8 @@ namespace FilmDb.Model
         {
             AdviceFilm = new HashSet<AdviceFilm>();
             AdviceCustomProperty = new HashSet<AdviceCustomProperty>();
+
+            Key = Guid.NewGuid();
         }
 
         public Guid Key { get; set; }

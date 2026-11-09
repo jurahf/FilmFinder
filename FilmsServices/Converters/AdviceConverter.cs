@@ -81,7 +81,7 @@ namespace FilmsServices.Converters
             List<AdviceFilm> forDel = new List<AdviceFilm>();
             foreach (var db in advice.AdviceFilm)
             {
-                if (!viewModel.Films.Any(x => x.Id == db.FilmId))
+                if (!viewModel.Films.Any(x => x.FilmId == db.FilmId))
                 {
                     forDel.Add(db);
                 }
@@ -92,18 +92,32 @@ namespace FilmsServices.Converters
                 advice.AdviceFilm.Remove(del);
             }
 
+            // обновляем значения существующих связей
+            foreach (var vm in viewModel.Films)
+            {
+                AdviceFilm? adviceFilm = advice.AdviceFilm.FirstOrDefault(x => x.FilmId == vm.FilmId);
+
+                if (adviceFilm != null)
+                {
+                    adviceFilm.Value = vm.Value;
+                }
+            }
+
             // добавляем новые связи
             foreach (var vm in viewModel.Films)
             {
-                AdviceFilm? adviceFilm = advice.AdviceFilm.FirstOrDefault(x => x.FilmId == vm.Id);
+                if (vm.FilmId <= 0)
+                    continue;
+
+                AdviceFilm? adviceFilm = advice.AdviceFilm.FirstOrDefault(x => x.FilmId == vm.FilmId);
 
                 if (adviceFilm == null)
                 {
                     adviceFilm = new AdviceFilm()
                     {
                         Advice = advice,
-                        FilmId = vm.Id,
-                        //Value = vm.Value,     // TODO:
+                        FilmId = vm.FilmId,
+                        Value = vm.Value,
                     };
 
                     advice.AdviceFilm.Add(adviceFilm);
@@ -120,7 +134,12 @@ namespace FilmsServices.Converters
                 Id = database.Id,
                 Key = database.Key,
                 Films = database.AdviceFilm
-                            .Select(x => filmConverter.ConvertToVm(x.Film))     // TODO: Value потерялось
+                            .Select(x => new AdviceFilmVM()
+                            {
+                                Id = x.FilmId,
+                                Film = filmConverter.ConvertToVm(x.Film),
+                                Value = x.Value,
+                            })
                             .ToList(),
                 CustomProperties = database.AdviceCustomProperty
                             .Select(x =>

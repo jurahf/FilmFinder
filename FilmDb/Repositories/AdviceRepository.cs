@@ -24,5 +24,11 @@ namespace FilmDb.Repositories
                 .Include(x => x.AdviceFilm)
                     .ThenInclude(x => x.Film);
         }
+
+
+        protected override IQueryable<Advice> DefaultOrder(IQueryable<Advice> set)
+        {
+            return set.OrderBy(x => x.Key);
+        }
     }
 }
