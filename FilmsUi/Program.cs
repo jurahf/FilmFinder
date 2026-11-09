@@ -53,11 +53,11 @@ namespace FilmsUi
             builder.Services.AddScoped<IEntityConverter<Advice, AdviceVM>, AdviceConverter>();
             builder.Services.AddScoped<IEntityConverter<Film, FilmVM>, FilmConverter>();
 
-            builder.Services.AddScoped<IRepository<Actor>>(sp => new BaseRepository<Actor>(sp.GetService<FilmDbContext>()));
-            builder.Services.AddScoped<IRepository<Country>>(sp => new BaseRepository<Country>(sp.GetService<FilmDbContext>()));
-            builder.Services.AddScoped<IRepository<Genre>>(sp => new BaseRepository<Genre>(sp.GetService<FilmDbContext>()));
-            builder.Services.AddScoped<IRepository<Producer>>(sp => new BaseRepository<Producer>(sp.GetService<FilmDbContext>()));
-            builder.Services.AddScoped<IRepository<CustomProperty>>(sp => new BaseRepository<CustomProperty>(sp.GetService<FilmDbContext>()));
+            builder.Services.AddScoped<IRepository<Actor>>(sp => new NamedRepository<Actor>(sp.GetRequiredService<FilmDbContext>()));
+            builder.Services.AddScoped<IRepository<Country>>(sp => new NamedRepository<Country>(sp.GetRequiredService<FilmDbContext>()));
+            builder.Services.AddScoped<IRepository<Genre>>(sp => new NamedRepository<Genre>(sp.GetRequiredService<FilmDbContext>()));
+            builder.Services.AddScoped<IRepository<Producer>>(sp => new NamedRepository<Producer>(sp.GetRequiredService<FilmDbContext>()));
+            builder.Services.AddScoped<IRepository<CustomProperty>>(sp => new NamedRepository<CustomProperty>(sp.GetRequiredService<FilmDbContext>()));
             builder.Services.AddScoped<IRepository<Advice>, AdviceRepository>();
             builder.Services.AddScoped<IFilmRepository, FilmRepository>();
 
@@ -70,11 +70,16 @@ namespace FilmsUi
             builder.Services.AddScoped<IValidator<AdviceVM>>(sp => new DefaultValidator<AdviceVM>());
             builder.Services.AddScoped<IValidator<FilmVM>>(sp => new DefaultValidator<FilmVM>());
 
-            builder.Services.AddScoped<IService<ActorVM>, BaseSevice<Actor, ActorVM>>();
-            builder.Services.AddScoped<IService<CountryVM>, BaseSevice<Country, CountryVM>>();
-            builder.Services.AddScoped<IService<GenreVM>, BaseSevice<Genre, GenreVM>>();
-            builder.Services.AddScoped<IService<ProducerVM>, BaseSevice<Producer, ProducerVM>>();
-            builder.Services.AddScoped<IService<CustomPropertyVM>, BaseSevice<CustomProperty, CustomPropertyVM>>();
+            builder.Services.AddScoped<IService<ActorVM>, NamedService<Actor, ActorVM>>();
+            builder.Services.AddScoped<INamedService<ActorVM>, NamedService<Actor, ActorVM>>();
+            builder.Services.AddScoped<IService<CountryVM>, NamedService<Country, CountryVM>>();
+            builder.Services.AddScoped<INamedService<CountryVM>, NamedService<Country, CountryVM>>();
+            builder.Services.AddScoped<IService<GenreVM>, NamedService<Genre, GenreVM>>();
+            builder.Services.AddScoped<INamedService<GenreVM>, NamedService<Genre, GenreVM>>();
+            builder.Services.AddScoped<IService<ProducerVM>, NamedService<Producer, ProducerVM>>();
+            builder.Services.AddScoped<INamedService<ProducerVM>, NamedService<Producer, ProducerVM>>();
+            builder.Services.AddScoped<IService<CustomPropertyVM>, NamedService<CustomProperty, CustomPropertyVM>>();
+            builder.Services.AddScoped<INamedService<CustomPropertyVM>, NamedService<CustomProperty, CustomPropertyVM>>();
             builder.Services.AddScoped<IService<AdviceVM>, BaseSevice<Advice, AdviceVM>>();
             builder.Services.AddScoped<IFilmService, FilmService>();
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FilmsServices.ViewModel
 {
-    public class CustomPropertyVM : BaseViewModel
+    public class CustomPropertyVM : BaseViewModel, INamedViewModel
     {
         public int Value { get; set; }
 

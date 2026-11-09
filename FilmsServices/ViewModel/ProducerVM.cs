@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FilmsServices.ViewModel
 {
-    public class ProducerVM : BaseViewModel
+    public class ProducerVM : BaseViewModel, INamedViewModel
     {
         public string Name { get; set; }
 
