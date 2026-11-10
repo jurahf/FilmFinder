@@ -38,11 +38,6 @@ else if (expertSystem != null)
         <div class="alert alert-danger">@error</div>
     }
 
-    @if (warning != null)
-    {
-        <div class="alert alert-warning">@warning</div>
-    }
-
     @switch (stage)
     {
         case FilmStage.KnowsWhatWants:
@@ -211,7 +206,6 @@ else if (expertSystem != null)
     private bool busy;
     private string? loadError;
     private string? error;
-    private string? warning;
     private string? filterError;
 
     private bool filmMode;
@@ -298,7 +292,6 @@ else if (expertSystem != null)
 
         busy = true;
         error = null;
-        warning = null;
         film = null;
         selectedAnswer = null;
         showExplanation = false;
@@ -308,7 +301,6 @@ else if (expertSystem != null)
             var session = await ConsultationService.StartAsync(expertSystem.Id);
             sessionId = session.SessionId;
             step = session.Step;
-            warning = session.PersistenceError;
             stage = FilmStage.Engine;
 
             if (step.Result != null)
@@ -331,7 +323,6 @@ else if (expertSystem != null)
 
         busy = true;
         error = null;
-        warning = null;
 
         try
         {
@@ -428,7 +419,6 @@ else if (expertSystem != null)
         step = null;
         film = null;
         error = null;
-        warning = null;
         filterError = null;
         selectedAnswer = null;
         selectedGenreIds.Clear();

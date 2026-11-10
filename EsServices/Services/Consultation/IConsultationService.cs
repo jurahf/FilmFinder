@@ -5,11 +5,15 @@ namespace EsServices.Services.Consultation
     public interface IConsultationService
     {
         Task<ConsultationSessionVM> StartAsync(int expertSystemId, CancellationToken cancellationToken = default);
+
+        Task<ConsultationStep> GetCurrentAsync(string sessionId, CancellationToken cancellationToken = default);
+
         Task<ConsultationStep> AnswerAsync(
             string sessionId,
             string variableName,
             string value,
             CancellationToken cancellationToken = default);
+
         Task<ConsultationExplanationVM> GetExplanationAsync(string sessionId, CancellationToken cancellationToken = default);
     }
 
@@ -19,6 +23,5 @@ namespace EsServices.Services.Consultation
         public int ExpertSystemId { get; init; }
         public string ExpertSystemName { get; init; } = string.Empty;
         public ConsultationStep Step { get; init; } = new();
-        public string? PersistenceError { get; init; }
     }
 }

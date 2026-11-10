@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CommonRepositories\CommonRepositories.csproj" />
+    <ProjectReference Include="..\EsConsultationServices\EsConsultationServices.csproj" />
     <ProjectReference Include="..\EsDb\EsDb.csproj" />
     <ProjectReference Include="..\FilmDb\FilmDb.csproj" />
   </ItemGroup>

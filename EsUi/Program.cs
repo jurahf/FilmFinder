@@ -1,5 +1,6 @@
 using EsDb;
 using EsDb.Repositories;
+using EsConsultationServices;
 using EsServices.Converters;
 using EsServices.Services;
 using EsServices.Services.Advice;
@@ -57,8 +58,8 @@ namespace EsUi
             builder.Services.AddScoped<IExpertSystemService, ExpertSystemService>();
             builder.Services.AddScoped<IAdviceCatalogService, AdviceCatalogService>();
             builder.Services.AddScoped<IAdviceSyncService, AdviceSyncService>();
-            builder.Services.AddScoped<ConsultationEngine>();
-            builder.Services.AddScoped<ConsultationSessionStore>();
+            builder.Services.AddScoped<EsConsultationServices.Contracts.IConsultationDisplayProvider, AdviceConsultationDisplayProvider>();
+            builder.Services.AddEsConsultationServices();
             builder.Services.AddScoped<IConsultationService, ConsultationService>();
             builder.Services.AddScoped<IFilmRecommendationService, FilmRecommendationService>();
 
