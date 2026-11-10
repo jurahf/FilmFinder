@@ -1,0 +1,270 @@
+@page "/adviceedit/{AdviceId:int}"
+
+@using FilmsServices.Services
+@using FilmsServices.Services.Common
+@using FilmsServices.ViewModel
+@using FilmsUi.Shared
+
+@inject NavigationManager navigation
+@inject IService<AdviceVM> adviceService
+@inject IService<CustomPropertyVM> customPropertyService
+@inject IFilmService filmService
+@inject IJSRuntime jsRuntime
+
+
+<PageTitle>Точнофильм - совет</PageTitle>
+
+<h3>@(AdviceId == 0 ? "Новый совет" : "Редактирование совета")</h3>
+
+<div class="mb-3">
+    <a href="/advices">К списку советов</a>
+</div>
+
+@if (error != null)
+{
+    <div class="alert alert-danger">@error</div>
+}
+
+@if (advice == null)
+{
+    <p>Загрузка...</p>
+}
+else
+{
+    <div class="mb-4">
+        <label class="form-label">Ключ</label>
+        <input class="form-control" value="@advice.Key" readonly />
+    </div>
+
+    <h5>Фильмы</h5>
+
+    <table class="table table-bordered table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Год</th>
+                <th>Степень соответствия</th>
+                <th width="2em">&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in advice.Films.ToList())
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Film.Year</td>
+                    <td>
+                        <input class="form-control"
+                               type="number"
+                               min="-100"
+                               max="100"
+                               value="@item.Value"
+                               @onchange="e => SetFilmValue(item, e)" />
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-danger" @onclick="() => RemoveFilm(item)">-</button>
+                    </td>
+                </tr>
+            }
+
+            <tr>
+                <td colspan="4">
+                    <button class="btn btn-outline-success" @onclick="AddFilm">+</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ListEditor TEntity="CustomPropertyVM"
+                List="advice.CustomProperties"
+                Caption="Свойства"
+                Service="customPropertyService"
+                Mappings="customPropertyMapping"
+                SearchField="a => a.Name"
+                AfterChoose="SetDefaultTagValue">
+    </ListEditor>
+
+    <div class="mt-4">
+        <button class="btn btn-success" @onclick="SaveAsync" disabled="@saving">
+            @(saving ? "Сохранение..." : "Сохранить")
+        </button>
+        <button class="btn btn-secondary" @onclick="Cancel">Отмена</button>
+
+        @if (AdviceId > 0)
+        {
+            <button class="btn btn-outline-danger float-end" @onclick="DeleteAsync">Удалить совет</button>
+        }
+    </div>
+
+    <EntityPicker @ref="filmPicker"
+                  TEntity="FilmVM"
+                  Service="filmService"
+                  Title="Добавление фильма"
+                  Mappings="filmMapping"
+                  SearchField="a => a.Name"
+                  SearchFunc="SearchFilmsAsync"
+                  ChooseDone="FilmChosen">
+    </EntityPicker>
+}
+
+
+@code {
+    [Parameter]
+    public int AdviceId { get; set; }
+
+    private AdviceVM? advice;
+    private EntityPicker<FilmVM>? filmPicker;
+    private bool saving;
+    private string? error;
+
+    private readonly List<FieldMapping<FilmVM>> filmMapping = new()
+    {
+        new FieldMapping<FilmVM>(0, "Название", a => a.Name ?? ""),
+        new FieldMapping<FilmVM>(1, "Год", a => a.Year.ToString())
+    };
+
+    private readonly List<FieldMapping<CustomPropertyVM>> customPropertyMapping = new()
+    {
+        new FieldMapping<CustomPropertyVM>(0, "Название", a => a.Name),
+        new FieldMapping<CustomPropertyVM>(1, "Степень", a => a.Value.ToString(), true, (e, v) =>
+        {
+            if (int.TryParse(v, out int value))
+                e.Value = value;
+        })
+    };
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        error = null;
+
+        try
+        {
+            if (AdviceId > 0)
+            {
+                advice = await adviceService.GetByIdAsync(AdviceId);
+
+                if (advice == null)
+                    error = "Совет не найден.";
+            }
+            else
+            {
+                advice = new AdviceVM();
+            }
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+    }
+
+
+    private void SetFilmValue(AdviceFilmVM item, ChangeEventArgs args)
+    {
+        if (int.TryParse(args.Value?.ToString(), out int value))
+            item.Value = value;
+    }
+
+
+    private async Task AddFilm()
+    {
+        if (filmPicker != null)
+            await filmPicker.Show();
+    }
+
+
+    private void FilmChosen(FilmVM film)
+    {
+        if (advice == null)
+            return;
+
+        if (advice.Films.Any(x => x.FilmId == film.Id))
+            return;
+
+        advice.Films.Add(new AdviceFilmVM()
+        {
+            Id = film.Id,
+            Film = film,
+            Value = 100
+        });
+    }
+
+
+    private void RemoveFilm(AdviceFilmVM item)
+    {
+        advice?.Films.Remove(item);
+    }
+
+
+    private void SetDefaultTagValue(CustomPropertyVM tag)
+    {
+        tag.Value = 100;
+    }
+
+
+    private Task<List<FilmVM>> SearchFilmsAsync(string query, int limit, int page)
+    {
+        return filmService.SearchByName(query, limit, page);
+    }
+
+
+    private async Task SaveAsync()
+    {
+        if (advice == null)
+            return;
+
+        saving = true;
+        error = null;
+
+        try
+        {
+            var result = await adviceService.UpdateAsync(advice);
+
+            if (!result.Success)
+            {
+                error = string.Join("; ", result.Errors.Select(x => x.Message));
+                return;
+            }
+
+            navigation.NavigateTo("/advices");
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+        finally
+        {
+            saving = false;
+        }
+    }
+
+
+    private async Task DeleteAsync()
+    {
+        if (advice == null)
+            return;
+
+        bool confirmed = await jsRuntime.InvokeAsync<bool>(
+            "confirm",
+            $"Удалить совет {advice.Key}?");
+
+        if (!confirmed)
+            return;
+
+        try
+        {
+            await adviceService.DeleteAsync(advice.Id);
+            navigation.NavigateTo("/advices");
+        }
+        catch (Exception ex)
+        {
+            error = $"Не удалось удалить совет: {ex.Message}";
+        }
+    }
+
+
+    private void Cancel()
+    {
+        navigation.NavigateTo("/advices");
+    }
+}

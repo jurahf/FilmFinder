@@ -80,6 +80,13 @@
     [Parameter]
     public Func<TEntity, string> SearchField { get; set; }
 
+    /// <summary>
+    /// Необязательное действие после добавления выбранной сущности в список.
+    /// Например, чтобы задать значение по умолчанию.
+    /// </summary>
+    [Parameter]
+    public Action<TEntity>? AfterChoose { get; set; }
+
 
     private EntityPicker<TEntity> Picker;
 
@@ -108,8 +115,11 @@
 
     protected async Task Picker_Choose(TEntity choosen)
     {
-        if (!List.Any(x => x.Id == choosen.Id))
-            List.Add(choosen);
+        if (List.Any(x => x.Id == choosen.Id))
+            return;
+
+        List.Add(choosen);
+        AfterChoose?.Invoke(choosen);
     }
 
     private async Task DeleteRow(TEntity item)

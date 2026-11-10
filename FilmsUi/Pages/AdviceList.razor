@@ -1,0 +1,166 @@
+@page "/advices"
+
+@using FilmsServices.Services.Common
+@using FilmsServices.ViewModel
+
+@inject NavigationManager navigation
+@inject IService<AdviceVM> adviceService
+@inject IJSRuntime jsRuntime
+
+
+<PageTitle>Точнофильм - советы</PageTitle>
+
+<div class="d-flex align-items-center justify-content-between mb-3">
+    <h1 class="mb-0">Советы</h1>
+    <button class="btn btn-success" @onclick="AddAdvice">Добавить</button>
+</div>
+
+@if (error != null)
+{
+    <div class="alert alert-danger">@error</div>
+}
+
+@if (loading)
+{
+    <p>Загрузка...</p>
+}
+else if (items.Count == 0)
+{
+    <p>Записей нет.</p>
+}
+else
+{
+    <table class="table table-hover align-middle">
+        <thead>
+            <tr>
+                <th>Ключ</th>
+                <th>Фильмы</th>
+                <th>Свойства</th>
+                <th class="text-end">Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in items)
+            {
+                <tr>
+                    <td>@item.Key</td>
+                    <td>@item.FilmsStr</td>
+                    <td>@item.TagStr</td>
+                    <td class="text-end text-nowrap">
+                        <button class="btn btn-sm btn-outline-primary" @onclick="() => EditAdvice(item)">Изменить</button>
+                        <button class="btn btn-sm btn-outline-danger" @onclick="() => DeleteAdvice(item)">Удалить</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="d-flex align-items-center gap-3">
+        <button class="btn btn-outline-primary" @onclick="PrevPageAsync" disabled="@(page <= 0)">Назад</button>
+        <span role="status">Страница @(page + 1) из @MaxPage</span>
+        <button class="btn btn-outline-primary" @onclick="NextPageAsync" disabled="@(page + 1 >= MaxPage)">Вперёд</button>
+        <span class="text-muted">Всего: @total</span>
+    </div>
+}
+
+
+@code {
+    private const int PageSize = 50;
+
+    private List<AdviceVM> items = new();
+    private int page;
+    private int total;
+    private bool loading = true;
+    private string? error;
+
+    private int MaxPage => Math.Max(1, (int)Math.Ceiling(total / (double)PageSize));
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadAsync();
+    }
+
+
+    private async Task LoadAsync()
+    {
+        loading = true;
+        error = null;
+
+        try
+        {
+            total = await adviceService.GetCountAsync();
+
+            if (page > MaxPage - 1)
+                page = MaxPage - 1;
+
+            if (page < 0)
+                page = 0;
+
+            items = await adviceService.GetAllAsync(PageSize, page);
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+
+    private void AddAdvice()
+    {
+        navigation.NavigateTo("/adviceedit/0");
+    }
+
+
+    private void EditAdvice(AdviceVM item)
+    {
+        navigation.NavigateTo($"/adviceedit/{item.Id}");
+    }
+
+
+    private async Task DeleteAdvice(AdviceVM item)
+    {
+        bool confirmed = await jsRuntime.InvokeAsync<bool>(
+            "confirm",
+            $"Удалить совет {item.Key}?\n{item.FilmsStr}");
+
+        if (!confirmed)
+            return;
+
+        error = null;
+
+        try
+        {
+            await adviceService.DeleteAsync(item.Id);
+            await LoadAsync();
+        }
+        catch (Exception ex)
+        {
+            error = $"Не удалось удалить совет: {ex.Message}";
+        }
+    }
+
+
+    private async Task PrevPageAsync()
+    {
+        if (page <= 0)
+            return;
+
+        page--;
+        await LoadAsync();
+    }
+
+
+    private async Task NextPageAsync()
+    {
+        if (page + 1 >= MaxPage)
+            return;
+
+        page++;
+        await LoadAsync();
+    }
+}

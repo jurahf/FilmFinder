@@ -109,6 +109,13 @@
     [Parameter]
     public Func<TEntity, string> SearchField { get; set; }
 
+    /// <summary>
+    /// Необязательный серверный поиск: запрос, размер страницы, номер страницы.
+    /// Если задан, используется вместо загрузки всех сущностей в память.
+    /// </summary>
+    [Parameter]
+    public Func<string, int, int, Task<List<TEntity>>>? SearchFunc { get; set; }
+
 
     public async Task Show()
     {
@@ -151,8 +158,14 @@
     {
         choosedId = 0;
 
-        if (string.IsNullOrWhiteSpace(searchText))
+        if (SearchFunc != null)
+        {
+            list = await SearchFunc(searchText ?? string.Empty, limit, page);
+        }
+        else if (string.IsNullOrWhiteSpace(searchText))
+        {
             list = await Service.GetAllAsync(limit, page);
+        }
         else
         {
             if (allEntities == null)        // TODO: переложить поиск на сервис и не вычитывать вообще все сущности
