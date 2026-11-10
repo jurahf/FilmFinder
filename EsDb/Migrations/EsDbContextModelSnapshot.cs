@@ -55,6 +55,42 @@ namespace EsDb.Migrations
                     b.ToTable("Consultations");
                 });
 
+            modelBuilder.Entity("EsDb.Model.ConsultationAnswer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ConsultationId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DomainValueId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("VariableId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DomainValueId");
+
+                    b.HasIndex("VariableId");
+
+                    b.HasIndex("ConsultationId", "Order")
+                        .IsUnique();
+
+                    b.ToTable("ConsultationAnswers");
+                });
+
             modelBuilder.Entity("EsDb.Model.ConsultationFact", b =>
                 {
                     b.Property<int>("Id")
@@ -105,6 +141,30 @@ namespace EsDb.Migrations
                     b.HasIndex("RuleId");
 
                     b.ToTable("ConsultationRules");
+                });
+
+            modelBuilder.Entity("EsDb.Model.ConsultationUnknownVariable", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ConsultationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VariableId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("VariableId");
+
+                    b.HasIndex("ConsultationId", "VariableId")
+                        .IsUnique();
+
+                    b.ToTable("ConsultationUnknownVariables");
                 });
 
             modelBuilder.Entity("EsDb.Model.Domain", b =>
@@ -426,6 +486,32 @@ namespace EsDb.Migrations
                     b.Navigation("Session");
                 });
 
+            modelBuilder.Entity("EsDb.Model.ConsultationAnswer", b =>
+                {
+                    b.HasOne("EsDb.Model.Consultation", "Consultation")
+                        .WithMany("Answers")
+                        .HasForeignKey("ConsultationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EsDb.Model.DomainValue", "DomainValue")
+                        .WithMany()
+                        .HasForeignKey("DomainValueId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("EsDb.Model.Variable", "Variable")
+                        .WithMany()
+                        .HasForeignKey("VariableId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Consultation");
+
+                    b.Navigation("DomainValue");
+
+                    b.Navigation("Variable");
+                });
+
             modelBuilder.Entity("EsDb.Model.ConsultationFact", b =>
                 {
                     b.HasOne("EsDb.Model.Consultation", "Consultation")
@@ -462,6 +548,25 @@ namespace EsDb.Migrations
                     b.Navigation("Consultation");
 
                     b.Navigation("Rule");
+                });
+
+            modelBuilder.Entity("EsDb.Model.ConsultationUnknownVariable", b =>
+                {
+                    b.HasOne("EsDb.Model.Consultation", "Consultation")
+                        .WithMany("UnknownVariables")
+                        .HasForeignKey("ConsultationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EsDb.Model.Variable", "Variable")
+                        .WithMany()
+                        .HasForeignKey("VariableId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Consultation");
+
+                    b.Navigation("Variable");
                 });
 
             modelBuilder.Entity("EsDb.Model.Domain", b =>
@@ -610,9 +715,13 @@ namespace EsDb.Migrations
 
             modelBuilder.Entity("EsDb.Model.Consultation", b =>
                 {
+                    b.Navigation("Answers");
+
                     b.Navigation("FinalSolution");
 
                     b.Navigation("ProvedFacts");
+
+                    b.Navigation("UnknownVariables");
 
                     b.Navigation("WorkedRules");
                 });

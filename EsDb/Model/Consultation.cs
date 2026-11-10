@@ -8,6 +8,8 @@ namespace EsDb.Model
         {
             ProvedFacts = new HashSet<ConsultationFact>();
             WorkedRules = new HashSet<ConsultationRule>();
+            Answers = new HashSet<ConsultationAnswer>();
+            UnknownVariables = new HashSet<ConsultationUnknownVariable>();
         }
 
         public int SessionId { get; set; }
@@ -24,6 +26,8 @@ namespace EsDb.Model
 
         public virtual ICollection<ConsultationFact> ProvedFacts { get; set; }
         public virtual ICollection<ConsultationRule> WorkedRules { get; set; }
+        public virtual ICollection<ConsultationAnswer> Answers { get; set; }
+        public virtual ICollection<ConsultationUnknownVariable> UnknownVariables { get; set; }
         public virtual FinalSolution? FinalSolution { get; set; }
     }
 }

@@ -15,6 +15,8 @@ namespace EsDb
         public virtual DbSet<Consultation> Consultations { get; set; }
         public virtual DbSet<ConsultationFact> ConsultationFacts { get; set; }
         public virtual DbSet<ConsultationRule> ConsultationRules { get; set; }
+        public virtual DbSet<ConsultationAnswer> ConsultationAnswers { get; set; }
+        public virtual DbSet<ConsultationUnknownVariable> ConsultationUnknownVariables { get; set; }
         public virtual DbSet<GoalStack> GoalStacks { get; set; }
         public virtual DbSet<FinalSolution> FinalSolutions { get; set; }
         public virtual DbSet<Session> Sessions { get; set; }
@@ -181,6 +183,41 @@ namespace EsDb
                 entity.HasOne(x => x.Rule)
                     .WithMany()
                     .HasForeignKey(x => x.RuleId)
+                    .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<ConsultationAnswer>(entity =>
+            {
+                entity.HasIndex(x => new { x.ConsultationId, x.Order }).IsUnique();
+
+                entity.HasOne(x => x.Consultation)
+                    .WithMany(x => x.Answers)
+                    .HasForeignKey(x => x.ConsultationId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(x => x.Variable)
+                    .WithMany()
+                    .HasForeignKey(x => x.VariableId)
+                    .OnDelete(DeleteBehavior.NoAction);
+
+                entity.HasOne(x => x.DomainValue)
+                    .WithMany()
+                    .HasForeignKey(x => x.DomainValueId)
+                    .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<ConsultationUnknownVariable>(entity =>
+            {
+                entity.HasIndex(x => new { x.ConsultationId, x.VariableId }).IsUnique();
+
+                entity.HasOne(x => x.Consultation)
+                    .WithMany(x => x.UnknownVariables)
+                    .HasForeignKey(x => x.ConsultationId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasOne(x => x.Variable)
+                    .WithMany()
+                    .HasForeignKey(x => x.VariableId)
                     .OnDelete(DeleteBehavior.NoAction);
             });
 
