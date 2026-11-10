@@ -6,6 +6,7 @@ using FilmsServices.Converters;
 using FilmsServices.Converters.Common;
 using FilmsServices.Services;
 using FilmsServices.Services.Common;
+using FilmsServices.Services.Kinopoisk;
 using FilmsServices.Validators.Common;
 using FilmsServices.ViewModel;
 using FilmsUi.Areas.Identity;
@@ -82,6 +83,13 @@ namespace FilmsUi
             builder.Services.AddScoped<INamedService<CustomPropertyVM>, NamedService<CustomProperty, CustomPropertyVM>>();
             builder.Services.AddScoped<IService<AdviceVM>, BaseSevice<Advice, AdviceVM>>();
             builder.Services.AddScoped<IFilmService, FilmService>();
+
+            builder.Services.AddSingleton(new HttpClient()
+            {
+                Timeout = TimeSpan.FromSeconds(30)
+            });
+            builder.Services.AddSingleton<KinopoiskHtmlParser>();
+            builder.Services.AddScoped<IKinopoiskFilmImportService, KinopoiskFilmImportService>();
 
 
 

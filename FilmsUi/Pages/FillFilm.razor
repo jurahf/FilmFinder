@@ -1,0 +1,119 @@
+@page "/fillfilm"
+
+@using FilmsServices.Exceptions
+@using FilmsServices.Services.Kinopoisk
+
+@inject IKinopoiskFilmImportService importService
+@inject NavigationManager navigation
+
+
+<PageTitle>Точнофильм - заполнить фильм</PageTitle>
+
+<h1>Заполнить фильм</h1>
+
+<p class="text-muted">
+    Вставьте ссылку на страницу фильма Кинопоиска, например
+    <code>https://www.kinopoisk.ru/film/12345/</code>.
+</p>
+
+<div class="mb-3">
+    <label class="form-label" for="filmUrl">Ссылка на Кинопоиск</label>
+    <input id="filmUrl"
+           class="form-control"
+           @bind="url"
+           @bind:event="oninput"
+           @onkeydown="OnKeyDown"
+           placeholder="https://www.kinopoisk.ru/film/..." />
+</div>
+
+<button class="btn btn-primary" @onclick="LoadAsync" disabled="@loading">
+    @(loading ? "Загрузка..." : "Загрузить фильм")
+</button>
+
+@if (blocked)
+{
+    <div class="alert alert-warning mt-3">
+        Кинопоиск вернул страницу проверки на робота. Он не отдаёт серверным запросам
+        страницу фильма. Попробуйте позже.
+    </div>
+}
+
+@if (existingFilmId > 0)
+{
+    <div class="alert alert-info mt-3">
+        @message
+        <a class="alert-link" href="/filmedit/@existingFilmId">Открыть существующий фильм</a>
+    </div>
+}
+else if (error != null)
+{
+    <div class="alert alert-danger mt-3">@error</div>
+}
+
+
+@code {
+    private string url = "";
+    private bool loading;
+    private bool blocked;
+    private string? error;
+    private string? message;
+    private int existingFilmId;
+
+
+    private async Task LoadAsync()
+    {
+        if (loading)
+            return;
+
+        error = null;
+        message = null;
+        blocked = false;
+        existingFilmId = 0;
+
+        if (string.IsNullOrWhiteSpace(url))
+        {
+            error = "Укажите ссылку на фильм Кинопоиска.";
+            return;
+        }
+
+        loading = true;
+
+        try
+        {
+            int filmId = await importService.ImportByUrlAsync(url);
+            navigation.NavigateTo($"/filmedit/{filmId}");
+        }
+        catch (FilmAlreadyExistsException ex)
+        {
+            existingFilmId = ex.ExistingFilmId;
+            message = ex.Message;
+        }
+        catch (KinopoiskBlockedException)
+        {
+            blocked = true;
+        }
+        catch (ArgumentException ex)
+        {
+            error = ex.Message;
+        }
+        catch (InvalidOperationException ex)
+        {
+            error = ex.Message;
+        }
+        catch (Exception ex)
+        {
+            error = $"Не удалось загрузить фильм: {ex.Message}";
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+
+    private async Task OnKeyDown(KeyboardEventArgs args)
+    {
+        if (args.Key == "Enter")
+            await LoadAsync();
+    }
+}
