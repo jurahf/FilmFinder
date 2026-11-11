@@ -46,14 +46,48 @@
 1. Дело в том, что мы можем в UI редактировать советы как справочник
 2. Далее, они должны попасть в ЭС в качестве домена значений (чтобы можно было указать вывод ЭС - ключ совета)
 3. Эта синхронизация это и делает - берет значения домена советов из БД фильмов (FilmsDb) и сохраняет в EsDb
-Также имеет возможность запукать консультацию - использует свой In-memory-движок, который не подходит для консультаций по API.
-Использует EsServices, EsDb, CommonRepositories и FilmDb
+Также имеет возможность запукать консультацию - использует движок из EsConsultationServices.
+Использует EsServices, EsConsultationServices, EsDb, CommonRepositories и FilmDb
+
+## EsConsultationServices
+Движок консультации и прикладная логика советов:
+- `IConsultationService` — старт, текущий шаг, ответ, объяснение результата;
+- хранение состояния консультации в EsDb;
+- подбор фильма по совету и по фильтрам (`IFilmRecommendationService`);
+- провайдер описаний советов для движка (`AdviceConsultationDisplayProvider`).
+
+Не зависит от EsServices; используется и EsUi, и EsConsultationApi.
+Использует EsDb, FilmDb, CommonRepositories
 
 ## EsServices
-Содержит конвертеры, валидаторы, ViewModel и сервисы для работы с сохранением и чтением ЭС и соответствующих сущностей, без бизнес-логики
-По сути, бекенд для EsUi
-ViewModel отображается в EsUi
+Содержит конвертеры, валидаторы, ViewModel и сервисы доступа к данным для EsUi:
+редактор ЭС, каталог советов (`AdviceCatalogService`), справочники жанров
+(`GenresService`) и свойств фильмов (`CustomPropertiesService`).
+Бизнес-логики консультации здесь нет — она в EsConsultationServices.
 Использует EsDb, FilmDb, CommonRepositories
+
+## EsConsultationApi - HTTP API консультаций
+ASP.NET Core Web API для прохождения консультаций ЭС «Фильмы»:
+- `POST /api/consultations` — начать консультацию, вернуть `sessionId` и первый вопрос;
+- `GET /api/consultations/{sessionId}` — текущий вопрос или результат;
+- `POST /api/consultations/{sessionId}/answers` — ответить на вопрос;
+- `POST /api/consultations/{sessionId}/another` — другой фильм по тому же результату;
+- `POST /api/consultations/{sessionId}/review` — оценка «понравилось / нет».
+
+На завершающем ответе возвращается результат-совет (GUID) и подобранный фильм.
+Показанные фильмы сохраняются в EsDb (`ConsultationShownFilms`), поэтому «другой ответ»
+не повторяется после перезапуска. Оценки пишутся в `EsDb.Reviews` (`10` / `0`).
+Ошибки возвращаются как `ProblemDetails`: 400, 404, 409, 500.
+
+Запуск:
+```
+dotnet run --project EsConsultationApi
+```
+В Development открывается Swagger (`/swagger`). Строки подключения `EsConnection`
+и `FilmConnection` задаются в `appsettings.json`; экспертная система — секцией
+`Consultation` (`ExpertSystemId` или `ExpertSystemName`, по умолчанию «Фильмы»).
+Использует EsConsultationServices, EsDb, FilmDb
+
 
 
 ## WebApi - API для проведения консультации в VK
