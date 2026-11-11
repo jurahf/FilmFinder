@@ -1,3 +1,4 @@
+using EsConsultationServices.Films;
 using EsDb.Model;
 using EsServices.ViewModel;
 
@@ -5,7 +6,7 @@ namespace EsServices.Converters
 {
     public class ExpertSystemConverter
     {
-        public const string AdviceDomainName = "#Советы";
+        public const string AdviceDomainName = AdviceCatalogConstants.DomainName;
 
         public ExpertSystemVM ConvertToVm(
             ExpertSystem database,

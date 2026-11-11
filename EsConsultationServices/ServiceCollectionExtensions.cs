@@ -1,9 +1,11 @@
 using EsConsultationServices.Contracts;
 using EsConsultationServices.Engine;
+using EsConsultationServices.Films;
 using EsConsultationServices.Persistence;
 using EsConsultationServices.Services;
 using EsDb;
 using EsDb.Repositories;
+using FilmDb.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -20,6 +22,8 @@ namespace EsConsultationServices
             services.AddMemoryCache();
             services.TryAddScoped<IExpertSystemRepository, ExpertSystemRepository>();
             services.TryAddScoped<IConsultationDisplayProvider, DefaultConsultationDisplayProvider>();
+            services.TryAddScoped<IAdviceRepository, AdviceRepository>();
+            services.TryAddScoped<IFilmRecommendationService, FilmRecommendationService>();
 
             services.AddSingleton<ConsultationExpertSystemCache>();
             services.AddScoped<ConsultationEngine>();

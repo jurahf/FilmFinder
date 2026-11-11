@@ -1,4 +1,4 @@
-@using EsServices.ViewModel.Film
+@using EsConsultationServices.Films
 
 <div class="card movie-card mb-3">
     <div class="card-body">
@@ -81,5 +81,5 @@
 
 @code {
     [Parameter, EditorRequired]
-    public FilmResultVM Film { get; set; } = new();
+    public RecommendedFilm Film { get; set; } = new();
 }

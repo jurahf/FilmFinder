@@ -4,6 +4,8 @@
 @inject IExpertSystemService ExpertSystemService
 @inject IConsultationService ConsultationService
 @inject IFilmRecommendationService FilmRecommendationService
+@inject IGenresService GenresService
+@inject ICustomPropertiesService CustomPropertiesService
 @inject NavigationManager Navigation
 
 <PageTitle>Консультация</PageTitle>
@@ -216,7 +218,7 @@ else if (expertSystem != null)
     private string? selectedAnswer;
     private bool showExplanation;
 
-    private FilmResultVM? film;
+    private RecommendedFilm? film;
     private List<FilmLookupItemVM> genres = new();
     private List<FilmLookupItemVM> customProperties = new();
     private HashSet<int> selectedGenreIds = new();
@@ -260,8 +262,8 @@ else if (expertSystem != null)
         error = null;
         try
         {
-            genres = await FilmRecommendationService.GetGenresAsync();
-            customProperties = await FilmRecommendationService.GetCustomPropertiesAsync();
+            genres = await GenresService.GetListAsync();
+            customProperties = await CustomPropertiesService.GetListAsync();
             stage = FilmStage.Filters;
         }
         catch (Exception ex)
