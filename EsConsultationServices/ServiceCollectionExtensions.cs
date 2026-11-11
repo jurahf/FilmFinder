@@ -27,7 +27,8 @@ namespace EsConsultationServices
             services.AddScoped<IConsultationService>(provider => new ConsultationService(
                 provider.GetRequiredService<EsDbContext>(),
                 provider.GetRequiredService<ConsultationEngine>(),
-                provider.GetRequiredService<ConsultationStateStore>()));
+                provider.GetRequiredService<ConsultationStateStore>(),
+                provider.GetRequiredService<ConsultationExpertSystemCache>()));
 
             return services;
         }

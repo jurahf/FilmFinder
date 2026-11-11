@@ -15,21 +15,28 @@ namespace EsConsultationServices.Services
         private readonly EsDbContext db;
         private readonly ConsultationEngine engine;
         private readonly ConsultationStateStore store;
+        private readonly ConsultationExpertSystemCache expertSystemCache;
 
         internal ConsultationService(
             EsDbContext db,
             ConsultationEngine engine,
-            ConsultationStateStore store)
+            ConsultationStateStore store,
+            ConsultationExpertSystemCache expertSystemCache)
         {
             this.db = db;
             this.engine = engine;
             this.store = store;
+            this.expertSystemCache = expertSystemCache;
         }
 
         public async Task<ConsultationSession> StartAsync(
             int expertSystemId,
             CancellationToken cancellationToken = default)
         {
+            // Прогреваем кэш до открытия транзакции, чтобы загрузка графа
+            // не выполнялась внутри неё.
+            await expertSystemCache.GetAsync(expertSystemId, cancellationToken);
+
             await using var transaction = await db.Database.BeginTransactionAsync(cancellationToken);
 
             var state = await store.CreateAsync(expertSystemId, cancellationToken);

@@ -231,6 +231,16 @@ namespace EsConsultationServices.Persistence
                 .Where(x => oldGoalIds.Contains(x.Id))
                 .ToListAsync(cancellationToken);
 
+            // Ссылки NextGoalId образуют цепочку с NoAction, поэтому сначала
+            // разрываем её, а уже потом удаляем строки.
+            foreach (var goal in oldGoals)
+            {
+                goal.NextGoalId = null;
+                goal.NextGoal = null;
+            }
+
+            await db.SaveChangesAsync(cancellationToken);
+
             db.GoalStacks.RemoveRange(oldGoals);
             await db.SaveChangesAsync(cancellationToken);
         }
