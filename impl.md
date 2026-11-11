@@ -131,14 +131,20 @@ dotnet test EsServices.Tests/EsServices.Tests.csproj
 - ответ без готового `Fact` и отсутствие повторного вопроса после перезапуска;
 - загрузка графа из кэша один раз и повторная загрузка после `Invalidate`.
 
-Проверка локальной БД: SQL Server доступен, база `EsDb` существует, но в
-`__EFMigrationsHistory` есть только `InitialCreate`, таблиц
-`ConsultationAnswers` и `ConsultationUnknownVariables` пока нет. Поэтому
-миграцию нужно применить перед ручной проверкой UI:
+Проверка локальной БД: SQL Server доступен, миграция
+`20261110122624_ConsultationState` применена, таблицы
+`ConsultationAnswers` и `ConsultationUnknownVariables` созданы.
 
-```
-dotnet ef database update --project EsDb --startup-project EsDb
-```
+Ручной сценарий в `EsUi` пройден на временной ЭС (вопрос Q, правило
+Q = Yes -> T = Yes):
+
+- страница консультации открылась, вопрос и варианты ответа отобразились;
+- после ответа отобразился результат `T: Yes` и объяснение (правило, условие,
+  установленные факты);
+- в БД появились `Consultations`, `Sessions`, `ConsultationAnswers`,
+  `ConsultationFacts`, `ConsultationRules`, `FinalSolutions`; после завершения
+  `Consultation.GoalStackId` стал `NULL`;
+- временная ЭС и тестовые консультации после проверки удалены.
 
 ## Тонкие места
 
@@ -174,8 +180,8 @@ dotnet ef database update --project EsDb --startup-project EsDb
 
 ## Открытые вопросы
 
-- Применить миграцию `ConsultationState` на локальной БД и пройти ручной
-  сценарий в `EsUi` (начать консультацию, ответить, проверить таблицы).
+- Пройти сценарии на реальной ЭС с несколькими вопросами и ветвлениями
+  (временная ЭС для проверки покрывала один вопрос).
 - Нужна ли optimistic concurrency для одной сессии (одновременные ответы)?
 - Нужен ли распределённый кэш графа при горизонтальном масштабировании API?
 - Когда удалять `Logic`/`WebApi` и старый `EsAlgorithm`.

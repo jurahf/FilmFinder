@@ -357,7 +357,7 @@ dotnet sln "EsService/ЭС.sln" add EsConsultationServices/EsConsultationService
 - [x] 12. Обновить `EsUi/Program.cs` и `Consultation.razor`.
 - [x] 13. Обновить `EsServices.Tests`, добавить тесты сохранения, продолжения и кэша.
 - [x] 14. Собрать net7-проекты и прогнать тесты.
-- [ ] 15. Проверить миграцию и ручной сценарий в `EsUi`, если доступна локальная БД.
+- [x] 15. Проверить миграцию и ручной сценарий в `EsUi`, если доступна локальная БД.
 
 ## 9. Как проверять
 
