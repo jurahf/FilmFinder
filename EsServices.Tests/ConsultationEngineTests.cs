@@ -1,5 +1,5 @@
+using EsConsultationServices.Engine;
 using EsDb.Model.Enums;
-using EsServices.Services.Consultation;
 using Xunit;
 
 namespace EsServices.Tests
@@ -10,7 +10,7 @@ namespace EsServices.Tests
         public void AsksQuestionThenReturnsResult()
         {
             var engine = new ConsultationEngine();
-            var state = engine.Start(TestExpertSystemFactory.BuildSimple());
+            var state = engine.Start(TestConsultationGraphFactory.BuildSimple());
 
             var step = engine.Next(state);
 
@@ -33,7 +33,7 @@ namespace EsServices.Tests
         public void ReturnsUnknownWhenConditionIsFalse()
         {
             var engine = new ConsultationEngine();
-            var state = engine.Start(TestExpertSystemFactory.BuildSimple());
+            var state = engine.Start(TestConsultationGraphFactory.BuildSimple());
 
             var step = engine.Next(state);
             Assert.NotNull(step.Question);
@@ -50,7 +50,8 @@ namespace EsServices.Tests
         public void DeductionQueriedAsksIfRulesFail()
         {
             var engine = new ConsultationEngine();
-            var state = engine.Start(TestExpertSystemFactory.BuildSimple(VariableType.QuerriableDetective));
+            var state = engine.Start(
+                TestConsultationGraphFactory.BuildSimple(VariableType.QuerriableDetective));
 
             var step = engine.Next(state);
             Assert.NotNull(step.Question);
