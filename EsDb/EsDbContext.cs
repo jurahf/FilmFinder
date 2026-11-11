@@ -21,6 +21,7 @@ namespace EsDb
         public virtual DbSet<FinalSolution> FinalSolutions { get; set; }
         public virtual DbSet<Session> Sessions { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
+        public virtual DbSet<ConsultationShownFilm> ConsultationShownFilms { get; set; }
 
         public EsDbContext()
         {
@@ -232,6 +233,17 @@ namespace EsDb
                     .WithMany()
                     .HasForeignKey(x => x.NextGoalId)
                     .OnDelete(DeleteBehavior.NoAction);
+            });
+
+            modelBuilder.Entity<ConsultationShownFilm>(entity =>
+            {
+                entity.HasIndex(x => new { x.ConsultationId, x.FilmId }).IsUnique();
+                entity.HasIndex(x => new { x.ConsultationId, x.Order }).IsUnique();
+
+                entity.HasOne(x => x.Consultation)
+                    .WithMany(x => x.ShownFilms)
+                    .HasForeignKey(x => x.ConsultationId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Review>(entity =>

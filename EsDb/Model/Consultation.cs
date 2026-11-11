@@ -10,6 +10,7 @@ namespace EsDb.Model
             WorkedRules = new HashSet<ConsultationRule>();
             Answers = new HashSet<ConsultationAnswer>();
             UnknownVariables = new HashSet<ConsultationUnknownVariable>();
+            ShownFilms = new HashSet<ConsultationShownFilm>();
         }
 
         public int SessionId { get; set; }
@@ -28,6 +29,7 @@ namespace EsDb.Model
         public virtual ICollection<ConsultationRule> WorkedRules { get; set; }
         public virtual ICollection<ConsultationAnswer> Answers { get; set; }
         public virtual ICollection<ConsultationUnknownVariable> UnknownVariables { get; set; }
+        public virtual ICollection<ConsultationShownFilm> ShownFilms { get; set; }
         public virtual FinalSolution? FinalSolution { get; set; }
     }
 }

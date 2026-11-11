@@ -143,6 +143,37 @@ namespace EsDb.Migrations
                     b.ToTable("ConsultationRules");
                 });
 
+            modelBuilder.Entity("EsDb.Model.ConsultationShownFilm", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ConsultationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FilmId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ShownDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ConsultationId", "FilmId")
+                        .IsUnique();
+
+                    b.HasIndex("ConsultationId", "Order")
+                        .IsUnique();
+
+                    b.ToTable("ConsultationShownFilms");
+                });
+
             modelBuilder.Entity("EsDb.Model.ConsultationUnknownVariable", b =>
                 {
                     b.Property<int>("Id")
@@ -550,6 +581,17 @@ namespace EsDb.Migrations
                     b.Navigation("Rule");
                 });
 
+            modelBuilder.Entity("EsDb.Model.ConsultationShownFilm", b =>
+                {
+                    b.HasOne("EsDb.Model.Consultation", "Consultation")
+                        .WithMany("ShownFilms")
+                        .HasForeignKey("ConsultationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Consultation");
+                });
+
             modelBuilder.Entity("EsDb.Model.ConsultationUnknownVariable", b =>
                 {
                     b.HasOne("EsDb.Model.Consultation", "Consultation")
@@ -720,6 +762,8 @@ namespace EsDb.Migrations
                     b.Navigation("FinalSolution");
 
                     b.Navigation("ProvedFacts");
+
+                    b.Navigation("ShownFilms");
 
                     b.Navigation("UnknownVariables");
 
