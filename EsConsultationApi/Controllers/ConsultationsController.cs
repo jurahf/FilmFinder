@@ -16,8 +16,10 @@ public sealed class ConsultationsController : ControllerBase
         this.workflow = workflow;
     }
 
-    /// <summary>Начинает консультацию и возвращает её первый вопрос.</summary>
-    [HttpPost]
+    /// <summary>
+    /// Начинает консультацию и возвращает её первый вопрос.
+    /// </summary>
+    [HttpPost("Start")]
     [ProducesResponseType(typeof(ConsultationResponse), StatusCodes.Status200OK)]
     public async Task<ActionResult<ConsultationResponse>> Start(
         [FromBody] StartConsultationRequest? request,
