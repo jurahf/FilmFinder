@@ -50,6 +50,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebUIEs", "WebUIEs", "{36D5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EsConsultationServices", "..\EsConsultationServices\EsConsultationServices.csproj", "{11A29629-8BF1-4E7A-81DE-F008FBDDA7D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EsConsultationApi", "..\EsConsultationApi\EsConsultationApi.csproj", "{05475682-76AD-4BB2-9B3F-1CDF13C30A1D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -228,6 +230,18 @@ Global
 		{11A29629-8BF1-4E7A-81DE-F008FBDDA7D9}.Release|x64.Build.0 = Release|Any CPU
 		{11A29629-8BF1-4E7A-81DE-F008FBDDA7D9}.Release|x86.ActiveCfg = Release|Any CPU
 		{11A29629-8BF1-4E7A-81DE-F008FBDDA7D9}.Release|x86.Build.0 = Release|Any CPU
+		{05475682-76AD-4BB2-9B3F-1CDF13C30A1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05475682-76AD-4BB2-9B3F-1CDF13C30A1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05475682-76AD-4BB2-9B3F-1CDF13C30A1D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{05475682-76AD-4BB2-9B3F-1CDF13C30A1D}.Debug|x64.Build.0 = Debug|Any CPU
+		{05475682-76AD-4BB2-9B3F-1CDF13C30A1D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{05475682-76AD-4BB2-9B3F-1CDF13C30A1D}.Debug|x86.Build.0 = Debug|Any CPU
+		{05475682-76AD-4BB2-9B3F-1CDF13C30A1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05475682-76AD-4BB2-9B3F-1CDF13C30A1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05475682-76AD-4BB2-9B3F-1CDF13C30A1D}.Release|x64.ActiveCfg = Release|Any CPU
+		{05475682-76AD-4BB2-9B3F-1CDF13C30A1D}.Release|x64.Build.0 = Release|Any CPU
+		{05475682-76AD-4BB2-9B3F-1CDF13C30A1D}.Release|x86.ActiveCfg = Release|Any CPU
+		{05475682-76AD-4BB2-9B3F-1CDF13C30A1D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
