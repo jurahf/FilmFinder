@@ -22,6 +22,7 @@ namespace EsDb
         public virtual DbSet<Session> Sessions { get; set; }
         public virtual DbSet<Review> Reviews { get; set; }
         public virtual DbSet<ConsultationShownFilm> ConsultationShownFilms { get; set; }
+        public virtual DbSet<FrontendChatSession> FrontendChatSessions { get; set; }
 
         public EsDbContext()
         {
@@ -251,6 +252,21 @@ namespace EsDb
                 entity.HasOne(x => x.Session)
                     .WithMany(x => x.Reviews)
                     .HasForeignKey(x => x.SessionId)
+                    .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<FrontendChatSession>(entity =>
+            {
+                entity.Property(x => x.Frontend).IsRequired().HasMaxLength(50);
+                entity.Property(x => x.ChatId).IsRequired().HasMaxLength(64);
+
+                entity.HasIndex(x => new { x.Frontend, x.ChatId }).IsUnique();
+                entity.HasIndex(x => x.SessionId);
+
+                entity.HasOne(x => x.Session)
+                    .WithMany()
+                    .HasForeignKey(x => x.SessionId)
+                    .HasPrincipalKey(x => x.SessionId)
                     .OnDelete(DeleteBehavior.Cascade);
             });
         }

@@ -316,6 +316,41 @@ namespace EsDb.Migrations
                     b.ToTable("FinalSolutions");
                 });
 
+            modelBuilder.Entity("EsDb.Model.FrontendChatSession", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ChatId")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("nvarchar(64)");
+
+                    b.Property<string>("Frontend")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("SessionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("UpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SessionId");
+
+                    b.HasIndex("Frontend", "ChatId")
+                        .IsUnique();
+
+                    b.ToTable("FrontendChatSessions");
+                });
+
             modelBuilder.Entity("EsDb.Model.GoalStack", b =>
                 {
                     b.Property<int>("Id")
@@ -670,6 +705,18 @@ namespace EsDb.Migrations
                         .IsRequired();
 
                     b.Navigation("Consultation");
+                });
+
+            modelBuilder.Entity("EsDb.Model.FrontendChatSession", b =>
+                {
+                    b.HasOne("EsDb.Model.Session", "Session")
+                        .WithMany()
+                        .HasForeignKey("SessionId")
+                        .HasPrincipalKey("SessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Session");
                 });
 
             modelBuilder.Entity("EsDb.Model.GoalStack", b =>
