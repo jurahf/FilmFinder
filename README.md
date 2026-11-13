@@ -72,7 +72,7 @@
 - подбор фильма по совету и по фильтрам (`IFilmRecommendationService`);
 - провайдер описаний советов для движка (`AdviceConsultationDisplayProvider`).
 
-Не зависит от EsServices; используется EsUi, EsConsultationApi и VkBotApi.
+Не зависит от EsServices; используется EsUi, EsConsultationApi, VkBotApi и TgBotWClient.
 Использует EsDb, FilmDb, CommonRepositories
 
 ### EsConsultationApi - HTTP API консультаций
@@ -113,6 +113,37 @@ Callback для VK: `POST /api/VkBot/VkMessageAccept`. Поддерживают�
 `Vk__AccessToken`, `Vk__ConfirmationToken`, `Vk__Secret`, `Vk__GroupId`.
 Использует EsConsultationServices, EsDb, FilmDb, VkNet
 
+### TgBotWClient - бот Telegram
+Консольное приложение (.NET 7, Generic Host) с ботом Telegram на библиотеке
+WTelegramClient (MTProto). Авторизация — по токену бота от @BotFather;
+поддерживается подключение через MTProxy. Логика консультации берётся из
+EsConsultationServices (`IConsultationWorkflow`).
+
+Вопросы приходят с inline-кнопками, действия («Подобрать фильм»,
+«Другой фильм», «👍 Ок», «👎 Не ок», «Начать заново») — reply-кнопками.
+
+Команды и callback data:
+- `/start`, `/help` — приветствие и кнопка начала подбора;
+- `/consultation`, «Подобрать фильм», «Начать заново» — новая консультация;
+- `answer|sessionId|index|hash` — ответ на вопрос (hash защищает от нажатия
+  на устаревшую кнопку);
+- `/another`, «Другой фильм» — следующий фильм по тем же ответам;
+- `/ok`, `/bad`, «👍 Ок», «👎 Не ок» — оценка фильма.
+
+Привязка «чат Telegram → консультация» хранится в `EsDb.FrontendChatSessions`
+(уникальный индекс `Frontend + ChatId`), поэтому после перезапуска сервиса
+«Другой фильм» и оценки продолжают ту же консультацию. Ответы, факты и оценки
+по-прежнему сохраняются штатным `EsConsultationServices` в `EsDb`.
+
+Строки подключения `EsConnection`/`FilmConnection` и секция `Telegram`
+(`ApiId`, `ApiHash`, `BotToken`, `SessionPath`, `MtProxy`) задаются в
+`appsettings.json`. Реальные секреты — в `secret.appsettings.json`
+(не хранится в git и перекрывает `appsettings.json`); файл сессии WTelegram
+(`*.session`) тоже добавлен в `.gitignore`. Логирование — Serilog в консоль,
+уровень настраивается в секции `Serilog`.
+
+Использует EsConsultationServices, EsDb, FilmDb, WTelegramClient
+
 ## CommonRepositories
 Инфраструктурные классы и интерфейсы для взаимодкействия с БД
 
@@ -141,7 +172,13 @@ Callback для VK: `POST /api/VkBot/VkMessageAccept`. Поддерживают�
 
 
 # Планы
+1. Новые UI для пользователей
+	+ API для интеграций 
+	- Проверить и снова подключить VK
+	- ТГ — реализовано в TgBotWClient на WTelegramClient (MTProxy поддерживается)
+	- МАХ (лол)
 1. Доработать ЭС
+	- Разобраться с версионированием (оно для того чтобы старые консультации не падали)
 	- Охватить больше ситуаций
 	- Строить ветки с помощью LLM
     - Прикрутить LLM для вывода советов на основе БЗ
