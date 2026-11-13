@@ -17,6 +17,7 @@ public sealed class TelegramClientHost : IHostedService
     private readonly TelegramOptions options;
     private readonly TgUpdateQueue queue;
     private readonly ILogger<TelegramClientHost> logger;
+    private UpdateManager manager;
 
     public TelegramClientHost(
         Client client,
@@ -39,33 +40,35 @@ public sealed class TelegramClientHost : IHostedService
             user?.username,
             user?.id);
 
-        client.OnUpdates += HandleUpdatesAsync;
+        manager = client.WithUpdateManager(HandleUpdatesAsync);
+        client.OnOther += Client_OnOther;
         logger.LogInformation("Подписка на обновления Telegram включена.");
     }
 
-    public Task StopAsync(CancellationToken cancellationToken)
+    private async Task Client_OnOther(IObject arg)
     {
-        client.OnUpdates -= HandleUpdatesAsync;
-        logger.LogInformation("Подписка на обновления Telegram отключена.");
-        return Task.CompletedTask;
+
     }
 
-    private async Task HandleUpdatesAsync(UpdatesBase updates)
+    public async Task StopAsync(CancellationToken cancellationToken)
+    {
+        await manager?.StopResync();
+        logger.LogInformation("Подписка на обновления Telegram отключена.");
+    }
+
+    private async Task HandleUpdatesAsync(Update update)
     {
         try
         {
-            foreach (var update in updates.UpdateList)
+            switch (update)
             {
-                switch (update)
-                {
-                    case UpdateNewMessage updateNew when updateNew.message is Message message:
-                        await HandleMessageAsync(message);
-                        break;
+                case UpdateNewMessage updateNew when updateNew.message is Message message:
+                    await HandleMessageAsync(message);
+                    break;
 
-                    case UpdateBotCallbackQuery callback when callback.peer is PeerUser peer:
-                        await HandleCallbackAsync(callback, peer);
-                        break;
-                }
+                case UpdateBotCallbackQuery callback when callback.peer is PeerUser peer:
+                    await HandleCallbackAsync(callback, peer);
+                    break;
             }
         }
         catch (Exception exception)

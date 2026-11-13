@@ -175,7 +175,7 @@ EsConsultationServices (`IConsultationWorkflow`).
 1. Новые UI для пользователей
 	+ API для интеграций 
 	- Проверить и снова подключить VK
-	- ТГ — реализовано в TgBotWClient на WTelegramClient (MTProxy поддерживается)
+	+ ТГ — реализовано в TgBotWClient на WTelegramClient (MTProxy поддерживается, авторизуется через бота)
 	- МАХ (лол)
 1. Доработать ЭС
 	- Разобраться с версионированием (оно для того чтобы старые консультации не падали)
