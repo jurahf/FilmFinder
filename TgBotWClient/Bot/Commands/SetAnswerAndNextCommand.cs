@@ -52,9 +52,16 @@ public sealed class SetAnswerAndNextCommand : ITgCommand
         var current = await workflow.GetCurrentAsync(sessionId, cancellationToken);
         var question = current.Step.Question;
 
-        if (current.Status != ConsultationFlowStatus.Question ||
-            question == null ||
-            !string.Equals(
+        if (current.Status != ConsultationFlowStatus.Question || question == null)
+        {
+            await sender.SendTextAsync(
+                message.ChatId,
+                TgBotTexts.StaleQuestion,
+                cancellationToken: cancellationToken);
+            return;
+        }
+
+        if (!string.Equals(
                 TgKeyboardFactory.ComputeQuestionHash(question),
                 hash,
                 StringComparison.OrdinalIgnoreCase) ||

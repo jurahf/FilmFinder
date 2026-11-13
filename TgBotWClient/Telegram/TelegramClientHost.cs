@@ -36,8 +36,8 @@ public sealed class TelegramClientHost : IHostedService
 
         logger.LogInformation(
             "Бот @{Username} (id {UserId}) авторизован в Telegram.",
-            user.username,
-            user.id);
+            user?.username,
+            user?.id);
 
         client.OnUpdates += HandleUpdatesAsync;
         logger.LogInformation("Подписка на обновления Telegram включена.");
