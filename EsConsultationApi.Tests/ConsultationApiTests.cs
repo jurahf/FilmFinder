@@ -1,5 +1,7 @@
+using EsConsultationApi.Mapping;
 using EsConsultationServices.Contracts;
 using EsConsultationServices.Films;
+using EsConsultationServices.Workflow;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 
@@ -16,11 +18,11 @@ public class ConsultationWorkflowTests
         var response = await host.WithWorkflowAsync(workflow => workflow.StartAsync(null));
 
         Assert.False(string.IsNullOrWhiteSpace(response.SessionId));
-        Assert.Equal("Question", response.Status);
+        Assert.Equal(ConsultationFlowStatus.Question, response.Status);
         Assert.Equal("Фильмы", response.ExpertSystemName);
-        Assert.Equal("Q", response.Question?.Name);
-        Assert.Equal("Вопрос?", response.Question?.Text);
-        Assert.Null(response.Result);
+        Assert.Equal("Q", response.Step.Question?.Name);
+        Assert.Equal("Вопрос?", response.Step.Question?.Text);
+        Assert.Null(response.Step.Result);
         Assert.Null(response.Film);
     }
 
@@ -35,11 +37,11 @@ public class ConsultationWorkflowTests
         var response = await host.WithWorkflowAsync(workflow =>
             workflow.AnswerAsync(started.SessionId, "Q", "Да"));
 
-        Assert.Equal("Completed", response.Status);
-        Assert.NotNull(response.Result);
-        Assert.Equal(TestData.AdviceKey.ToString("D"), response.Result!.Value);
-        Assert.False(string.IsNullOrWhiteSpace(response.Result.Display));
-        Assert.Contains("Фильм A", response.Result.Display);
+        Assert.Equal(ConsultationFlowStatus.Completed, response.Status);
+        Assert.NotNull(response.Step.Result);
+        Assert.Equal(TestData.AdviceKey.ToString("D"), response.Step.Result!.Value);
+        Assert.False(string.IsNullOrWhiteSpace(response.Step.Result.Display));
+        Assert.Contains("Фильм A", response.Step.Result.Display);
 
         Assert.NotNull(response.Film);
         Assert.Equal(films.A, response.Film!.Id);
@@ -129,8 +131,7 @@ public class ConsultationWorkflowTests
     }
 }
 
-public class FilmRecommendationTests
-{
+public class FilmRecommendationTests{
     [Fact]
     public async Task FilmRecommendation_returns_explicit_advice_film_first()
     {
@@ -184,5 +185,47 @@ public class FilmRecommendationTests
         Assert.Equal(TestData.AdviceKey.ToString("D"), value.Value);
         Assert.Contains("Фильм A", value.Display);
         Assert.Contains("НЕ Мрачное", value.Display);
+    }
+}
+
+public class ConsultationResponseMapperTests
+{
+    [Fact]
+    public void Maps_status_and_film()
+    {
+        var adviceKey = Guid.NewGuid().ToString("D");
+        var result = new ConsultationFlowResult
+        {
+            SessionId = "session",
+            ExpertSystemId = 7,
+            ExpertSystemName = "Фильмы",
+            Status = ConsultationFlowStatus.Completed,
+            Step = new ConsultationStep
+            {
+                Result = new ConsultationResult
+                {
+                    VariableName = "Совет",
+                    Value = adviceKey,
+                    Display = "Описание совета"
+                }
+            },
+            Film = new RecommendedFilm
+            {
+                Id = 42,
+                Name = "Фильм",
+                Year = 2001,
+                Rating = 8.5m,
+                Tags = new[] { new FilmTag { Name = "Смешное", Percent = 80 } }
+            }
+        };
+
+        var response = ConsultationResponseMapper.ToResponse(result);
+
+        Assert.Equal("session", response.SessionId);
+        Assert.Equal("Completed", response.Status);
+        Assert.Equal(adviceKey, response.Result?.Value);
+        Assert.Equal(42, response.Film?.Id);
+        Assert.Equal("Фильм", response.Film?.Name);
+        Assert.Equal("Смешное", Assert.Single(response.Film!.Tags).Name);
     }
 }

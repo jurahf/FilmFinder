@@ -1,8 +1,7 @@
-using EsConsultationApi.Options;
-using EsConsultationApi.Services;
 using EsConsultationServices;
 using EsConsultationServices.Contracts;
 using EsConsultationServices.Films;
+using EsConsultationServices.Workflow;
 using EsDb;
 using FilmDb;
 using Microsoft.Data.Sqlite;
@@ -55,16 +54,16 @@ internal sealed class ApiTestHost : IAsyncDisposable
         provider = BuildProvider(esConnection, filmsConnection);
     }
 
-    public async Task<T> WithWorkflowAsync<T>(Func<ConsultationWorkflow, Task<T>> action)
+    public async Task<T> WithWorkflowAsync<T>(Func<IConsultationWorkflow, Task<T>> action)
     {
         await using var scope = provider.CreateAsyncScope();
-        return await action(scope.ServiceProvider.GetRequiredService<ConsultationWorkflow>());
+        return await action(scope.ServiceProvider.GetRequiredService<IConsultationWorkflow>());
     }
 
-    public async Task WithWorkflowAsync(Func<ConsultationWorkflow, Task> action)
+    public async Task WithWorkflowAsync(Func<IConsultationWorkflow, Task> action)
     {
         await using var scope = provider.CreateAsyncScope();
-        await action(scope.ServiceProvider.GetRequiredService<ConsultationWorkflow>());
+        await action(scope.ServiceProvider.GetRequiredService<IConsultationWorkflow>());
     }
 
     public async Task<T> WithServiceAsync<TService, T>(Func<TService, Task<T>> action)
@@ -122,11 +121,6 @@ internal sealed class ApiTestHost : IAsyncDisposable
 
         services.AddScoped<IConsultationDisplayProvider, AdviceConsultationDisplayProvider>();
         services.AddEsConsultationServices();
-
-        services.AddScoped<ConsultationExpertSystemResolver>();
-        services.AddScoped<ConsultationShownFilmStore>();
-        services.AddScoped<ConsultationReviewStore>();
-        services.AddScoped<ConsultationWorkflow>();
 
         return services.BuildServiceProvider();
     }

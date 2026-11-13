@@ -3,6 +3,7 @@ using EsConsultationServices.Engine;
 using EsConsultationServices.Films;
 using EsConsultationServices.Persistence;
 using EsConsultationServices.Services;
+using EsConsultationServices.Workflow;
 using EsDb;
 using EsDb.Repositories;
 using FilmDb.Repositories;
@@ -19,11 +20,17 @@ namespace EsConsultationServices
         /// </summary>
         public static IServiceCollection AddEsConsultationServices(this IServiceCollection services)
         {
+            services.AddOptions();
             services.AddMemoryCache();
             services.TryAddScoped<IExpertSystemRepository, ExpertSystemRepository>();
             services.TryAddScoped<IConsultationDisplayProvider, DefaultConsultationDisplayProvider>();
             services.TryAddScoped<IAdviceRepository, AdviceRepository>();
             services.TryAddScoped<IFilmRecommendationService, FilmRecommendationService>();
+
+            services.TryAddScoped<ConsultationExpertSystemResolver>();
+            services.TryAddScoped<ConsultationShownFilmStore>();
+            services.TryAddScoped<ConsultationReviewStore>();
+            services.TryAddScoped<IConsultationWorkflow, ConsultationWorkflow>();
 
             services.AddSingleton<ConsultationExpertSystemCache>();
             services.AddScoped<ConsultationEngine>();

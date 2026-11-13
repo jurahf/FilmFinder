@@ -1,247 +1,279 @@
-# Задача 5. API консультаций EsConsultationApi
+# Задача 6. VK-бот VkBotApi на EsConsultationServices
 
 ## Постановка
 
-Нужно создать новый проект — WebAPI на .NET 7 с именем `EsConsultationApi`.
-Проект должен использовать `EsConsultationServices` и предоставлять HTTP API для прохождения
-консультаций экспертной системы «Фильмы».
+Нужно заменить старый проект `EsService\WebApi` новым проектом `VkBotApi` на .NET 7.
+Бот ВКонтакте должен выполнять те же функции, что и раньше, но получать всю логику
+консультации из `EsConsultationServices`, а не из `ExpertSystemDb`/`Logic`/`VkBotLib`.
 
-Результат консультации — значение переменной-совета: GUID, соответствующий совету в `FilmDb`.
-Поэтому API должно уметь по результату консультации подобрать фильм, как это делал
-`FilmAndAdviceLogic.FindFilmByConsultResult`, и вернуть его клиенту.
+Старый `WebApi` — это .NET Framework Web API с самодельной библиотекой `VkBotLib`:
 
-Должны быть реализованы методы (по аналогии с классами из `WebApi.Classes.Vk.Commands`,
-кроме `StartCommand`, которая нужна только для бота):
+- принимает callback ВКонтакте по маршруту `api/VkBot/VkMessageAccept`;
+- обрабатывает сообщения командами `start`, `Consultation`, `SetAnswerAndNext`,
+  `Another`, `Review`;
+- сам работает с `ExpertSystemDb` и `Logic`, дублируя логику консультации;
+- отправляет тексты, клавиатуры и постеры через `VkApiIntegrator`.
 
-1. **Старт новой консультации** (аналог `StartConsultationCommand`).
-   Возвращает новый `sessionId`, который используется в последующих запросах,
-   и первый вопрос консультации.
-2. **Ответ на вопрос** в текущей консультации (аналог `SetAnswerAndNextCommand`).
-   Принимает `sessionId`, переменную, о которой был задан вопрос, и значение ответа.
-   Возвращает следующий вопрос. Если цель консультации достигнута — завершает консультацию
-   и возвращает результат: значение переменной-совета, его отображаемое описание и подобранный фильм.
-3. **Другой ответ** (аналог `AnotherCommand`). Результатом консультации могут быть несколько
-   фильмов или менее подходящие фильмы. Нужно вернуть другой результат консультации, похожий
-   на предыдущие. Желательно не повторяться.
-4. **Обратная связь** по результатам консультации (аналог `ReviewCommand`) — пока простая:
-   понравилось или нет.
+Новый проект должен:
 
-Существующий код можно брать за основу, но он может содержать ошибки и неточности —
-допускается его улучшать.
+1. Быть ASP.NET Core Web API на .NET 7 с именем `VkBotApi`.
+2. Использовать официальную библиотеку ВКонтакте, совместимую с .NET 7.
+3. Проводить консультацию только через `EsConsultationServices`; не использовать
+   `ExpertSystemDb`, `Logic` и `VkBotLib`.
+4. Сохранить маршрут callback `api/VkBot/VkMessageAccept` и совместимый формат
+   payload `команда|sessionId|переменная|значение`.
+5. Сохранить прежние команды, тексты, клавиатуры и порядок показа фильма.
+6. Обрабатывать современный формат callback (`object.message`) и старый плоский
+   формат (`object`), чтобы уже настроенный callback продолжил работать.
+7. Не добавлять шаг «Знаю, чего хочу»: в боте его не было и он не нужен.
+8. Удалить старый проект `EsService\WebApi` и убрать из решения ставший ненужным
+   `VkBotLib`.
+9. Оставить `EsService\Logic` в решении без изменений.
+
+Бизнес-логика консультации не должна оставаться в HTTP-слое. Общий сценарий
+«старт → вопрос → ответ → результат → другой фильм → оценка», который сейчас лежит
+в `EsConsultationApi.Services.ConsultationWorkflow`, переезжает в
+`EsConsultationServices`, чтобы им пользовались и HTTP API, и VK-бот.
 
 ## Выбранное решение
 
 ### 1. Связь проектов
 
-`EsConsultationApi` — самостоятельный проект ASP.NET Core Web API на .NET 7:
-
-- использует `EsConsultationServices` для проведения консультации и хранения её состояния;
-- использует `FilmDb` для чтения советов, свойств фильмов и самих фильмов;
-- использует `EsDb` для оценок (`Reviews`) и для хранения показанных в консультации фильмов;
-- **не ссылается на `EsServices`**: общий для UI и API код переносится в
-  `EsConsultationServices`, а не остаётся в слое, ориентированном на EsUi.
-
-`FilmRecommendationService` из `EsServices` разделяется по ответственности:
-
-- `FindByAdviceAsync`/`FindByFiltersAsync` и `AdviceConsultationDisplayProvider` переезжают
-  в `EsConsultationServices` (раздел 7);
-- `GetGenresAsync`/`GetCustomPropertiesAsync` остаются в `EsServices` как отдельные
-  сервисы `GenresService` и `CustomPropertiesService` — это данные для UI;
-- `AdviceCatalogService` остаётся в `EsServices` как UI-сервис описаний советов.
-
-После переноса `EsConsultationServices` ссылается на `FilmDb`. `EsServices` остаётся
-набором сервисов доступа к данным и ViewModel для `EsUi`.
-
-Схема зависимостей:
-
 ```
-EsConsultationApi
-  ├─ EsConsultationServices
-  │    ├─ EsDb
-  │    └─ FilmDb
-  ├─ EsDb
-  └─ FilmDb
+VkBotApi (ASP.NET Core, net7.0)
+  └─ EsConsultationServices
+       ├─ EsDb
+       └─ FilmDb
 ```
 
-Логика консультации не дублируется: API вызывает
-`EsConsultationServices.Contracts.IConsultationService`
-(`StartAsync`, `AnswerAsync`, `GetCurrentAsync`, `GetExplanationAsync`).
+- `VkBotApi` — только транспорт VK: callback, очередь обновлений, команды,
+  клавиатуры, отправка сообщений и постеров.
+- `EsConsultationServices` — весь сценарий консультации, подбор фильма, показы
+  и оценки.
+- `EsConsultationApi` остаётся HTTP API и использует тот же workflow.
 
-### 2. Подбор фильма
+Схема зависимостей после задачи:
 
-Подбор реализуется в `EsConsultationServices` (после переноса из `EsServices`) отдельным
-сервисом поверх `FilmDbContext`:
+```
+VkBotApi ─┐
+          ├─ EsConsultationServices ─┬─ EsDb
+EsConsultationApi ─┘                └─ FilmDb
+```
 
-- по совету (GUID) сначала берутся явно указанные в совете фильмы (`AdviceFilm`) —
-  это основные результаты, отсортированные по степени соответствия и рейтингу;
-- когда явные фильмы совета закончились, подбираются похожие по вектору свойств
-  (как в `FilmAndAdviceLogic`/`FilmRecommendationService`):
-  - учитываются свойства совета и свойства фильмов;
-  - отбрасываются фильмы с противоположным знаком свойства;
-  - считается квадратичное расстояние по всем свойствам;
-  - сортировка по расстоянию, затем по рейтингу;
-- сервис возвращает следующего кандидата, исключая уже показанные в этой консультации фильмы;
-- при исчерпании кандидатов API возвращает понятную ошибку «больше нет подходящих фильмов»;
-- для результата-совета в ответе возвращаются:
-  - `value` — GUID совета;
-  - `display` — человекочитаемое описание совета;
-  - `film` — подробные данные подобранного фильма.
+`VkBotApi` не ссылается на `EsConsultationApi`: общий код находится в
+`EsConsultationServices`, а не в одном из транспортов.
 
-Описания советов подставляются в движок через `AdviceConsultationDisplayProvider`,
-который переносится в `EsConsultationServices` и читает советы из `FilmDb`.
-`AdviceCatalogService` остаётся в `EsServices` для UI и использует то же построение
-описаний из `FilmDb`.
+### 2. Перенос workflow в EsConsultationServices
 
-### 3. Ответы на вопросы
+В `EsConsultationServices` переезжают классы, которые сейчас лежат в
+`EsConsultationApi`:
 
-Ответ адресуется по **имени переменной** (`variableName`), как в текущем движке
-`EsConsultationServices`. Клиент получает имя переменной в вопросе и возвращает его вместе
-с выбранным значением. Дополнительно API проверяет, что ответ относится к текущему вопросу.
+- `ConsultationWorkflow`;
+- `ConsultationExpertSystemResolver`;
+- `ConsultationShownFilmStore`;
+- `ConsultationReviewStore`;
+- `ConsultationOptions`.
 
-### 4. Оценки
+Вместо возврата HTTP-модели `ConsultationResponse` workflow возвращает
+сервисный результат:
 
-Оценка «понравилось / не понравилось» сохраняется в существующую таблицу `EsDb.Reviews`,
-привязанную к `SessionId`:
+- `sessionId`;
+- `expertSystemId`, `expertSystemName`;
+- статус `Question | Completed | Unknown`;
+- текущий шаг (вопрос или результат);
+- подобранный фильм `RecommendedFilm` (если есть).
 
-- `Estimate = 10` — понравилось;
-- `Estimate = 0` — не понравилось.
+Добавляется контракт `IConsultationWorkflow` с методами:
 
-### 5. Неповторяющиеся фильмы
+- `StartAsync(expertSystemId, ct)`;
+- `GetCurrentAsync(sessionId, ct)`;
+- `AnswerAsync(sessionId, variableName, value, ct)`;
+- `GetAnotherAsync(sessionId, ct)`;
+- `ReviewAsync(sessionId, liked, comment, ct)`.
 
-В `EsDb` добавляется таблица показанных фильмов консультации:
+`EsConsultationApi` перестаёт содержать бизнес-логику: контроллер вызывает
+`IConsultationWorkflow`, а маппинг результата в `ConsultationResponse`/`FilmDto`
+остаётся в API. `VkBotApi` использует результат напрямую.
 
-- `Id` — PK;
-- `ConsultationId` — FK на `Consultations`, cascade delete;
-- `FilmId` — Id фильма из `FilmsDb` (без FK между базами);
-- `Order` — порядковый номер показа;
-- `ShownDate` — дата показа.
+`AddEsConsultationServices()` регистрирует workflow, резолвер ЭС, хранилище
+показов и хранилище оценок. Приложения задают только строки подключения и секцию
+`Consultation` (`ExpertSystemId`/`ExpertSystemName`).
 
-Уникальные индексы:
+### 3. VkBotApi
 
-- `(ConsultationId, FilmId)` — один фильм не показывается в консультации дважды;
-- `(ConsultationId, Order)` — порядок показов однозначен.
+Проект создаётся в корне репозитория: `D:\PROJECTS\CSharp\FilmFinder\VkBotApi`,
+добавляется в `EsService\ЭС.sln`.
 
-Таблица переживает перезапуск и работает при нескольких экземплярах API.
+Состав:
 
-### 6. Формат API
+- `Controllers/VkBotController.cs` — callback `POST api/VkBot/VkMessageAccept`;
+- разбор callback: `confirmation`, `message_new`, современный и legacy формат;
+- очередь обновлений и фоновый обработчик, чтобы callback отвечал `ok` сразу;
+- команды `start`, `Consultation`, `SetAnswerAndNext`, `Another`, `Review`;
+- построение клавиатур с прежними payload;
+- отправка текста, клавиатуры и постера через VkNet;
+- конфигурация `Vk` (токен, подтверждение, секрет, id группы).
 
-- ASP.NET Core controllers, JSON;
-- Swagger/OpenAPI для ручной проверки;
-- коды ошибок через `ProblemDetails`:
-  - 400 — некорректный запрос;
-  - 404 — консультация/сессия/результат не найдены;
-  - 409 — консультация завершена, ответ не к текущему вопросу, нет подходящего результата;
-- строка подключения `EsConnection` — `EsDb`, `FilmConnection` — `FilmsDb`
-  (по аналогии с `EsUi`).
+Используется `VkNet` 1.78.0 — официальная библиотека с поддержкой `net7.0`.
+Токен и ключ подтверждения читаются из конфигурации/переменных окружения,
+а не хранятся в коде, как в старом `WebApi`.
 
-### 7. Разделение общих сервисов
+Callback:
 
-Общий код разделяется по ответственности, чтобы API не зависел от слоя EsUi, а в
-`EsServices` не оставалось логики консультации.
+- `confirmation` → вернуть ключ подтверждения;
+- `message_new` → положить сообщение в очередь и сразу вернуть `ok`;
+- при заданном `Vk:Secret` обновление с чужим секретом отклоняется;
+- payload имеет приоритет над текстом;
+- имя команды сравнивается без учёта регистра, аргументы сохраняют регистр.
 
-**Остаётся в `EsServices` (данные и ViewModel для EsUi):**
+### 4. Совместимость команд
 
-- `AdviceCatalogService` + `IAdviceCatalogService` — описания советов для UI;
-- новые `GenresService` + `IGenresService` — справочник жанров для UI;
-- новые `CustomPropertiesService` + `ICustomPropertiesService` — справочник свойств для UI;
-- ViewModel-классы (`FilmLookupItemVM` и остальные).
+Сохраняются команды и payload:
 
-**Переезжает в `EsConsultationServices` (логика консультации/советов):**
+| Команда | Payload | Назначение |
+|---|---|---|
+| `start` | — | приветствие и кнопка «Подобрать!» |
+| `Consultation` | `Consultation` | новая консультация и первый вопрос |
+| `SetAnswerAndNext` | `SetAnswerAndNext\|sessionId\|variable\|value` | ответ и следующий вопрос или результат |
+| `Another` | `Another\|sessionId\|filmId` | другой фильм по тому же совету |
+| `Review` | `Review\|sessionId\|Positive\|Negative` | оценка «понравилось / нет» |
 
-- `FindByAdviceAsync` и `FindByFiltersAsync` — как
-  `IFilmRecommendationService`/`FilmRecommendationService`;
-- `AdviceConsultationDisplayProvider`;
-- UI-независимые DTO `RecommendedFilm` и `FilmTag`.
+Сохраняются прежние тексты:
 
-**Общий доступ к данным советов:**
+- приветствие: «Привет! Я помогу подобрать фильм под ситуацию и настроение.»;
+- «Сейчас что-нибудь подберу...»;
+- «Сейчас поищу...»;
+- «Спасибо за оценку!»;
+- «К сожалению, по данным параметрам ничего не найдено»;
+- «К сожалению, в работе сервиса произошла ошибка. Вы можете повторить попытку позже.»;
+- «Начать подбор заново», «Попробовать еще раз».
 
-- в `FilmDb` добавляется `IAdviceRepository.GetDescriptionsAsync` (реализация в
-  `AdviceRepository`) — единое построение описаний советов;
-- `EsServices.AdviceCatalogService` и
-  `EsConsultationServices.AdviceConsultationDisplayProvider` используют этот метод,
-  поэтому текст описания не дублируется.
+Карточка фильма повторяет прежний текст:
 
-**Изменения в `EsServices` и `EsUi`:**
+```
+{Название} ({год})
 
-- `EsServices.FilmRecommendationService`/`IFilmRecommendationService` удаляются:
-  `EsUi` использует `EsConsultationServices.Films.IFilmRecommendationService` напрямую;
-- `EsUi/Components/FilmResultCard.razor` принимает `RecommendedFilm`;
-- `EsUi/Pages/Consultation.razor` использует `IFilmRecommendationService` из
-  `EsConsultationServices`, а списки жанров/свойств берёт из `IGenresService` и
-  `ICustomPropertiesService`;
-- `FilmResultVM` и `FilmTagVM` удаляются как ненужные; `FilmLookupItemVM` остаётся;
-- `EsUi/Program.cs` регистрирует `AdviceCatalogService`, `GenresService`,
-  `CustomPropertiesService` и провайдер описаний из `EsConsultationServices`;
-- `AddEsConsultationServices()` регистрирует `IAdviceRepository` и
-  `IFilmRecommendationService` через `TryAddScoped`; провайдер описаний советов
-  приложение регистрирует явно (чтобы тесты движка могли работать без `FilmDb`).
+Осторожно, возможен машинный перевод!
+
+{описание}
+
+Рейтинг IMDb: {рейтинг:N2}
+
+Основываясь на мнении пользователей, этот фильм:
+{процент}% {свойство}
+...
+```
+
+Клавиатура ответа на вопрос содержит варианты домена, разбитые по 3 кнопки в ряд,
+и отдельную строку «Начать подбор заново». Клавиатура фильма содержит:
+
+- «Подобрать еще один фильм!»;
+- «Другой по тем же параметрам»;
+- «👎🏻» и «👍🏻».
+
+Цвета кнопок вариантов в новой `EsDb` не хранятся (в старой модели было поле
+`Color`), поэтому варианты ответа оформляются нейтрально; остальные цвета
+сохраняются.
+
+### 5. Оценки
+
+Оценка сохраняется в `EsDb.Reviews` по `SessionId`, как в старом боте:
+
+- `Positive` → `Estimate = 10`;
+- `Negative` → `Estimate = 0`;
+- комментарий — `"{dd.MM.yyyy HH:mm:ss} - {оценка}"`.
+
+Это сохраняет формат, который старый бот писал в `Comment`.
+
+### 6. Постеры
+
+Постер фильма скачивается по URL и загружается в сообщения ВКонтакте через
+`photos.getMessagesUploadServer` / `photos.saveMessagesPhoto`, затем отправляется
+отдельным сообщением с вложением. Если постер отсутствует или загрузка не удалась,
+бот всё равно отправляет текстовую карточку — как и раньше.
+
+### 7. Очистка и решение
+
+- Удаляется каталог `EsService\WebApi` целиком.
+- Из `EsService\ЭС.sln` удаляются проекты `WebApi` и `VkBotLib` со всеми
+  конфигурациями и вложенностью.
+- `EsService\Logic` остаётся в решении без изменений, хотя после удаления
+  `WebApi` у него не остаётся потребителей в решении.
+- В решение добавляется `VkBotApi`.
+- `README.md` обновляется: раздел `WebApi` заменяется описанием `VkBotApi`,
+  в `EsConsultationServices` добавляется workflow.
+
+### 8. Тесты и проверка
+
+- Существующие тесты `EsConsultationApi.Tests` переводятся на
+  `IConsultationWorkflow` и должны проходить после переноса.
+- Добавляется `VkBotApi.Tests`:
+  - разбор payload и legacy/современного callback;
+  - сохранение регистра аргументов;
+  - точные payload и раскладка клавиатур;
+  - формат карточки фильма;
+  - команды: старт, консультация, ответ, другой фильм, оценка, ошибка.
+- Собираются `EsConsultationServices`, `EsConsultationApi`, `VkBotApi`.
+- `dotnet test` для `EsConsultationApi.Tests`, `VkBotApi.Tests`, `EsServices.Tests`.
 
 ## Что входит в задачу
 
-1. Создать проект `EsConsultationApi` (.NET 7, Web API) и добавить его в `EsService/ЭС.sln`.
-2. Подключить `EsConsultationServices`, `EsDb`, `FilmDb`, EF Core SQL Server, Swagger.
-3. Разделить общие сервисы: перенести подбор фильма и провайдер описаний советов в
-   `EsConsultationServices`, оставить в `EsServices` каталог советов и справочники
-   жанров/свойств, вынести общее чтение описаний советов в `FilmDb`.
-4. Настроить DI, строки подключения и провайдер описаний советов.
-5. Реализовать API:
-   - старт консультации и возврат первого вопроса;
-   - ответ и возврат следующего вопроса или результата с фильмом;
-   - «другой ответ» с исключением уже показанных фильмов;
-   - обратную связь «понравилось / нет»;
-   - вспомогательный `GET` текущего шага (для продолжения после перезапуска клиента).
-6. Реализовать подбор фильма по совету и по фильтрам (на будущее) поверх `FilmDb`.
-7. Добавить в `EsDb` сущность показанных фильмов, настроить `EsDbContext` и миграцию.
-8. Добавить тесты API и подбора фильма.
-9. Обновить `README.md`: описание нового API.
+1. Перенести workflow, резолвер ЭС, хранилища показов/оценок и настройки в
+   `EsConsultationServices`, добавить `IConsultationWorkflow`.
+2. Перевести `EsConsultationApi` на сервисный workflow и вынести маппинг ответа
+   в API.
+3. Создать `VkBotApi` на .NET 7 с VkNet 1.78.0.
+4. Реализовать callback, разбор обновлений, очередь, команды, клавиатуры,
+   тексты и загрузку постеров.
+5. Сохранить совместимость маршрута и payload.
+6. Удалить `EsService\WebApi`, убрать `VkBotLib` из решения, оставить `Logic`.
+7. Добавить и обновить тесты.
+8. Обновить `README.md`.
 
 ## Что не входит в задачу
 
-- Удаление `Logic`, `WebApi`, `ExpertSystemDB`, `Utilities.LoadFilms`.
-- Переписывание `WebApi` для VK на новый API (отдельная задача).
-- Шаг «знаю, что хочу»: в API его нет; подбор идёт только по результату ЭС.
-- Аутентификация и авторизация.
-- Полноценная optimistic concurrency для одной сессии.
-- Переписывание логики и разметки UI `EsUi`: страница `Consultation.razor` и
-  `FilmResultCard.razor` только переходят на сервисы и DTO из
-  `EsConsultationServices`, поведение не меняется.
+- Изменения схемы `EsDb`/`FilmsDb` и миграции.
+- Изменение алгоритма консультации и подбора фильмов.
+- Шаг «Знаю, чего хочу» в боте.
+- Поддержка других мессенджеров.
+- Полноценная гарантированная доставка сообщений (очередь в памяти, как и раньше).
+- Удаление `EsService\Logic` и `ExpertSystemDb` — только отвязка от них.
 
 ## Критерии готовности
 
-- `EsConsultationApi` собирается как .NET 7 проект.
-- `EsConsultationServices`, `EsServices` и `EsUi` собираются после переноса общих сервисов.
-- Существующий сценарий консультации в `EsUi` работает без регрессии.
-- `POST` старта возвращает `sessionId` и первый вопрос.
-- `POST` ответа возвращает следующий вопрос, а при достижении цели — результат и фильм.
-- `POST` «другой ответ» возвращает фильм, отличный от уже показанных в этой консультации.
-- `POST` оценки сохраняет запись в `EsDb.Reviews` по `SessionId`.
-- Показанные фильмы сохраняются в новой таблице `EsDb` и не повторяются после перезапуска.
-- Swagger открывается и позволяет пройти сценарий вручную.
+- `VkBotApi` собирается как .NET 7 проект.
+- `EsConsultationServices` и `EsConsultationApi` собираются после переноса.
+- Callback `POST api/VkBot/VkMessageAccept` отвечает `ok` на `message_new`
+  и ключом подтверждения на `confirmation`.
+- Команды `start`, `Consultation`, `SetAnswerAndNext`, `Another`, `Review`
+  работают через `EsConsultationServices`.
+- Payload с переменной и значением не портит регистр.
+- Бот отправляет те же тексты, клавиатуры и карточку фильма.
+- `EsService\WebApi` удалён, `VkBotLib` отсутствует в решении, `Logic` остался.
 - Тесты проходят.
-- Миграция `EsDb` применяется к локальной базе.
+- `README.md` описывает новый проект.
 
 ## Проверка
 
-- `dotnet build EsConsultationApi/EsConsultationApi.csproj`
 - `dotnet build EsConsultationServices/EsConsultationServices.csproj`
-- `dotnet build EsServices/EsServices.csproj`
-- `dotnet build EsUi/EsUi.csproj`
-- `dotnet test` для нового тестового проекта и `EsServices.Tests`
-- `dotnet ef migrations script --project EsDb --startup-project EsDb` — в скрипте только новая таблица
-- Ручной сценарий в Swagger:
-  1. старт консультации;
-  2. ответы на вопросы;
-  3. получение результата и фильма;
-  4. «другой ответ» — другой фильм;
-  5. оценка;
-  6. проверка строк в `Sessions`, `Consultations`, `FinalSolutions`, `Reviews`,
-     новой таблице показанных фильмов.
+- `dotnet build EsConsultationApi/EsConsultationApi.csproj`
+- `dotnet build VkBotApi/VkBotApi.csproj`
+- `dotnet test EsConsultationApi.Tests/EsConsultationApi.Tests.csproj`
+- `dotnet test VkBotApi.Tests/VkBotApi.Tests.csproj`
+- `dotnet test EsServices.Tests/EsServices.Tests.csproj`
+- Ручной сценарий в VK:
+  1. `start` — приветствие;
+  2. «Подобрать!» — первый вопрос;
+  3. ответы на вопросы;
+  4. результат и карточка фильма с постером;
+  5. «Другой по тем же параметрам» — другой фильм;
+  6. «👍🏻»/«👎🏻» — запись в `Reviews` и благодарность.
 
 ## Замечания
 
-- Полная сборка `EsService/ЭС.sln` через `dotnet build` уже сейчас падает на старых
-  `WebApi` и `LoadFilms` (Framework 4.x, x86-задачи). Это не регрессия задачи;
-  проверяются net7-проекты и тесты.
-- Консультация и фильмы лежат в разных базах, поэтому между ними нет FK
-  и распределённых транзакций. Сначала читается `FilmsDb`, затем пишется `EsDb`;
-  при ошибке записи клиент получает ошибку и может повторить запрос.
+- Полная сборка `EsService\ЭС.sln` может падать на старых .NET Framework
+  проектах (`LoadFilms`); проверяются net7-проекты по отдельности.
+- Очередь обновлений хранится в памяти: при падении процесса необработанные
+  сообщения теряются. Это не хуже старого поведения `Task.Factory.StartNew`.
+- VK-токен не коммитится: в `appsettings.json` остаются пустые значения,
+  реальные задаются переменными окружения или user secrets.

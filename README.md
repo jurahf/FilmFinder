@@ -52,11 +52,13 @@
 ## EsConsultationServices
 Движок консультации и прикладная логика советов:
 - `IConsultationService` — старт, текущий шаг, ответ, объяснение результата;
+- `IConsultationWorkflow` — общий сценарий консультации для API и ботов
+  (старт, текущий шаг, ответ, «другой фильм», оценка);
 - хранение состояния консультации в EsDb;
 - подбор фильма по совету и по фильтрам (`IFilmRecommendationService`);
 - провайдер описаний советов для движка (`AdviceConsultationDisplayProvider`).
 
-Не зависит от EsServices; используется и EsUi, и EsConsultationApi.
+Не зависит от EsServices; используется EsUi, EsConsultationApi и VkBotApi.
 Использует EsDb, FilmDb, CommonRepositories
 
 ## EsServices
@@ -90,24 +92,35 @@ dotnet run --project EsConsultationApi
 
 
 
-## WebApi - API для проведения консультации в VK
-Содержит контроллер и методы для работы с ботом VK
-Содержит реализацию команд для бота ВКонтакте для начала новой консультации, для отправки ответов пользователя в существующую консультацию.
-Подключается к базе данных ExpertSystemDB
-Использует ExpertSystemDb, Logic и VkBotLib
+## VkBotApi - бот ВКонтакте
+ASP.NET Core Web API с ботом ВКонтакте на библиотеке VkNet. Вся логика консультации
+берётся из EsConsultationServices (`IConsultationWorkflow`), собственной реализации
+движка в боте нет.
 
-### VkBotLib
-Библиотека базовых классов для создания ботов ВКонтакте
-Базовые команды и клавиатуры
+Callback для VK: `POST /api/VkBot/VkMessageAccept`. Поддерживаются современный
+(`object.message`) и старый плоский (`object`) форматы Callback API. Обновления
+ставятся в очередь и обрабатываются в фоне, поэтому VK сразу получает `ok`.
 
-### Logic
-Содержит различные классы с алгоритмами для различных целей
-1. Реализация доступа к функциям ЭС (используется в ЭСForms и WebApi)
-2. Логика проведения консультации ЭС (используется в ЭСForms и WebApi)
-3. Сопоставление совета и имеющихся в БД фильмов - выбор наиболее похожих (используется в ЭСForms и WebApi)
-4. Загрузка подробной информации о фильме по ссылке с кинопоиска (используется в FilmForms)
-5. Загрузка и выгрузка пользовательских свойств (тегов) фильмов в Excel (используется в FilmForms) - занимает очень много времени
-6. Синхронизация советов из справочника в значения для домена ЭС (используется в FilmForms и ЭСForms)
+Команды и payload сохранены прежними:
+- `start` — приветствие и кнопка начала подбора;
+- `Consultation` — новая консультация / начать заново;
+- `SetAnswerAndNext|sessionId|variable|value` — ответ на вопрос;
+- `Another|sessionId|filmId` — другой фильм по тем же параметрам;
+- `Review|sessionId|Positive` и `Review|sessionId|Negative` — оценка фильма.
+
+Оценки пишутся в `EsDb.Reviews` (`Estimate = 10/0`,
+`Comment = "dd.MM.yyyy HH:mm:ss - Positive/Negative"`).
+
+Запуск:
+```
+dotnet run --project VkBotApi
+```
+Строки подключения `EsConnection` и `FilmConnection` задаются в `appsettings.json`.
+Секция `Vk` содержит `AccessToken`, `ConfirmationToken`, необязательный `Secret`
+и `GroupId`; в production их удобнее передавать переменными окружения
+`Vk__AccessToken`, `Vk__ConfirmationToken`, `Vk__Secret`, `Vk__GroupId`.
+Использует EsConsultationServices, EsDb, FilmDb, VkNet
+
 
 
 # Решение Utilities
@@ -145,10 +158,10 @@ dotnet run --project EsConsultationApi
 		- нужен как в EsServices, но с сохранением ответов
 		- В итоге - удалить Logic
 		- Перенести Utilities (LoadFilms)
-		- Перенести WebApi - сейчас это апи только для VK надо отделить его от API консультаций
+		- Перенести WebApi в VkBotApi - бот VK теперь использует общий workflow консультаций
 1. .sln перенести в корень проекта
 1. Сделать более независимое подключение разных ботов - для вк, тг и т.д.
-	- Сейчас WebAPI содержит реализацию бота и логику для вызова консультации из команд VK
+	- Сейчас VkBotApi содержит только транспорт VK и команды бота, консультация — в EsConsultationServices
 	- Надо сделать API консультации - отдельно, бота - отдельно
 	- Сделать отдельный интерфейс для консультаций
 1. Отрефакторить Logic, растащить классы в места их применения.

@@ -1,5 +1,6 @@
 using EsConsultationApi.Contracts;
-using EsConsultationApi.Services;
+using EsConsultationApi.Mapping;
+using EsConsultationServices.Workflow;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EsConsultationApi.Controllers;
@@ -9,9 +10,9 @@ namespace EsConsultationApi.Controllers;
 [Produces("application/json")]
 public sealed class ConsultationsController : ControllerBase
 {
-    private readonly ConsultationWorkflow workflow;
+    private readonly IConsultationWorkflow workflow;
 
-    public ConsultationsController(ConsultationWorkflow workflow)
+    public ConsultationsController(IConsultationWorkflow workflow)
     {
         this.workflow = workflow;
     }
@@ -25,7 +26,8 @@ public sealed class ConsultationsController : ControllerBase
         [FromBody] StartConsultationRequest? request,
         CancellationToken cancellationToken)
     {
-        return Ok(await workflow.StartAsync(request?.ExpertSystemId, cancellationToken));
+        var result = await workflow.StartAsync(request?.ExpertSystemId, cancellationToken);
+        return Ok(ConsultationResponseMapper.ToResponse(result));
     }
 
     /// <summary>Возвращает текущий вопрос или результат консультации.</summary>
@@ -35,7 +37,8 @@ public sealed class ConsultationsController : ControllerBase
         string sessionId,
         CancellationToken cancellationToken)
     {
-        return Ok(await workflow.GetCurrentAsync(sessionId, cancellationToken));
+        var result = await workflow.GetCurrentAsync(sessionId, cancellationToken);
+        return Ok(ConsultationResponseMapper.ToResponse(result));
     }
 
     /// <summary>Отвечает на текущий вопрос и возвращает следующий шаг или результат с фильмом.</summary>
@@ -46,11 +49,13 @@ public sealed class ConsultationsController : ControllerBase
         [FromBody] AnswerRequest request,
         CancellationToken cancellationToken)
     {
-        return Ok(await workflow.AnswerAsync(
+        var result = await workflow.AnswerAsync(
             sessionId,
             request.VariableName,
             request.Value,
-            cancellationToken));
+            cancellationToken);
+
+        return Ok(ConsultationResponseMapper.ToResponse(result));
     }
 
     /// <summary>Возвращает другой фильм по тому же результату консультации.</summary>
@@ -60,7 +65,8 @@ public sealed class ConsultationsController : ControllerBase
         string sessionId,
         CancellationToken cancellationToken)
     {
-        return Ok(await workflow.GetAnotherAsync(sessionId, cancellationToken));
+        var result = await workflow.GetAnotherAsync(sessionId, cancellationToken);
+        return Ok(ConsultationResponseMapper.ToResponse(result));
     }
 
     /// <summary>Сохраняет оценку «понравилось / не понравилось».</summary>
