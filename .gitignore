@@ -353,3 +353,6 @@ MigrationBackup/
 secret.appsettings.json
 **/secret.appsettings.json
 *.session
+
+# OpenChamber screenshots and local artifacts
+.openchamber/

@@ -64,6 +64,7 @@ namespace EsUi
             builder.Services.AddScoped<IAdviceSyncService, AdviceSyncService>();
             builder.Services.AddScoped<ExpertSystemMermaidExporter>();
             builder.Services.AddScoped<IExpertSystemExportService, ExpertSystemExportService>();
+            builder.Services.AddMermaidJS();
             builder.Services.AddScoped<IGenresService, GenresService>();
             builder.Services.AddScoped<ICustomPropertiesService, CustomPropertiesService>();
             builder.Services.AddScoped<EsConsultationServices.Contracts.IConsultationDisplayProvider, AdviceConsultationDisplayProvider>();

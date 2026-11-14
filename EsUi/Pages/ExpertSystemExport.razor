@@ -40,9 +40,11 @@ else if (result != null)
     </div>
 
     <div class="section-title">
-        <h5>Предпросмотр</h5>
+        <h5>Диаграмма</h5>
     </div>
-    <pre class="export-preview">@result.Content</pre>
+    <div class="export-diagram" @ref="diagramContainer">
+        <MermaidDiagram Definition="@DiagramDefinition" OnRender="CenterDiagramAsync" />
+    </div>
 }
 
 @code {
@@ -50,10 +52,24 @@ else if (result != null)
     private bool loading;
     private bool downloading;
     private string? error;
+    private ElementReference diagramContainer;
+
+    /// <summary>
+    /// Диаграмма рисуется в натуральную величину: при масштабировании под ширину
+    /// большой граф становится нечитаемым.
+    /// </summary>
+    private string DiagramDefinition => result == null
+        ? string.Empty
+        : "%%{init: {'flowchart': {'useMaxWidth': false}}}%%\n" + result.Content;
 
     protected override async Task OnInitializedAsync()
     {
         await ExportAsync();
+    }
+
+    private async Task CenterDiagramAsync()
+    {
+        await JS.InvokeVoidAsync("centerMermaidDiagram", diagramContainer);
     }
 
     private async Task ExportAsync()

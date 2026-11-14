@@ -111,14 +111,13 @@ a, .btn-link {
     border-radius: 0.5rem;
 }
 
-.export-preview {
-    max-height: 60vh;
+.export-diagram {
+    max-height: 75vh;
     overflow: auto;
-    padding: 0.75rem;
-    background: #f8f9fa;
+    padding: 1rem;
+    background: #ffffff;
     border: 1px solid #dee2e6;
     border-radius: 0.25rem;
-    font-size: 0.85rem;
 }
 
 .tree-node {
