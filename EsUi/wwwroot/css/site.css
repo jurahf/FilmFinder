@@ -111,6 +111,16 @@ a, .btn-link {
     border-radius: 0.5rem;
 }
 
+.export-preview {
+    max-height: 60vh;
+    overflow: auto;
+    padding: 0.75rem;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    font-size: 0.85rem;
+}
+
 .tree-node {
     border-left: 2px solid #dee2e6;
     padding-left: 0.75rem;

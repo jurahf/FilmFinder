@@ -1,0 +1,102 @@
+@page "/export"
+@using System.Text
+
+@inject IExpertSystemExportService ExportService
+@inject IJSRuntime JS
+
+<PageTitle>Экспорт базы знаний</PageTitle>
+
+<div class="section-title">
+    <div>
+        <h1 class="mb-1">Экспорт базы знаний</h1>
+        <div class="text-muted">
+            Правила ЭС «Фильмы» в формате Mermaid (.mmd). Консультации не экспортируются.
+        </div>
+    </div>
+</div>
+
+@if (loading)
+{
+    <p>Формирование экспорта...</p>
+}
+else if (error != null)
+{
+    <div class="alert alert-danger">@error</div>
+    <button class="btn btn-primary" @onclick="ExportAsync">Повторить</button>
+}
+else if (result != null)
+{
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">@result.ExpertSystemName</h5>
+            <div class="text-muted mb-3">
+                Правил: @result.RuleCount. Файл по умолчанию:
+                <code>@result.FileName</code>
+            </div>
+            <button class="btn btn-primary" @onclick="DownloadAsync" disabled="@downloading">
+                @(downloading ? "Скачивание..." : "Скачать .mmd")
+            </button>
+        </div>
+    </div>
+
+    <div class="section-title">
+        <h5>Предпросмотр</h5>
+    </div>
+    <pre class="export-preview">@result.Content</pre>
+}
+
+@code {
+    private ExpertSystemExportResult? result;
+    private bool loading;
+    private bool downloading;
+    private string? error;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ExportAsync();
+    }
+
+    private async Task ExportAsync()
+    {
+        loading = true;
+        error = null;
+        result = null;
+
+        try
+        {
+            result = await ExportService.ExportMermaidAsync();
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private async Task DownloadAsync()
+    {
+        if (result == null)
+            return;
+
+        downloading = true;
+
+        try
+        {
+            using var stream = new MemoryStream(Encoding.UTF8.GetBytes(result.Content));
+            using var streamReference = new DotNetStreamReference(stream);
+
+            await JS.InvokeVoidAsync("downloadFileFromStream", result.FileName, streamReference);
+        }
+        catch (Exception ex)
+        {
+            error = ex.Message;
+        }
+        finally
+        {
+            downloading = false;
+        }
+    }
+}

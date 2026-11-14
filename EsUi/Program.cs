@@ -7,6 +7,7 @@ using EsServices.Services;
 using EsServices.Services.Advice;
 using EsServices.Services.Consultation;
 using EsServices.Services.CustomProperties;
+using EsServices.Services.Export;
 using EsServices.Services.Genres;
 using EsServices.Validators;
 using EsUi.Areas.Identity;
@@ -61,6 +62,8 @@ namespace EsUi
             builder.Services.AddScoped<IExpertSystemService, ExpertSystemService>();
             builder.Services.AddScoped<IAdviceCatalogService, AdviceCatalogService>();
             builder.Services.AddScoped<IAdviceSyncService, AdviceSyncService>();
+            builder.Services.AddScoped<ExpertSystemMermaidExporter>();
+            builder.Services.AddScoped<IExpertSystemExportService, ExpertSystemExportService>();
             builder.Services.AddScoped<IGenresService, GenresService>();
             builder.Services.AddScoped<ICustomPropertiesService, CustomPropertiesService>();
             builder.Services.AddScoped<EsConsultationServices.Contracts.IConsultationDisplayProvider, AdviceConsultationDisplayProvider>();
