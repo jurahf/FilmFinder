@@ -46,12 +46,15 @@
 2. Далее, они должны попасть в ЭС в качестве домена значений (чтобы можно было указать вывод ЭС - ключ совета)
 3. Эта синхронизация это и делает - берет значения домена советов из БД фильмов (FilmsDb) и сохраняет в EsDb
 Также имеет возможность запукать консультацию - использует движок из EsConsultationServices.
+Пункт меню «Экспорт» формирует Mermaid-диаграмму (`.mmd`) по правилам активной ЭС
+«Фильмы» и отдаёт файл `expert-system-{yyyy-MM-dd}.mmd`.
 Использует EsServices, EsConsultationServices, EsDb, CommonRepositories и FilmDb
 
 ### EsServices
 Содержит конвертеры, валидаторы, ViewModel и сервисы доступа к данным для EsUi:
 редактор ЭС, каталог советов (`AdviceCatalogService`), справочники жанров
-(`GenresService`) и свойств фильмов (`CustomPropertiesService`).
+(`GenresService`), свойств фильмов (`CustomPropertiesService`) и экспорт базы знаний
+в Mermaid (`ExpertSystemMermaidExporter`, `ExpertSystemExportService`).
 Бизнес-логики консультации здесь нет — она в EsConsultationServices.
 Использует EsDb, FilmDb, CommonRepositories
 
